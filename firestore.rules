@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper Functions
+    function isOwner(userId) {
+      return request.auth != null && request.auth.uid == userId;
+    }
+
+    function isFamilyOwner(familyId) {
+      // Check if user is the owner listed in the family document
+      return request.auth != null && 
+        get(/databases/$(database)/documents/families/$(familyId)).data.ownerId == request.auth.uid;
+    }
+
+    // Users: Users can only read/write their own profile
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Families: Create allowed if auth; Read/Write only by owner
+    match /families/{familyId} {
+      allow create: if request.auth != null;
+      allow read, write: if resource.data.ownerId == request.auth.uid;
+    }
+
+    // Children: Nested under root, linked by familyId
+    match /children/{childId} {
+      allow read, update, delete: if isFamilyOwner(resource.data.familyId);
+      allow create: if isFamilyOwner(request.resource.data.familyId);
+    }
+
+    // ABC Entries
+    match /abcEntries/{entryId} {
+      allow read, update, delete: if isFamilyOwner(resource.data.familyId);
+      allow create: if isFamilyOwner(request.resource.data.familyId);
+    }
+
+    // Strategy Cards
+    match /strategies/{strategyId} {
+      allow read, update, delete: if isFamilyOwner(resource.data.familyId);
+      allow create: if isFamilyOwner(request.resource.data.familyId);
+    }
+
+    // Share Packets
+    match /sharePackets/{packetId} {
+      // Owner has full control
+      allow read, write: if isFamilyOwner(resource.data.familyId);
+      allow create: if isFamilyOwner(request.resource.data.familyId);
+      
+      // PUBLIC ACCESS (The "Bridge"):
+      // Allowed if the packet is not expired.
+      // Note: In a real app, you might query by a secret token field, 
+      // but Firestore rules don't filter queries, they filter documents.
+      // So the app must know the specific Packet ID to fetch it.
+      allow read: if request.time < resource.data.expiresAt;
+    }
+    
+    // Public Resources (Learning Hub)
+    match /resources/{resourceId} {
+      allow read: if true;
+      allow write: if false; // Admin only (managed via backend/console)
+    }
+  }
+}
