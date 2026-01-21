@@ -5,18 +5,22 @@
  * Free tier is fully functional; paid tier adds premium features.
  */
 
-export type SubscriptionTier = 'free' | 'pro' | 'enterprise';
+export type SubscriptionTier = 'free' | 'companion' | 'pro' | 'enterprise';
 
 export interface TierLimits {
     aiQueriesPerMonth: number;
     sharePacketsPerMonth: number;
     childProfiles: number;
+    strategyCards: number;
     mediaLibraryAccess: boolean;
     prioritySupport: boolean;
     apiAccess: boolean;
     customBranding: boolean;
     dataExport: boolean;
-    ecModeAccess: boolean;  // EC Layer
+    ecModeAccess: boolean;
+    homeplaceSupports: boolean;
+    customReports: boolean;
+    earlyFeatures: boolean;
 }
 
 export interface UserSubscription {
@@ -36,70 +40,119 @@ export interface UsageTracking {
 }
 
 /**
- * Tier configuration
+ * Tier configuration - based on market analysis
+ * 
+ * Competitors:
+ * - Autism360: $7.95/mo
+ * - AutismHelpApp: $19-39/mo
+ * - ABA Therapy Apps: $24.99/mo (family)
+ * - Saner.AI: $6-16/mo
+ * - Inflow ADHD: $47.99/mo (with coaching)
  */
 export const TIER_CONFIG: Record<SubscriptionTier, TierLimits> = {
     free: {
-        aiQueriesPerMonth: 50,
-        sharePacketsPerMonth: 5,
-        childProfiles: 2,
+        aiQueriesPerMonth: 30,
+        sharePacketsPerMonth: 3,
+        childProfiles: 1,
+        strategyCards: 10,
         mediaLibraryAccess: true,
         prioritySupport: false,
         apiAccess: false,
         customBranding: false,
-        dataExport: true,
-        ecModeAccess: true  // EC Mode is free!
+        dataExport: false,
+        ecModeAccess: true,  // EC Mode is FREE - core to mission
+        homeplaceSupports: false,
+        customReports: false,
+        earlyFeatures: false
     },
-    pro: {
-        aiQueriesPerMonth: 500,
-        sharePacketsPerMonth: 50,
-        childProfiles: 5,
+    companion: {
+        aiQueriesPerMonth: 150,
+        sharePacketsPerMonth: 15,
+        childProfiles: 3,
+        strategyCards: -1,  // Unlimited
         mediaLibraryAccess: true,
         prioritySupport: true,
         apiAccess: false,
         customBranding: false,
         dataExport: true,
-        ecModeAccess: true
+        ecModeAccess: true,
+        homeplaceSupports: true,
+        customReports: false,
+        earlyFeatures: false
+    },
+    pro: {
+        aiQueriesPerMonth: 500,
+        sharePacketsPerMonth: -1,  // Unlimited
+        childProfiles: 5,
+        strategyCards: -1,
+        mediaLibraryAccess: true,
+        prioritySupport: true,
+        apiAccess: false,
+        customBranding: false,
+        dataExport: true,
+        ecModeAccess: true,
+        homeplaceSupports: true,
+        customReports: true,
+        earlyFeatures: true
     },
     enterprise: {
         aiQueriesPerMonth: -1,  // Unlimited
         sharePacketsPerMonth: -1,
         childProfiles: -1,
+        strategyCards: -1,
         mediaLibraryAccess: true,
         prioritySupport: true,
         apiAccess: true,
         customBranding: true,
         dataExport: true,
-        ecModeAccess: true
+        ecModeAccess: true,
+        homeplaceSupports: true,
+        customReports: true,
+        earlyFeatures: true
     }
 };
 
 /**
- * Tier display info
+ * Tier display info with market-competitive pricing
  */
 export const TIER_INFO: Record<SubscriptionTier, {
     name: string;
-    price: string;
+    monthlyPrice: number;
+    yearlyPrice: number;
     description: string;
     badge?: string;
+    cta: string;
 }> = {
     free: {
         name: 'Free',
-        price: '$0/mo',
-        description: 'Perfect for getting started with neuro-affirming support.',
-        badge: undefined
+        monthlyPrice: 0,
+        yearlyPrice: 0,
+        description: 'Get started with neuro-affirming support.',
+        cta: 'Get Started Free'
+    },
+    companion: {
+        name: 'Companion',
+        monthlyPrice: 7.99,
+        yearlyPrice: 76.70,  // ~20% off
+        description: 'More AI support and sharing for growing families.',
+        badge: 'BEST VALUE',
+        cta: 'Start Free Trial'
     },
     pro: {
         name: 'Pro',
-        price: '$9.99/mo',
-        description: 'For families who need more AI support and sharing capabilities.',
-        badge: 'POPULAR'
+        monthlyPrice: 14.99,
+        yearlyPrice: 143.90,  // ~20% off
+        description: 'Unlimited sharing and custom reports for advocates.',
+        badge: 'POPULAR',
+        cta: 'Go Pro'
     },
     enterprise: {
         name: 'Enterprise',
-        price: 'Contact us',
-        description: 'For organizations, schools, and therapy practices.',
-        badge: 'TEAMS'
+        monthlyPrice: 99,
+        yearlyPrice: 999,
+        description: 'For clinics, schools, and therapy practices.',
+        badge: 'TEAMS',
+        cta: 'Contact Sales'
     }
 };
 
