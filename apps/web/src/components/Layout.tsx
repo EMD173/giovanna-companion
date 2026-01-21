@@ -21,6 +21,7 @@ export function Layout() {
         { name: 'ABC Log', path: '/log', icon: <PenTool size={20} /> },
         { name: 'Strategies', path: '/strategies', icon: <Layers size={20} /> },
         { name: 'Bridge', path: '/bridge', icon: <Share2 size={20} /> },
+        { name: 'Profile', path: '/profile', icon: <User size={20} /> },
         { name: 'Settings', path: '/settings', icon: <Settings size={20} /> },
     ];
 
