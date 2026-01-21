@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { ECModeProvider } from './contexts/ECModeContext';
+import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import { Layout } from './components/Layout';
 import { LandingPage } from './pages/LandingPage';
 import { Signup } from './pages/Signup';
@@ -16,26 +17,28 @@ import { Settings } from './pages/Settings';
 function App() {
   return (
     <AuthProvider>
-      <ECModeProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public route for teachers (no Layout/Auth required) */}
-            <Route path="/share/:packetId" element={<PublicShareView />} />
+      <SubscriptionProvider>
+        <ECModeProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Public route for teachers (no Layout/Auth required) */}
+              <Route path="/share/:packetId" element={<PublicShareView />} />
 
-            {/* App routes with Layout */}
-            <Route path="/" element={<Layout />}>
-              <Route index element={<LandingPage />} />
-              <Route path="learn" element={<LearningHub />} />
-              <Route path="log" element={<ABCLogPage />} />
-              <Route path="strategies" element={<StrategiesPage />} />
-              <Route path="bridge" element={<SharePage />} />
-              <Route path="settings" element={<Settings />} />
-              <Route path="signup" element={<Signup />} />
-              <Route path="onboarding" element={<Onboarding />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </ECModeProvider>
+              {/* App routes with Layout */}
+              <Route path="/" element={<Layout />}>
+                <Route index element={<LandingPage />} />
+                <Route path="learn" element={<LearningHub />} />
+                <Route path="log" element={<ABCLogPage />} />
+                <Route path="strategies" element={<StrategiesPage />} />
+                <Route path="bridge" element={<SharePage />} />
+                <Route path="settings" element={<Settings />} />
+                <Route path="signup" element={<Signup />} />
+                <Route path="onboarding" element={<Onboarding />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </ECModeProvider>
+      </SubscriptionProvider>
     </AuthProvider>
   );
 }
