@@ -1,26 +1,37 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
 import { Layout } from './components/Layout';
 import { LandingPage } from './pages/LandingPage';
+import { Signup } from './pages/Signup';
+import { Onboarding } from './pages/Onboarding';
 
-// Placeholder pages for V1 structure
-const LearningHub = () => <div className="p-4">Learning Hub (Coming Soon)</div>;
-const ABCLog = () => <div className="p-4">ABC Log (Coming Soon)</div>;
-const Strategies = () => <div className="p-4">Strategies (Coming Soon)</div>;
-const Signup = () => <div className="p-4">Sign Up / Login (Coming Soon)</div>;
+import { LearningHub } from './pages/LearningHub';
+import { ABCLogPage } from './pages/ABCLogPage';
+import { StrategiesPage } from './pages/StrategiesPage';
+import { SharePage } from './pages/SharePage';
+import { PublicShareView } from './pages/PublicShareView';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<LandingPage />} />
-          <Route path="learn" element={<LearningHub />} />
-          <Route path="log" element={<ABCLog />} />
-          <Route path="strategies" element={<Strategies />} />
-          <Route path="signup" element={<Signup />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public route for teachers (no Layout/Auth required) */}
+          <Route path="/share/:packetId" element={<PublicShareView />} />
+
+          {/* App routes with Layout */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<LandingPage />} />
+            <Route path="learn" element={<LearningHub />} />
+            <Route path="log" element={<ABCLogPage />} />
+            <Route path="strategies" element={<StrategiesPage />} />
+            <Route path="bridge" element={<SharePage />} />
+            <Route path="signup" element={<Signup />} />
+            <Route path="onboarding" element={<Onboarding />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
