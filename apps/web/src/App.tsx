@@ -15,6 +15,7 @@ import { SharePage } from './pages/SharePage';
 import { PublicShareView } from './pages/PublicShareView';
 import { Settings } from './pages/Settings';
 import { ChildProfilePage } from './pages/ChildProfilePage';
+import { MediaLibraryPage } from './pages/MediaLibraryPage';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
                   <Route path="strategies" element={<StrategiesPage />} />
                   <Route path="bridge" element={<SharePage />} />
                   <Route path="profile" element={<ChildProfilePage />} />
+                  <Route path="media" element={<MediaLibraryPage />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="signup" element={<Signup />} />
                   <Route path="onboarding" element={<Onboarding />} />
