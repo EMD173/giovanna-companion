@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { ECModeProvider } from './contexts/ECModeContext';
 import { Layout } from './components/Layout';
 import { LandingPage } from './pages/LandingPage';
 import { Signup } from './pages/Signup';
@@ -10,27 +11,31 @@ import { ABCLogPage } from './pages/ABCLogPage';
 import { StrategiesPage } from './pages/StrategiesPage';
 import { SharePage } from './pages/SharePage';
 import { PublicShareView } from './pages/PublicShareView';
+import { Settings } from './pages/Settings';
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          {/* Public route for teachers (no Layout/Auth required) */}
-          <Route path="/share/:packetId" element={<PublicShareView />} />
+      <ECModeProvider>
+        <BrowserRouter>
+          <Routes>
+            {/* Public route for teachers (no Layout/Auth required) */}
+            <Route path="/share/:packetId" element={<PublicShareView />} />
 
-          {/* App routes with Layout */}
-          <Route path="/" element={<Layout />}>
-            <Route index element={<LandingPage />} />
-            <Route path="learn" element={<LearningHub />} />
-            <Route path="log" element={<ABCLogPage />} />
-            <Route path="strategies" element={<StrategiesPage />} />
-            <Route path="bridge" element={<SharePage />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="onboarding" element={<Onboarding />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+            {/* App routes with Layout */}
+            <Route path="/" element={<Layout />}>
+              <Route index element={<LandingPage />} />
+              <Route path="learn" element={<LearningHub />} />
+              <Route path="log" element={<ABCLogPage />} />
+              <Route path="strategies" element={<StrategiesPage />} />
+              <Route path="bridge" element={<SharePage />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="signup" element={<Signup />} />
+              <Route path="onboarding" element={<Onboarding />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ECModeProvider>
     </AuthProvider>
   );
 }

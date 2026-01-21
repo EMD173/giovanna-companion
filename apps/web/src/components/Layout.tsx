@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, BookOpen, PenTool, Layers, Menu, X, LogOut, User, Share2 } from 'lucide-react';
+import { Home, BookOpen, PenTool, Layers, Menu, X, LogOut, User, Share2, Settings } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { ToastContainer } from './Toast';
 
@@ -21,6 +21,7 @@ export function Layout() {
         { name: 'ABC Log', path: '/log', icon: <PenTool size={20} /> },
         { name: 'Strategies', path: '/strategies', icon: <Layers size={20} /> },
         { name: 'Bridge', path: '/bridge', icon: <Share2 size={20} /> },
+        { name: 'Settings', path: '/settings', icon: <Settings size={20} /> },
     ];
 
     return (

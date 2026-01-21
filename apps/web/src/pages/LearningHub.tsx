@@ -4,11 +4,15 @@ import { Search, ChevronDown, Share2, BookOpen, ExternalLink, Sparkles } from 'l
 import { initialContent, type ContentItem } from '../data/learningContent';
 import { cn } from '../lib/utils';
 import { GiovannaChat } from '../components/GiovannaChat';
+import { useECMode } from '../contexts/ECModeContext';
+import { LensPanel } from '../components/ec/LensPanel';
+import { ECModeIndicator } from '../components/ec/LensPanel';
 
 export function LearningHub() {
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedId, setExpandedId] = useState<string | null>(null);
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const { enabled: ecModeEnabled } = useECMode();
 
     // Configure Fuse search
     const fuse = useMemo(() => new Fuse(initialContent, {
@@ -65,6 +69,17 @@ export function LearningHub() {
                     </button>
                 </div>
             </div>
+
+            {/* EC Mode Lens Panel */}
+            {ecModeEnabled && (
+                <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                        <ECModeIndicator />
+                        <span className="text-xs text-slate-500">Reflection prompts enabled</span>
+                    </div>
+                    <LensPanel context="learning" compact />
+                </div>
+            )}
 
             {/* Content Grid */}
             <div className="space-y-4">
