@@ -13,10 +13,29 @@ service cloud.firestore {
         get(/databases/$(database)/documents/families/$(familyId)).data.ownerId == request.auth.uid;
     }
 
+    // ============================================
+    // USER DATA
+    // ============================================
+
     // Users: Users can only read/write their own profile
     match /users/{userId} {
       allow read, write: if isOwner(userId);
     }
+
+    // User Preferences (EC mode toggle, etc.)
+    match /userPreferences/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Subscriptions: Read by owner, write by Cloud Functions only
+    match /subscriptions/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if false; // Cloud Functions use Admin SDK
+    }
+
+    // ============================================
+    // FAMILY DATA  
+    // ============================================
 
     // Families: Create allowed if auth; Read/Write only by owner
     match /families/{familyId} {
@@ -24,7 +43,7 @@ service cloud.firestore {
       allow read, write: if resource.data.ownerId == request.auth.uid;
     }
 
-    // Children: Nested under root, linked by familyId
+    // Children: Linked by familyId
     match /children/{childId} {
       allow read, update, delete: if isFamilyOwner(resource.data.familyId);
       allow create: if isFamilyOwner(request.resource.data.familyId);
@@ -42,24 +61,33 @@ service cloud.firestore {
       allow create: if isFamilyOwner(request.resource.data.familyId);
     }
 
-    // Share Packets
+    // ============================================
+    // SHARE PACKETS - SECURED
+    // ============================================
+    
+    // Share Packets: Owner has full control
+    // NO PUBLIC READ - all public access goes through Cloud Function
     match /sharePackets/{packetId} {
-      // Owner has full control
       allow read, write: if isFamilyOwner(resource.data.familyId);
       allow create: if isFamilyOwner(request.resource.data.familyId);
-      
-      // PUBLIC ACCESS (The "Bridge"):
-      // Allowed if the packet is not expired.
-      // Note: In a real app, you might query by a secret token field, 
-      // but Firestore rules don't filter queries, they filter documents.
-      // So the app must know the specific Packet ID to fetch it.
-      allow read: if request.time < resource.data.expiresAt;
+      // REMOVED: allow read: if request.time < resource.data.expiresAt;
+      // Public access now handled by getPublicSharePacket Cloud Function
     }
     
-    // Public Resources (Learning Hub)
+    // ============================================
+    // CONFIG & PUBLIC DATA
+    // ============================================
+
+    // App Config (read-only for clients, admin writes via Console)
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Public Resources (Learning Hub - if ever moved to Firestore)
     match /resources/{resourceId} {
       allow read: if true;
-      allow write: if false; // Admin only (managed via backend/console)
+      allow write: if false; // Admin only
     }
   }
 }

@@ -3,15 +3,15 @@ import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getFirestore, connectFirestoreEmulator } from 'firebase/firestore';
 import { getFunctions, connectFunctionsEmulator } from 'firebase/functions';
 
-// Firebase configuration for giovanna-companion project
-// Created: 2026-01-20
+// Firebase configuration
+// Uses env vars if available, falls back to project defaults
 const firebaseConfig = {
-    apiKey: "AIzaSyC2GbsFfeDnW6Y1mY_qMiOCBOmITetTq9A",
-    authDomain: "giovanna-companion.firebaseapp.com",
-    projectId: "giovanna-companion",
-    storageBucket: "giovanna-companion.firebasestorage.app",
-    messagingSenderId: "146771413520",
-    appId: "1:146771413520:web:7288771d7aec9e99ead895"
+    apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyC2GbsFfeDnW6Y1mY_qMiOCBOmITetTq9A",
+    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "giovanna-companion.firebaseapp.com",
+    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "giovanna-companion",
+    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "giovanna-companion.firebasestorage.app",
+    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "146771413520",
+    appId: import.meta.env.VITE_FIREBASE_APP_ID || "1:146771413520:web:7288771d7aec9e99ead895"
 };
 
 const app = initializeApp(firebaseConfig);

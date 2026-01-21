@@ -16,7 +16,11 @@ import { PublicShareView } from './pages/PublicShareView';
 import { Settings } from './pages/Settings';
 import { ChildProfilePage } from './pages/ChildProfilePage';
 import { MediaLibraryPage } from './pages/MediaLibraryPage';
+import { HomeplacePage } from './pages/HomeplacePage';
+import { PSPEditorPage } from './pages/PSPEditorPage';
+import { ParentResourceHub } from './pages/ParentResourceHub';
 import { AdminDashboard } from './pages/AdminDashboard';
+import { AdminSettings } from './pages/AdminSettings';
 
 function App() {
   return (
@@ -27,7 +31,7 @@ function App() {
             <BrowserRouter>
               <Routes>
                 {/* Public route for teachers (no Layout/Auth required) */}
-                <Route path="/share/:packetId" element={<PublicShareView />} />
+                <Route path="/share" element={<PublicShareView />} />
 
                 {/* App routes with Layout */}
                 <Route path="/" element={<Layout />}>
@@ -37,8 +41,13 @@ function App() {
                   <Route path="strategies" element={<StrategiesPage />} />
                   <Route path="bridge" element={<SharePage />} />
                   <Route path="profile" element={<ChildProfilePage />} />
+                  <Route path="homeplace" element={<HomeplacePage />} />
+                  <Route path="psp" element={<PSPEditorPage />} />
+                  <Route path="resources" element={<ParentResourceHub />} />
+                  <Route path="resources/:slug" element={<ParentResourceHub />} />
                   <Route path="media" element={<MediaLibraryPage />} />
                   <Route path="admin" element={<AdminDashboard />} />
+                  <Route path="admin/settings" element={<AdminSettings />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="signup" element={<Signup />} />
                   <Route path="onboarding" element={<Onboarding />} />

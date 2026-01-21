@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useABCLogs } from '../hooks/useABCLogs';
 import { useStrategies } from '../hooks/useStrategies';
 import { useSharePackets } from '../hooks/useSharePackets';
-import { Share2, CheckCircle, Copy, X } from 'lucide-react';
+import { Share2, CheckCircle, Copy, X, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { showToast } from '../components/Toast';
 
@@ -14,22 +14,40 @@ export function SharePage() {
     const [isCreating, setIsCreating] = useState(false);
     const [recipient, setRecipient] = useState('');
     const [message, setMessage] = useState('');
+    const [passcode, setPasscode] = useState('');
+    const [showPasscode, setShowPasscode] = useState(false);
+    const [usePasscode, setUsePasscode] = useState(false);
     const [generatedLink, setGeneratedLink] = useState<string | null>(null);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleGenerate = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!recipient) return;
 
-        // For MVP, we auto-share the last 5 logs and all active strategies
-        // Full selection UI would be V2
-        const shareLogs = logs.slice(0, 5);
-        const shareStrategies = strategies.filter(s => s.status === 'active');
+        setIsSubmitting(true);
 
-        const result = await generatePacket(recipient, shareLogs, shareStrategies, message);
+        try {
+            // For MVP, we auto-share the last 5 logs and all active strategies
+            const shareLogs = logs.slice(0, 5);
+            const shareStrategies = strategies.filter(s => s.status === 'active');
 
-        // Create the shareable link (assuming client-side route /share/:id/:code)
-        const link = `${window.location.origin}/share/${result.id}?code=${result.accessCode}`;
-        setGeneratedLink(link);
+            const result = await generatePacket(
+                recipient,
+                shareLogs,
+                shareStrategies,
+                message,
+                usePasscode ? passcode : undefined
+            );
+
+            // Create the shareable link (token-based, not document ID)
+            const link = `${window.location.origin}/share?token=${result.accessToken}`;
+            setGeneratedLink(link);
+        } catch (error) {
+            console.error('Error generating packet:', error);
+            showToast('Failed to generate share link', 'error');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const copyToClipboard = () => {
@@ -44,7 +62,12 @@ export function SharePage() {
         setGeneratedLink(null);
         setRecipient('');
         setMessage('');
+        setPasscode('');
+        setUsePasscode(false);
     };
+
+    // Filter out revoked packets from display
+    const activePackets = packets.filter(p => !p.revoked);
 
     return (
         <div className="pb-20">
@@ -79,12 +102,64 @@ export function SharePage() {
 
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-1">Recipient Name</label>
-                                <input required className="w-full p-3 border border-slate-300 rounded-lg" placeholder="e.g. Ms. Johnson" value={recipient} onChange={e => setRecipient(e.target.value)} />
+                                <input
+                                    required
+                                    className="w-full p-3 border border-slate-300 rounded-lg"
+                                    placeholder="e.g. Ms. Johnson"
+                                    value={recipient}
+                                    onChange={e => setRecipient(e.target.value)}
+                                />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-bold text-slate-700 mb-1">Message (Optional)</label>
-                                <textarea className="w-full p-3 border border-slate-300 rounded-lg" placeholder="Notes for the teacher..." value={message} onChange={e => setMessage(e.target.value)} />
+                                <textarea
+                                    className="w-full p-3 border border-slate-300 rounded-lg"
+                                    placeholder="Notes for the teacher..."
+                                    value={message}
+                                    onChange={e => setMessage(e.target.value)}
+                                />
+                            </div>
+
+                            {/* Passcode Option */}
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="checkbox"
+                                        id="use-passcode"
+                                        checked={usePasscode}
+                                        onChange={(e) => setUsePasscode(e.target.checked)}
+                                        className="w-5 h-5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+                                    />
+                                    <label htmlFor="use-passcode" className="flex items-center gap-2 cursor-pointer">
+                                        <Lock size={16} className="text-slate-500" />
+                                        <span className="font-bold text-slate-800">Add Passcode Protection</span>
+                                    </label>
+                                </div>
+
+                                {usePasscode && (
+                                    <div className="ml-8 relative">
+                                        <input
+                                            type={showPasscode ? 'text' : 'password'}
+                                            value={passcode}
+                                            onChange={(e) => setPasscode(e.target.value)}
+                                            placeholder="Enter a passcode"
+                                            className="w-full p-3 border border-slate-300 rounded-lg pr-12"
+                                            minLength={4}
+                                            required={usePasscode}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPasscode(!showPasscode)}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                        >
+                                            {showPasscode ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        </button>
+                                        <p className="text-xs text-slate-500 mt-1">
+                                            Share this passcode separately with the recipient.
+                                        </p>
+                                    </div>
+                                )}
                             </div>
 
                             {/* EC Context Toggle */}
@@ -112,8 +187,12 @@ export function SharePage() {
                                 </ul>
                             </div>
 
-                            <button type="submit" className="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700">
-                                Generate Secure Link
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isSubmitting ? 'Generating...' : 'Generate Secure Link'}
                             </button>
                         </form>
                     ) : (
@@ -133,6 +212,13 @@ export function SharePage() {
                                 </button>
                             </div>
 
+                            {usePasscode && (
+                                <div className="flex items-center gap-2 justify-center text-amber-700 bg-amber-50 p-3 rounded-lg">
+                                    <Lock size={16} />
+                                    <span className="text-sm">Remember to share the passcode separately!</span>
+                                </div>
+                            )}
+
                             <div className="text-xs text-slate-400">
                                 This link expires in 7 days. You can revoke it anytime below.
                             </div>
@@ -148,18 +234,26 @@ export function SharePage() {
             {/* Active Packets List */}
             <div className="space-y-4">
                 <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wide">Active Links</h3>
-                {packets.length === 0 ? (
+                {activePackets.length === 0 ? (
                     <div className="text-center py-8 text-slate-400 bg-slate-50 rounded-xl border border-dashed border-slate-200">
                         No active shared packets.
                     </div>
                 ) : (
-                    packets.map(packet => (
+                    activePackets.map(packet => (
                         <div key={packet.id} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex justify-between items-center">
                             <div>
-                                <h4 className="font-bold text-slate-800">{packet.recipientName}</h4>
+                                <div className="flex items-center gap-2">
+                                    <h4 className="font-bold text-slate-800">{packet.recipientName}</h4>
+                                    {packet.hasPasscode && (
+                                        <span className="flex items-center gap-1 text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded">
+                                            <Lock size={12} /> Protected
+                                        </span>
+                                    )}
+                                </div>
                                 <p className="text-xs text-slate-500">
                                     Generated: {packet.generatedAt?.toDate ? format(packet.generatedAt.toDate(), 'MMM d') : 'Just now'} •
-                                    Expires: {packet.expiresAt?.toDate ? format(packet.expiresAt.toDate(), 'MMM d') : '7 days'}
+                                    Expires: {packet.expiresAt?.toDate ? format(packet.expiresAt.toDate(), 'MMM d') : '7 days'} •
+                                    Views: {packet.views || 0}
                                 </p>
                             </div>
                             <button
@@ -172,6 +266,14 @@ export function SharePage() {
                     ))
                 )}
             </div>
+
+            {/* Revoked packets indicator */}
+            {packets.filter(p => p.revoked).length > 0 && (
+                <div className="mt-4 flex items-center gap-2 text-xs text-slate-400">
+                    <AlertCircle size={14} />
+                    {packets.filter(p => p.revoked).length} revoked packet(s) hidden
+                </div>
+            )}
         </div>
     );
 }

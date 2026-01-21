@@ -9,7 +9,7 @@ import {
     serverTimestamp,
     Timestamp,
     doc,
-    deleteDoc
+    updateDoc
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -19,7 +19,7 @@ import { type Strategy } from './useStrategies';
 export interface SharePacket {
     id: string;
     familyId: string;
-    accessCode: string; // The secret key for the URL
+    accessToken: string; // Cryptographically secure token (64+ chars)
     generatedAt: Timestamp;
     expiresAt: Timestamp;
     content: {
@@ -27,8 +27,36 @@ export interface SharePacket {
         strategies: Strategy[];
         summaryMessage: string;
     };
-    recipientName: string; // e.g. "Ms. Johnson"
+    recipientName: string;
     views: number;
+    revoked?: boolean;
+    hasPasscode?: boolean;
+    passcodeHash?: string;
+}
+
+/**
+ * Generate a cryptographically secure token (64 characters)
+ */
+function generateSecureToken(): string {
+    // Use crypto.randomUUID twice for 72 chars, or fallback
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return crypto.randomUUID().replace(/-/g, '') + crypto.randomUUID().replace(/-/g, '');
+    }
+    // Fallback for older browsers
+    const array = new Uint8Array(32);
+    crypto.getRandomValues(array);
+    return Array.from(array, b => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Hash a passcode using SHA-256 (client-side)
+ */
+async function hashPasscode(passcode: string): Promise<string> {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(passcode);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 export function useSharePackets() {
@@ -58,7 +86,6 @@ export function useSharePackets() {
             setLoading(false);
         }, (err) => {
             console.error("Error fetching packets", err);
-            // Fallback if index missing or permission error
             setLoading(false);
         });
 
@@ -69,27 +96,34 @@ export function useSharePackets() {
         recipientName: string,
         logs: ABCEntry[],
         strategies: Strategy[],
-        summaryMessage: string
+        summaryMessage: string,
+        passcode?: string
     ) => {
         if (!user) throw new Error("Must be logged in");
 
-        // In production, generating a high-entropy string should be done via Cloud Function
-        // For MVP, we'll use a simple random string here.
-        const accessCode = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        // Generate cryptographically secure token
+        const accessToken = generateSecureToken();
 
         // Set 7 day expiration
         const expiryDate = new Date();
         expiryDate.setDate(expiryDate.getDate() + 7);
 
-        // Sanitize data (Remove unnecessary internal IDs if needed, but keeping simple for V1)
+        // Hash passcode if provided
+        let passcodeHash: string | undefined;
+        if (passcode && passcode.trim()) {
+            passcodeHash = await hashPasscode(passcode.trim());
+        }
 
         const packetData = {
             familyId: user.uid,
-            accessCode,
+            accessToken,
             recipientName,
             generatedAt: serverTimestamp(),
             expiresAt: Timestamp.fromDate(expiryDate),
             views: 0,
+            revoked: false,
+            hasPasscode: !!passcodeHash,
+            passcodeHash,
             content: {
                 logs,
                 strategies,
@@ -98,12 +132,19 @@ export function useSharePackets() {
         };
 
         const docRef = await addDoc(collection(db, 'sharePackets'), packetData);
-        return { id: docRef.id, accessCode };
+        return { id: docRef.id, accessToken };
     };
 
+    /**
+     * Revoke a packet (immediate, cannot be undone)
+     * We set revoked=true rather than deleting to maintain audit history
+     */
     const revokePacket = async (id: string) => {
-        await deleteDoc(doc(db, 'sharePackets', id));
+        await updateDoc(doc(db, 'sharePackets', id), {
+            revoked: true
+        });
     };
 
     return { packets, loading, generatePacket, revokePacket };
 }
+

@@ -1,0 +1,67 @@
+{
+    "indexes": [
+        {
+            "collectionGroup": "sharePackets",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "accessToken",
+                    "order": "ASCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "sharePackets",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "familyId",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "generatedAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "abcEntries",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "familyId",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "timestamp",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "strategies",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "familyId",
+                    "order": "ASCENDING"
+                },
+                {
+                    "fieldPath": "createdAt",
+                    "order": "DESCENDING"
+                }
+            ]
+        },
+        {
+            "collectionGroup": "children",
+            "queryScope": "COLLECTION",
+            "fields": [
+                {
+                    "fieldPath": "familyId",
+                    "order": "ASCENDING"
+                }
+            ]
+        }
+    ],
+    "fieldOverrides": []
+}

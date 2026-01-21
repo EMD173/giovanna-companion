@@ -1,68 +1,112 @@
 import { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
-import { doc, getDoc, updateDoc, increment } from 'firebase/firestore';
-import { db } from '../lib/firebase';
+import { useSearchParams } from 'react-router-dom';
+import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getApp } from 'firebase/app';
 import { format } from 'date-fns';
-import { ShieldCheck, Calendar, User, AlertTriangle, Activity, Layers } from 'lucide-react';
-import { type SharePacket } from '../hooks/useSharePackets';
+import { ShieldCheck, Calendar, User, AlertTriangle, Activity, Layers, Lock, Eye, EyeOff } from 'lucide-react';
+
+// Response types from Cloud Function
+interface SharePacketResponse {
+    requiresPasscode: boolean;
+    recipientName: string;
+    generatedAt?: string;
+    expiresAt: string;
+    content?: {
+        summaryMessage: string;
+        strategies: Array<{ title: string; procedure: string }>;
+        logs: Array<{
+            antecedent: string;
+            behavior: string;
+            consequence: string;
+            timestamp: string | null;
+        }>;
+    };
+}
 
 export function PublicShareView() {
-    const { packetId } = useParams<{ packetId: string }>();
     const [searchParams] = useSearchParams();
-    const accessCode = searchParams.get('code');
+    const token = searchParams.get('token');
 
-    const [packet, setPacket] = useState<SharePacket | null>(null);
+    const [packet, setPacket] = useState<SharePacketResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [passcodeRequired, setPasscodeRequired] = useState(false);
+    const [passcodeInput, setPasscodeInput] = useState('');
+    const [showPasscode, setShowPasscode] = useState(false);
+    const [passcodeError, setPasscodeError] = useState<string | null>(null);
 
-    useEffect(() => {
-        async function fetchPacket() {
-            if (!packetId || !accessCode) {
-                setError('Invalid or missing access link.');
+    const functions = getFunctions(getApp());
+
+    const fetchPacket = async (passcode?: string) => {
+        if (!token) {
+            setError('Invalid or missing access link.');
+            setLoading(false);
+            return;
+        }
+
+        try {
+            setLoading(true);
+            setPasscodeError(null);
+
+            const getPublicSharePacket = httpsCallable<
+                { token: string; passcode?: string },
+                SharePacketResponse
+            >(functions, 'getPublicSharePacket');
+
+            const result = await getPublicSharePacket({ token, passcode });
+
+            if (result.data.requiresPasscode && !result.data.content) {
+                // Passcode needed but not yet provided
+                setPasscodeRequired(true);
+                setPacket(result.data);
                 setLoading(false);
                 return;
             }
 
-            try {
-                const docRef = doc(db, 'sharePackets', packetId);
-                const docSnap = await getDoc(docRef);
+            setPasscodeRequired(false);
+            setPacket(result.data);
+            setLoading(false);
+        } catch (err: unknown) {
+            console.error('Error fetching packet:', err);
 
-                if (!docSnap.exists()) {
+            // Handle specific error codes
+            if (err && typeof err === 'object' && 'code' in err) {
+                const fbError = err as { code: string; message: string };
+                if (fbError.code === 'functions/not-found') {
                     setError('This share link is no longer available.');
-                    setLoading(false);
-                    return;
+                } else if (fbError.code === 'functions/permission-denied') {
+                    if (fbError.message.includes('passcode')) {
+                        setPasscodeError('Incorrect passcode. Please try again.');
+                        setLoading(false);
+                        return;
+                    } else if (fbError.message.includes('expired')) {
+                        setError('This share link has expired.');
+                    } else if (fbError.message.includes('revoked')) {
+                        setError('This share link has been revoked by the family.');
+                    } else {
+                        setError('Access denied.');
+                    }
+                } else {
+                    setError('An error occurred while loading the data.');
                 }
-
-                const data = docSnap.data() as Omit<SharePacket, 'id'>;
-
-                // Verify access code
-                if (data.accessCode !== accessCode) {
-                    setError('Invalid access code.');
-                    setLoading(false);
-                    return;
-                }
-
-                // Check expiration
-                if (data.expiresAt.toDate() < new Date()) {
-                    setError('This share link has expired.');
-                    setLoading(false);
-                    return;
-                }
-
-                // Increment view count (fire-and-forget)
-                updateDoc(docRef, { views: increment(1) }).catch(console.error);
-
-                setPacket({ id: docSnap.id, ...data });
-                setLoading(false);
-            } catch (err) {
-                console.error('Error fetching packet:', err);
+            } else {
                 setError('An error occurred while loading the data.');
-                setLoading(false);
             }
+            setLoading(false);
         }
+    };
 
+    useEffect(() => {
         fetchPacket();
-    }, [packetId, accessCode]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [token]);
+
+    const handlePasscodeSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (passcodeInput.trim()) {
+            fetchPacket(passcodeInput.trim());
+        }
+    };
 
     if (loading) {
         return (
@@ -87,7 +131,57 @@ export function PublicShareView() {
         );
     }
 
-    if (!packet) return null;
+    // Passcode entry screen
+    if (passcodeRequired) {
+        return (
+            <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+                <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md w-full">
+                    <div className="text-center mb-6">
+                        <Lock className="w-16 h-16 text-teal-500 mx-auto mb-4" />
+                        <h1 className="text-xl font-bold text-slate-900 mb-2">Passcode Required</h1>
+                        <p className="text-slate-600">
+                            This share was created for <strong>{packet?.recipientName}</strong>.
+                            <br />
+                            Enter the passcode to view.
+                        </p>
+                    </div>
+
+                    <form onSubmit={handlePasscodeSubmit} className="space-y-4">
+                        <div className="relative">
+                            <input
+                                type={showPasscode ? 'text' : 'password'}
+                                value={passcodeInput}
+                                onChange={(e) => setPasscodeInput(e.target.value)}
+                                placeholder="Enter passcode"
+                                className="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent pr-12"
+                                autoFocus
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPasscode(!showPasscode)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                            >
+                                {showPasscode ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
+
+                        {passcodeError && (
+                            <p className="text-red-600 text-sm text-center">{passcodeError}</p>
+                        )}
+
+                        <button
+                            type="submit"
+                            className="w-full bg-teal-600 text-white py-3 rounded-lg font-medium hover:bg-teal-700 transition-colors"
+                        >
+                            View Share
+                        </button>
+                    </form>
+                </div>
+            </div>
+        );
+    }
+
+    if (!packet || !packet.content) return null;
 
     return (
         <div className="min-h-screen bg-slate-100 py-8 px-4">
@@ -111,7 +205,7 @@ export function PublicShareView() {
                         </div>
                         <div className="flex items-center gap-2 text-slate-600">
                             <Calendar size={16} />
-                            <span>Expires: {format(packet.expiresAt.toDate(), 'MMMM d, yyyy')}</span>
+                            <span>Expires: {format(new Date(packet.expiresAt), 'MMMM d, yyyy')}</span>
                         </div>
                     </div>
 
@@ -130,8 +224,8 @@ export function PublicShareView() {
                             What Works for This Child
                         </h2>
                         <div className="space-y-3">
-                            {packet.content.strategies.map((strategy) => (
-                                <div key={strategy.id} className="p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+                            {packet.content.strategies.map((strategy, idx) => (
+                                <div key={idx} className="p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
                                     <h3 className="font-bold text-indigo-900">{strategy.title}</h3>
                                     <p className="text-sm text-indigo-700 mt-1">{strategy.procedure}</p>
                                 </div>
@@ -148,10 +242,10 @@ export function PublicShareView() {
                             Recent Behavior Observations
                         </h2>
                         <div className="space-y-4">
-                            {packet.content.logs.map((log) => (
-                                <div key={log.id} className="border border-slate-200 rounded-lg p-4">
+                            {packet.content.logs.map((log, idx) => (
+                                <div key={idx} className="border border-slate-200 rounded-lg p-4">
                                     <div className="text-xs text-slate-500 mb-2">
-                                        {log.timestamp?.toDate ? format(log.timestamp.toDate(), 'MMM d, h:mm a') : 'Unknown date'}
+                                        {log.timestamp ? format(new Date(log.timestamp), 'MMM d, h:mm a') : 'Unknown date'}
                                     </div>
                                     <div className="grid grid-cols-3 gap-2 text-sm">
                                         <div className="bg-slate-50 p-2 rounded">
