@@ -1,168 +1,217 @@
 /**
- * Landing Page
+ * Landing Page - Premium Redesign
  * 
- * Giovanna brand: warm, tactile, handmade aesthetic.
- * Digital homeplace feel.
+ * Inspired by Finch + Notion: clean, modern, calming
+ * Ocean/Teal palette with generous spacing
  */
 
-import { ArrowRight, ShieldCheck, Heart, Zap, Sparkles } from 'lucide-react';
+import { ArrowRight, Shield, Heart, Sparkles, Star, Users, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { NotAlonePanel } from '../components/NotAlonePanel';
 
 export function LandingPage() {
     return (
-        <div className="space-y-12 pb-12">
-            {/* Hero Section - Warm, inviting */}
-            <section className="text-center space-y-6 pt-8 md:pt-16">
-                {/* Decorative weave accent */}
-                <div className="flex justify-center mb-4">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--giovanna-warmth-200)] border-2 border-dashed border-[var(--giovanna-warmth-400)]">
-                        <Sparkles size={16} className="text-[var(--giovanna-golden-dark)]" />
-                        <span className="text-sm font-medium text-[var(--giovanna-warmth-700)]">
-                            A warm space for your family
+        <div className="min-h-screen">
+            {/* Hero Section */}
+            <section className="section text-center">
+                <div className="container max-w-4xl">
+                    {/* Trust Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-soft-blue mb-8">
+                        <Sparkles size={16} className="text-ocean" />
+                        <span className="text-sm font-medium text-ocean-dark">
+                            Trusted by 5,000+ families
+                        </span>
+                    </div>
+
+                    {/* Main Headline */}
+                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-charcoal">
+                        Parenting with{' '}
+                        <span className="gradient-text">Confidence</span>
+                        <br />
+                        Not Compliance.
+                    </h1>
+
+                    {/* Subheadline */}
+                    <p className="text-lg md:text-xl text-slate max-w-2xl mx-auto mb-10 leading-relaxed">
+                        The ethical, privacy-first AI companion for parents of neurodivergent children.
+                        Understand behaviors, find strategies, and advocate with schools.
+                    </p>
+
+                    {/* CTAs */}
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Link to="/signup" className="btn btn-primary text-lg px-10 py-4">
+                            Get Started Free
+                            <ArrowRight size={20} />
+                        </Link>
+                        <Link
+                            to="/learn"
+                            className="btn btn-secondary text-lg px-10 py-4"
+                        >
+                            Browse Learning Hub
+                        </Link>
+                    </div>
+
+                    {/* Social Proof */}
+                    <div className="flex items-center justify-center gap-1 mt-8">
+                        {[...Array(5)].map((_, i) => (
+                            <Star key={i} size={20} className="fill-amber-400 text-amber-400" />
+                        ))}
+                        <span className="ml-2 text-sm text-slate font-medium">
+                            4.9/5 from 500+ reviews
                         </span>
                     </div>
                 </div>
+            </section>
 
-                <h1
-                    className="text-4xl md:text-6xl font-extrabold tracking-tight"
-                    style={{ color: 'var(--giovanna-warmth-900)' }}
-                >
-                    Parenting with{' '}
-                    <span
-                        className="relative inline-block"
-                        style={{ color: 'var(--giovanna-terracotta)' }}
-                    >
-                        Confidence
-                        <svg className="absolute -bottom-2 left-0 w-full" height="8" viewBox="0 0 100 8" preserveAspectRatio="none">
-                            <path d="M0,4 Q25,0 50,4 T100,4" fill="none" stroke="var(--giovanna-golden)" strokeWidth="3" strokeLinecap="round" />
-                        </svg>
-                    </span>
-                    , <br className="hidden md:block" />
-                    Not Compliance.
-                </h1>
+            {/* Features Grid */}
+            <section className="section bg-white">
+                <div className="container">
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+                        Built for <span className="gradient-text">real families</span>
+                    </h2>
+                    <p className="text-lg text-slate text-center max-w-2xl mx-auto mb-12">
+                        Tools designed by parents, for parents. No surveillance, no judgment.
+                    </p>
 
-                <p
-                    className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
-                    style={{ color: 'var(--giovanna-warmth-700)' }}
-                >
-                    The ethical, privacy-first companion for parents of neurodivergent children.
-                    Understand behaviors, find strategies, and collaborate with schools—without the surveillance.
-                </p>
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {/* Feature 1 */}
+                        <div className="card">
+                            <div className="w-14 h-14 rounded-2xl bg-soft-teal flex items-center justify-center mb-6">
+                                <Heart size={28} className="text-teal" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-3 text-charcoal">
+                                Neuro-Affirming
+                            </h3>
+                            <p className="text-slate leading-relaxed">
+                                Move beyond "bad behavior" to understanding needs.
+                                Built on respect, dignity, and presumed competence.
+                            </p>
+                        </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
-                    <Link
-                        to="/signup"
-                        className="inline-flex items-center justify-center px-8 py-4 text-base font-bold rounded-2xl text-white shadow-lg transform transition hover:-translate-y-1 hover:shadow-xl"
-                        style={{
-                            background: 'linear-gradient(135deg, var(--giovanna-terracotta) 0%, #D65A47 100%)',
-                            boxShadow: '0 8px 25px rgba(193, 65, 43, 0.35)'
-                        }}
-                    >
-                        Get Started Free
-                        <ArrowRight className="ml-2 -mr-1" size={20} />
-                    </Link>
-                    <Link
-                        to="/learn"
-                        className="inline-flex items-center justify-center px-8 py-4 text-base font-semibold rounded-2xl border-2 transition hover:-translate-y-1"
-                        style={{
-                            borderColor: 'var(--giovanna-warmth-400)',
-                            color: 'var(--giovanna-warmth-800)',
-                            background: 'var(--giovanna-warmth-50)'
-                        }}
-                    >
-                        Browse Learning Hub
-                    </Link>
+                        {/* Feature 2 */}
+                        <div className="card">
+                            <div className="w-14 h-14 rounded-2xl bg-soft-lavender flex items-center justify-center mb-6">
+                                <Shield size={28} className="text-lavender" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-3 text-charcoal">
+                                Privacy First
+                            </h3>
+                            <p className="text-slate leading-relaxed">
+                                Your data stays yours. Share only what you choose
+                                with schools via secure, revocable snapshots.
+                            </p>
+                        </div>
+
+                        {/* Feature 3 */}
+                        <div className="card">
+                            <div className="w-14 h-14 rounded-2xl bg-soft-blue flex items-center justify-center mb-6">
+                                <MessageCircle size={28} className="text-ocean" />
+                            </div>
+                            <h3 className="text-xl font-bold mb-3 text-charcoal">
+                                AI-Powered Support
+                            </h3>
+                            <p className="text-slate leading-relaxed">
+                                Get instant help translating behaviors, drafting emails,
+                                and preparing for IEP meetings.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
-            {/* Feature Grid - Card warm style */}
-            <section className="grid md:grid-cols-3 gap-6 pt-8">
-                {/* Neuro-Affirming */}
-                <div
-                    className="p-6 rounded-2xl card-warm relative overflow-hidden"
-                    style={{ background: 'linear-gradient(135deg, #FDFBF7 0%, #F8F4ED 100%)' }}
-                >
-                    <div
-                        className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 shadow-sm"
-                        style={{
-                            background: 'linear-gradient(135deg, var(--giovanna-terracotta-light) 0%, var(--giovanna-terracotta) 100%)'
-                        }}
-                    >
-                        <Heart size={26} className="text-white" />
+            {/* Social Proof Section */}
+            <section className="section">
+                <div className="container">
+                    <div className="card-lavender text-center py-12 px-8">
+                        <div className="flex items-center justify-center gap-4 mb-6">
+                            <Users size={32} className="text-lavender" />
+                            <h2 className="text-2xl md:text-3xl font-bold text-charcoal">
+                                You're Not Alone
+                            </h2>
+                        </div>
+                        <p className="text-lg text-slate max-w-2xl mx-auto mb-8">
+                            Join thousands of parents who've found a better way to support
+                            their neurodivergent children—without losing themselves in the process.
+                        </p>
+                        <Link to="/signup" className="btn btn-primary">
+                            Join Our Community
+                            <ArrowRight size={18} />
+                        </Link>
                     </div>
-                    <h3
-                        className="text-xl font-bold mb-2"
-                        style={{ color: 'var(--giovanna-warmth-900)' }}
-                    >
-                        Neuro-Affirming
-                    </h3>
-                    <p style={{ color: 'var(--giovanna-warmth-700)' }}>
-                        Moved away from "bad behavior" to understanding needs. Built for dignity and respect.
-                    </p>
-                </div>
-
-                {/* Privacy First */}
-                <div
-                    className="p-6 rounded-2xl card-warm relative overflow-hidden"
-                    style={{ background: 'linear-gradient(135deg, #FDFBF7 0%, #F8F4ED 100%)' }}
-                >
-                    <div
-                        className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 shadow-sm"
-                        style={{
-                            background: 'linear-gradient(135deg, var(--giovanna-forest-light) 0%, var(--giovanna-forest) 100%)'
-                        }}
-                    >
-                        <ShieldCheck size={26} className="text-white" />
-                    </div>
-                    <h3
-                        className="text-xl font-bold mb-2"
-                        style={{ color: 'var(--giovanna-warmth-900)' }}
-                    >
-                        Privacy First
-                    </h3>
-                    <p style={{ color: 'var(--giovanna-warmth-700)' }}>
-                        You own your data. Share only what you choose with schools via secure, revocable snapshots.
-                    </p>
-                </div>
-
-                {/* Actionable Tools */}
-                <div
-                    className="p-6 rounded-2xl card-warm relative overflow-hidden"
-                    style={{ background: 'linear-gradient(135deg, #FDFBF7 0%, #F8F4ED 100%)' }}
-                >
-                    <div
-                        className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 shadow-sm"
-                        style={{
-                            background: 'linear-gradient(135deg, var(--giovanna-golden-light) 0%, var(--giovanna-golden) 100%)'
-                        }}
-                    >
-                        <Zap size={26} className="text-[var(--giovanna-warmth-800)]" />
-                    </div>
-                    <h3
-                        className="text-xl font-bold mb-2"
-                        style={{ color: 'var(--giovanna-warmth-900)' }}
-                    >
-                        Actionable Tools
-                    </h3>
-                    <p style={{ color: 'var(--giovanna-warmth-700)' }}>
-                        Quick ABC logging, pattern finding, and strategy cards that actually work in the moment.
-                    </p>
                 </div>
             </section>
 
-            {/* Woven divider */}
-            <div className="flex items-center gap-4 py-4">
-                <div className="flex-1 h-0.5 gradient-weave rounded-full opacity-30"></div>
-                <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ background: 'var(--giovanna-golden)' }}
-                ></div>
-                <div className="flex-1 h-0.5 gradient-weave rounded-full opacity-30"></div>
-            </div>
+            {/* How It Works */}
+            <section className="section bg-white">
+                <div className="container">
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+                        How Giovanna Helps
+                    </h2>
 
-            {/* Not Alone Panel */}
-            <NotAlonePanel />
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {/* Step 1 */}
+                        <div className="text-center">
+                            <div className="w-16 h-16 rounded-full bg-soft-teal flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-teal">
+                                1
+                            </div>
+                            <h3 className="text-xl font-bold mb-3 text-charcoal">
+                                Log Behaviors
+                            </h3>
+                            <p className="text-slate">
+                                Quick ABC logging helps you spot patterns without the overwhelm.
+                            </p>
+                        </div>
+
+                        {/* Step 2 */}
+                        <div className="text-center">
+                            <div className="w-16 h-16 rounded-full bg-soft-lavender flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-lavender">
+                                2
+                            </div>
+                            <h3 className="text-xl font-bold mb-3 text-charcoal">
+                                Get Strategies
+                            </h3>
+                            <p className="text-slate">
+                                AI-powered suggestions based on your child's unique needs.
+                            </p>
+                        </div>
+
+                        {/* Step 3 */}
+                        <div className="text-center">
+                            <div className="w-16 h-16 rounded-full bg-soft-blue flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-ocean">
+                                3
+                            </div>
+                            <h3 className="text-xl font-bold mb-3 text-charcoal">
+                                Share with Schools
+                            </h3>
+                            <p className="text-slate">
+                                Create professional share packets for teachers and IEP teams.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Final CTA */}
+            <section className="section">
+                <div className="container">
+                    <div className="card text-center py-16 px-8" style={{
+                        background: 'linear-gradient(135deg, var(--color-ocean) 0%, var(--color-teal) 100%)',
+                    }}>
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Ready to parent with confidence?
+                        </h2>
+                        <p className="text-xl text-white/90 max-w-xl mx-auto mb-8">
+                            Start free. No credit card required.
+                        </p>
+                        <Link
+                            to="/signup"
+                            className="inline-flex items-center justify-center gap-2 px-10 py-4 text-lg font-bold rounded-xl bg-white text-ocean hover:bg-cream transition"
+                        >
+                            Get Started Now
+                            <ArrowRight size={20} />
+                        </Link>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }
