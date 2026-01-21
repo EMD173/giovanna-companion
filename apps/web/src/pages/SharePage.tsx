@@ -87,6 +87,23 @@ export function SharePage() {
                                 <textarea className="w-full p-3 border border-slate-300 rounded-lg" placeholder="Notes for the teacher..." value={message} onChange={e => setMessage(e.target.value)} />
                             </div>
 
+                            {/* EC Context Toggle */}
+                            <div className="flex items-center gap-3 p-4 bg-gradient-to-r from-teal-50 to-amber-50 border border-teal-200 rounded-lg">
+                                <input
+                                    type="checkbox"
+                                    id="ec-context"
+                                    className="w-5 h-5 rounded border-teal-300 text-teal-600 focus:ring-teal-500"
+                                />
+                                <div className="flex-1">
+                                    <label htmlFor="ec-context" className="font-bold text-slate-800 cursor-pointer">
+                                        Include EC Context
+                                    </label>
+                                    <p className="text-xs text-slate-500">
+                                        Add nervous system context, calming strategies, and sensory needs to help teachers understand regulation.
+                                    </p>
+                                </div>
+                            </div>
+
                             <div className="bg-slate-50 p-4 rounded-lg text-sm text-slate-600 border border-slate-100">
                                 <p className="font-bold mb-2">Included Data Preview:</p>
                                 <ul className="list-disc pl-5 space-y-1">
