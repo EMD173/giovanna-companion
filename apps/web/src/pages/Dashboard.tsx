@@ -1,14 +1,14 @@
 /**
- * Adventure Hub Dashboard
+ * Dashboard - The Journey Hub
  * 
- * The central player base. 
- * Gamified "Power Up" cards for quick actions.
+ * Ruth E. Carter-inspired command center.
+ * Regal, powerful, ancestrally grounded.
  */
 
 import { Link } from 'react-router-dom';
 import {
     Zap, MessageCircle, FileText, Heart,
-    ChevronRight, Sparkles, Map, Smile
+    ChevronRight, Sparkles
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useFamily } from '../contexts/FamilyContext';
@@ -17,108 +17,112 @@ export function Dashboard() {
     const { user } = useAuth();
     const { activeChild } = useFamily();
 
-    const firstName = user?.displayName ? user.displayName.split(' ')[0] : 'Captain';
+    const firstName = user?.displayName ? user.displayName.split(' ')[0] : 'Honored One';
 
     return (
-        <div className="pb-32 space-y-8 px-4 pt-4">
-            {/* Adventure Header */}
-            <header className="flex justify-between items-end mb-6">
-                <div>
-                    <h1 className="text-3xl font-black text-[var(--color-navy)] mb-1">
-                        Hi, {firstName}!
-                    </h1>
-                    <p className="text-[var(--text-muted)] font-bold text-lg">
-                        Ready for today's adventure?
-                    </p>
-                </div>
-                {activeChild && (
-                    <div className="bg-white border-2 border-[var(--color-orange-light)] px-4 py-2 rounded-full font-bold text-[var(--color-navy)] flex items-center gap-2 shadow-sm">
-                        <Smile size={20} className="text-[var(--color-orange)]" />
-                        {activeChild.firstName}
+        <div className="pb-32 space-y-8 px-4 pt-6">
+            {/* Header - Dignified Welcome */}
+            <header className="mb-8">
+                <div className="flex justify-between items-start">
+                    <div>
+                        <h1 className="font-heading text-3xl font-bold text-[var(--deep-ebony)] mb-1">
+                            Welcome, {firstName}
+                        </h1>
+                        <p className="text-[var(--warm-stone)] font-medium">
+                            Your journey continues here.
+                        </p>
                     </div>
-                )}
+                    {activeChild && (
+                        <div className="bg-gradient-to-r from-[var(--regal-purple)] to-[var(--regal-purple-dark)] px-4 py-2 rounded-lg text-white font-medium flex items-center gap-2 shadow-md">
+                            <Heart size={16} className="text-[var(--gold-shimmer)] fill-current" />
+                            {activeChild.firstName}
+                        </div>
+                    )}
+                </div>
             </header>
 
-            {/* MAIN ACTIONS - "The Mission Types" */}
+            {/* Gold Divider */}
+            <hr className="divider-gold" />
+
+            {/* MAIN ACTIONS - Regal Cards */}
             <section>
                 <div className="grid grid-cols-2 gap-4">
-                    {/* Log = Capture Moment */}
-                    <Link to="/log" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-[var(--color-orange)] hover:border-[var(--color-orange)] active:scale-95 transition-all">
-                        <div className="w-12 h-12 rounded-2xl bg-[var(--color-orange-light)] flex items-center justify-center group-hover:rotate-12 transition-transform">
-                            <Zap className="text-[var(--color-orange)] fill-current" size={24} />
+                    {/* Log Moments */}
+                    <Link to="/log" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
+                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--gold-accent)] to-[var(--gold-shimmer)] flex items-center justify-center shadow-md">
+                            <Zap className="text-[var(--deep-ebony)]" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Capture Moment</h3>
-                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
-                                Log ABCs
+                            <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">Capture</h3>
+                            <p className="text-sm text-[var(--warm-stone)] mt-1">
+                                Document the moments.
                             </p>
                         </div>
+                        <ChevronRight size={20} className="absolute top-4 right-4 text-[var(--soft-stone)] group-hover:text-[var(--gold-accent)] transition-colors" />
                     </Link>
 
-                    {/* Chat = Ask Sidekick */}
-                    <Link to="/chat" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-purple-500 border-2 border-purple-100 hover:border-purple-500 active:scale-95 transition-all">
-                        <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center group-hover:-rotate-12 transition-transform">
-                            <MessageCircle className="text-purple-600 fill-current" size={24} />
+                    {/* Oracle */}
+                    <Link to="/chat" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
+                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--regal-purple)] to-[var(--regal-purple-dark)] flex items-center justify-center shadow-md">
+                            <MessageCircle className="text-[var(--gold-shimmer)]" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Ask Sidekick</h3>
-                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
-                                AI Strategies
+                            <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">The Oracle</h3>
+                            <p className="text-sm text-[var(--warm-stone)] mt-1">
+                                Seek wisdom.
                             </p>
                         </div>
+                        <ChevronRight size={20} className="absolute top-4 right-4 text-[var(--soft-stone)] group-hover:text-[var(--regal-purple)] transition-colors" />
                     </Link>
 
-                    {/* Supports = Safe House */}
-                    <Link to="/homeplace" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-green-500 border-2 border-green-100 hover:border-green-500 active:scale-95 transition-all">
-                        <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <Heart className="text-green-600 fill-current" size={24} />
+                    {/* Supports */}
+                    <Link to="/homeplace" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
+                        <div className="w-12 h-12 rounded-lg bg-[var(--earth-orange)] flex items-center justify-center shadow-md">
+                            <Heart className="text-white" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Safe House</h3>
-                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
-                                Tools & Spaces
+                            <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">Sanctuary</h3>
+                            <p className="text-sm text-[var(--warm-stone)] mt-1">
+                                Safe spaces & tools.
                             </p>
                         </div>
+                        <ChevronRight size={20} className="absolute top-4 right-4 text-[var(--soft-stone)] group-hover:text-[var(--earth-orange)] transition-colors" />
                     </Link>
 
-                    {/* Report = Advocacy Map */}
-                    <Link to="/bridge" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-blue-500 border-2 border-blue-100 hover:border-blue-500 active:scale-95 transition-all">
-                        <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center group-hover:translate-x-2 transition-transform">
-                            <FileText className="text-blue-600 fill-current" size={24} />
+                    {/* Report */}
+                    <Link to="/bridge" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
+                        <div className="w-12 h-12 rounded-lg bg-[var(--warrior-red)] flex items-center justify-center shadow-md">
+                            <FileText className="text-white" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Team Report</h3>
-                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
-                                Share PDF
+                            <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">Advocacy</h3>
+                            <p className="text-sm text-[var(--warm-stone)] mt-1">
+                                Share with power.
                             </p>
                         </div>
+                        <ChevronRight size={20} className="absolute top-4 right-4 text-[var(--soft-stone)] group-hover:text-[var(--warrior-red)] transition-colors" />
                     </Link>
                 </div>
             </section>
 
-            {/* Daily Quest / Insights */}
+            {/* Insight Card - Ancestral Wisdom */}
             <section>
-                <div className="flex items-center gap-2 mb-3 px-1">
-                    <Sparkles size={20} className="text-[var(--color-orange)]" />
-                    <h2 className="font-black text-xl text-[var(--color-navy)]">
-                        Daily Discovery
-                    </h2>
-                </div>
-
-                <div className="bg-white rounded-[2rem] p-6 shadow-sm border-2 border-[var(--color-orange-light)] relative overflow-hidden">
-                    {/* Blob Decor */}
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-orange-light)] rounded-full filter blur-2xl opacity-40 -translate-y-1/2 translate-x-1/2"></div>
-
-                    <div className="relative z-10">
-                        <p className="text-[var(--color-navy)] font-bold text-lg mb-2">
-                            The Adventure Begins!
-                        </p>
-                        <p className="text-[var(--text-muted)] font-medium mb-4 leading-relaxed">
-                            Every behavior communicates a need. Try logging one small thing today to start your map.
-                        </p>
-                        <Link to="/log" className="inline-flex items-center gap-2 text-[var(--color-orange)] font-black uppercase tracking-wide text-sm hover:underline">
-                            Start Tracking <ChevronRight size={16} strokeWidth={3} />
-                        </Link>
+                <div className="card-regal">
+                    <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 rounded-lg bg-[var(--parchment)] flex items-center justify-center flex-shrink-0">
+                            <Sparkles size={24} className="text-[var(--gold-accent)]" />
+                        </div>
+                        <div>
+                            <h3 className="font-heading font-bold text-lg text-[var(--deep-ebony)] mb-2">
+                                Today's Wisdom
+                            </h3>
+                            <p className="text-[var(--warm-stone)] leading-relaxed mb-4">
+                                "Behavior is the language of the unspoken need. Listen not with judgment, but with the heart of an ancestor who has seen a thousand struggles become a thousand strengths."
+                            </p>
+                            <Link to="/log" className="text-sm font-semibold text-[var(--regal-purple)] hover:text-[var(--regal-purple-light)] flex items-center gap-2 transition-colors">
+                                Begin Today's Capture <ChevronRight size={16} />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>

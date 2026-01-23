@@ -1,7 +1,7 @@
-/* Giovanna Design System - "Playful Adventure" Phase 15 */
-/* Inspired by Mightier: Gamified, rounded, and supportive */
+/* Giovanna Design System - Phase 16: Ruth E. Carter Inspired */
+/* Afrofuturist • Regal • Grounded • Ancestrally Wise */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,75 +9,93 @@
 
 :root {
   /* ============================================
-     PLAYFUL ADVENTURE PALETTE
+     RUTH E. CARTER PALETTE
      ============================================ */
 
-  /* Primary: Trust & Grounding (Deep Navy) */
-  --color-navy: #0F172A;
-  /* Slate 900 base */
-  --color-navy-light: #334155;
+  /* The Regal / Wakandan Colors */
+  --regal-purple: #4C1D95;
+  /* Royal, Ancestral Wisdom (Violet 900) */
+  --regal-purple-light: #7C3AED;
+  /* Lighter accent */
+  --regal-purple-dark: #2E1065;
+  /* Deep, rich background */
 
-  /* Action: Energy & Play (Vibrant Orange) */
-  --color-orange: #F97316;
-  --color-orange-hover: #EA580C;
-  --color-orange-light: #FFEDD5;
+  /* Warrior / Protection */
+  --warrior-red: #991B1B;
+  /* Dora Milaje Red */
+  --warrior-red-light: #DC2626;
 
-  /* Supports: Soft, friendly pastels */
-  --color-cream: #FFF7ED;
-  /* Main background */
-  --color-mint: #F0FDF4;
-  /* Success/Calm */
-  --color-sky: #F0F9FF;
-  /* Information/Air */
-  --color-rose: #FFF1F2;
-  /* Love/Care */
-  --color-lavender: #F5F3FF;
-  /* Magic/AI */
+  /* Earth / Vitality (Mining Tribe) */
+  --earth-orange: #C2410C;
+  /* Deep, burnt orange */
+  --earth-orange-light: #F97316;
 
-  /* Text Colors */
-  --text-main: var(--color-navy);
-  --text-muted: #64748B;
-  --text-inverse: #FFFFFF;
+  /* Metallic / Precious */
+  --gold-accent: #D97706;
+  /* Metallic Gold */
+  --gold-shimmer: #FBBF24;
+  /* Bright Gold Highlight */
 
-  /* Typography - Rounded & Friendly */
-  --font-heading: 'Quicksand', sans-serif;
-  /* Super rounded headers */
-  --font-body: 'Nunito', sans-serif;
-  /* Readable but soft body */
+  /* Grounded Neutrals (Malcolm X Suits + Sinners) */
+  --deep-ebony: #1C1917;
+  /* Stone 900 - Main dark */
+  --charcoal: #292524;
+  /* Stone 800 */
+  --warm-stone: #57534E;
+  /* Stone 600 */
+  --soft-stone: #A8A29E;
+  /* Stone 400 */
+  --ivory-cream: #FAFAF9;
+  /* Stone 50 - Light bg */
+  --parchment: #F5F5F4;
+  /* Stone 100 */
 
-  /* Spacing & Shapes - The "Blob" Influence */
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', serif;
+  /* Regal, dignified serif */
+  --font-body: 'DM Sans', sans-serif;
+  /* Clean, modern sans */
+
+  /* Spacing & Shapes */
+  --radius-sm: 8px;
   --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-xl: 32px;
-  /* Super rounded cards */
-  --radius-blob: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  /* Organic shape example */
+  --radius-lg: 16px;
+  --radius-xl: 24px;
 
-  /* Shadows - Soft & Lifted */
-  --shadow-card: 0 4px 0px rgba(15, 23, 42, 0.05);
-  /* Flat-ish shadow */
-  --shadow-button: 0 4px 0px rgba(15, 23, 42, 0.15);
-  /* 3D pressable feel */
-  --shadow-button-hover: 0 6px 0px rgba(15, 23, 42, 0.15);
-  --shadow-button-active: 0 0px 0px rgba(15, 23, 42, 0.15);
+  /* Shadows - Layered, textured depth */
+  --shadow-elevated: 0 4px 20px rgba(28, 25, 23, 0.15);
+  --shadow-gold: 0 4px 12px rgba(217, 119, 6, 0.25);
+  --shadow-purple: 0 4px 12px rgba(76, 29, 149, 0.3);
 
-  --transition-bounce: 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
-  /* Bouncy interaction */
+  /* Texture - Subtle noise for "lived-in" feel */
+  --texture-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 }
 
 /* ============================================
-   BASE STYLES
+   BASE STYLES - GROUNDED FOUNDATION
    ============================================ */
 
 body {
   margin: 0;
   font-family: var(--font-body);
-  background-color: var(--color-cream);
-  color: var(--text-main);
-  background-image: radial-gradient(var(--color-orange-light) 1px, transparent 1px);
-  background-size: 40px 40px;
-  /* Subtle polka dot grid */
+  background-color: var(--ivory-cream);
+  color: var(--deep-ebony);
   min-height: 100vh;
+  /* Subtle grain texture for "lived-in" feel */
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--texture-grain);
+  opacity: 0.02;
+  pointer-events: none;
+  z-index: 1000;
 }
 
 h1,
@@ -87,18 +105,19 @@ h4,
 h5,
 h6 {
   font-family: var(--font-heading);
-  font-weight: 700;
-  color: var(--color-navy);
-  letter-spacing: -0.02em;
+  font-weight: 600;
+  color: var(--deep-ebony);
+  letter-spacing: 0.01em;
 }
 
 h1 {
-  font-size: 2.75rem;
-  line-height: 1.1;
+  font-size: 2.5rem;
+  line-height: 1.15;
+  font-weight: 700;
 }
 
 h2 {
-  font-size: 2.25rem;
+  font-size: 2rem;
 }
 
 h3 {
@@ -106,126 +125,172 @@ h3 {
 }
 
 /* ============================================
-   GAMIFIED COMPONENTS
+   REGAL COMPONENTS
    ============================================ */
 
-/* Super Rounded Cards */
-.card {
+/* Dignified Cards */
+.card-regal {
   background: white;
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   padding: 1.5rem;
-  border: 2px solid var(--color-orange-light);
-  box-shadow: var(--shadow-card);
-  transition: transform var(--transition-bounce);
+  border: 1px solid var(--parchment);
+  box-shadow: var(--shadow-elevated);
+  position: relative;
+  overflow: hidden;
 }
 
-.card:hover {
-  transform: translateY(-4px) rotate(1deg);
-  /* Playful tilt */
-  border-color: var(--color-orange);
+.card-regal::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--regal-purple), var(--gold-accent));
 }
 
-/* 3D "Pressable" Buttons */
-.btn {
+/* Gold-Bordered Input - The Oracle's Voice */
+.input-oracle {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--soft-stone);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background: white;
+  transition: all 0.2s ease;
+}
+
+.input-oracle:focus {
+  outline: none;
+  border-color: var(--gold-accent);
+  box-shadow: var(--shadow-gold);
+}
+
+/* Regal Button */
+.btn-regal {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.8rem 1.75rem;
-  font-weight: 800;
-  border-radius: 9999px;
-  /* Pill shape */
-  transition: all 0.15s ease;
+  padding: 0.875rem 1.5rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
   cursor: pointer;
   border: none;
-  font-family: var(--font-heading);
-  text-transform: uppercase;
+  font-family: var(--font-body);
   font-size: 0.95rem;
-  letter-spacing: 0.05em;
-  position: relative;
-  top: 0;
 }
 
-.btn-primary {
-  background-color: var(--color-orange);
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold-accent), var(--gold-shimmer));
+  color: var(--deep-ebony);
+  box-shadow: var(--shadow-gold);
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35);
+}
+
+.btn-purple {
+  background: linear-gradient(135deg, var(--regal-purple), var(--regal-purple-light));
   color: white;
-  box-shadow: 0 5px 0px #C2410C;
-  /* Darker orange shadow for 3D effect */
+  box-shadow: var(--shadow-purple);
 }
 
-.btn-primary:hover {
-  background-color: var(--color-orange-hover);
+.btn-purple:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 0px #C2410C;
+  box-shadow: 0 6px 20px rgba(76, 29, 149, 0.4);
 }
 
-.btn-primary:active {
-  transform: translateY(3px);
-  box-shadow: 0 2px 0px #C2410C;
+/* Message Bubbles - The Oracle's Wisdom */
+.bubble-user {
+  background: var(--deep-ebony);
+  color: var(--ivory-cream);
+  border-radius: var(--radius-lg) var(--radius-lg) 4px var(--radius-lg);
+  padding: 1rem 1.25rem;
+  border-left: 3px solid var(--gold-accent);
 }
 
-.btn-secondary {
-  background-color: white;
-  color: var(--color-navy);
-  border: 2px solid var(--color-navy-light);
-  box-shadow: 0 4px 0px var(--color-navy-light);
+.bubble-oracle {
+  background: linear-gradient(135deg, var(--regal-purple-dark), var(--regal-purple));
+  color: white;
+  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 4px;
+  padding: 1rem 1.25rem;
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-secondary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0px var(--color-navy-light);
-}
-
-.btn-secondary:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px 0px var(--color-navy-light);
-}
-
-/* Badge / Sticker Styles */
-.badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.25rem 0.75rem;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.85rem;
-  font-family: var(--font-heading);
-}
-
-.badge-orange {
-  background: var(--color-orange-light);
-  color: var(--color-orange-hover);
-}
-
-.badge-blue {
-  background: var(--color-sky);
-  color: #0284C7;
-}
-
-.badge-green {
-  background: var(--color-mint);
-  color: #16A34A;
-}
-
-/* Blob Shapes for Backgrounds */
-.blob-shape {
+/* Subtle geometric pattern overlay for Oracle bubble */
+.bubble-oracle::before {
+  content: '';
   position: absolute;
-  z-index: 0;
-  opacity: 0.5;
-  filter: blur(40px);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0L20 10L10 20L0 10L10 0z' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
 }
 
-/* Navigation Blur - Keeping it but warmer */
-.nav-glass {
-  background: rgba(255, 247, 237, 0.9);
-  /* Warm cream glass */
+/* Navigation - Grounded Glass */
+.nav-regal {
+  background: rgba(250, 250, 249, 0.95);
   backdrop-filter: blur(12px);
-  border-bottom: 2px solid var(--color-orange-light);
+  border-bottom: 1px solid var(--parchment);
 }
 
-/* Helper for gradient text */
-.text-adventure {
-  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-orange) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Okavango Triangle Accent (SVG as pseudo-element) */
+.okavango-accent {
+  position: relative;
+}
+
+.okavango-accent::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2L22 20H2L12 2z' fill='%23D97706' fill-opacity='0.2'/%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+/* Gold Divider */
+.divider-gold {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
+  border: none;
+  margin: 2rem 0;
+}
+
+/* Loading Animation - Ancestral Pulse */
+@keyframes ancestral-pulse {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.loading-oracle span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: var(--gold-accent);
+  border-radius: 50%;
+  animation: ancestral-pulse 1.2s ease-in-out infinite;
+}
+
+.loading-oracle span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.loading-oracle span:nth-child(3) {
+  animation-delay: 0.4s;
 }
