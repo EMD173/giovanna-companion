@@ -2,10 +2,10 @@
  * Landing Page - Ruth E. Carter Inspired
  * 
  * Regal, powerful, ancestrally grounded.
- * The gateway to the Giovanna journey.
+ * Now with premium Afrofuturist custom icons.
  */
 
-import { ArrowRight, Shield, Star, Zap, MessageCircle, Sparkles } from 'lucide-react';
+import { ArrowRight, Star, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function LandingPage() {
@@ -34,8 +34,8 @@ export function LandingPage() {
 
                     {/* Subheadline */}
                     <p className="text-xl text-[var(--warm-stone)] max-w-2xl mx-auto mb-10 leading-relaxed">
-                        A neuro-affirming companion rooted in ancestral wisdom and modern research.
-                        Document moments, unlock strategies, and advocate with power.
+                        A neuro-affirming companion that understands your journey.
+                        Culturally-responsive strategies, advocacy tools, and a community that truly gets it.
                     </p>
 
                     {/* CTAs */}
@@ -57,7 +57,7 @@ export function LandingPage() {
             {/* Gold Divider */}
             <hr className="divider-gold max-w-xl mx-auto" />
 
-            {/* Feature Cards */}
+            {/* Feature Cards with Premium Icons */}
             <section className="py-20 px-4">
                 <div className="max-w-5xl mx-auto">
                     <div className="text-center mb-16">
@@ -70,44 +70,50 @@ export function LandingPage() {
                     </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
-                        {/* Card 1 */}
-                        <div className="card-regal group">
-                            <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-[var(--gold-accent)] to-[var(--gold-shimmer)] flex items-center justify-center mb-6 shadow-md">
-                                <Zap size={28} className="text-[var(--deep-ebony)]" />
-                            </div>
+                        {/* Card 1 - Capture */}
+                        <div className="card-regal group text-center">
+                            <img
+                                src="/icons/capture.png"
+                                alt="Capture Moments"
+                                className="w-24 h-24 mx-auto mb-6 rounded-2xl shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all"
+                            />
                             <h3 className="font-heading text-2xl font-bold mb-3 text-[var(--deep-ebony)]">Capture Moments</h3>
                             <p className="text-[var(--warm-stone)] leading-relaxed mb-6">
                                 Document behaviors with intention. Our ABC framework transforms scattered notes into revealing patterns.
                             </p>
-                            <Link to="/log" className="font-semibold text-[var(--regal-purple)] flex items-center gap-2 hover:gap-3 transition-all">
+                            <Link to="/log" className="font-semibold text-[var(--regal-purple)] flex items-center gap-2 justify-center hover:gap-3 transition-all">
                                 Start Capturing <ArrowRight size={18} />
                             </Link>
                         </div>
 
-                        {/* Card 2 */}
-                        <div className="card-regal group">
-                            <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-[var(--regal-purple)] to-[var(--regal-purple-dark)] flex items-center justify-center mb-6 shadow-md">
-                                <MessageCircle size={28} className="text-[var(--gold-shimmer)]" />
-                            </div>
+                        {/* Card 2 - Oracle */}
+                        <div className="card-regal group text-center">
+                            <img
+                                src="/icons/oracle.png"
+                                alt="The Oracle"
+                                className="w-24 h-24 mx-auto mb-6 rounded-2xl shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all"
+                            />
                             <h3 className="font-heading text-2xl font-bold mb-3 text-[var(--deep-ebony)]">Consult The Oracle</h3>
                             <p className="text-[var(--warm-stone)] leading-relaxed mb-6">
                                 Receive neuro-affirming strategies in the moment. AI wisdom grounded in research and respect.
                             </p>
-                            <Link to="/chat" className="font-semibold text-[var(--regal-purple)] flex items-center gap-2 hover:gap-3 transition-all">
+                            <Link to="/chat" className="font-semibold text-[var(--regal-purple)] flex items-center gap-2 justify-center hover:gap-3 transition-all">
                                 Seek Wisdom <ArrowRight size={18} />
                             </Link>
                         </div>
 
-                        {/* Card 3 */}
-                        <div className="card-regal group">
-                            <div className="w-14 h-14 rounded-lg bg-[var(--warrior-red)] flex items-center justify-center mb-6 shadow-md">
-                                <Shield size={28} className="text-white" />
-                            </div>
+                        {/* Card 3 - Advocacy */}
+                        <div className="card-regal group text-center">
+                            <img
+                                src="/icons/advocacy.png"
+                                alt="Advocacy"
+                                className="w-24 h-24 mx-auto mb-6 rounded-2xl shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all"
+                            />
                             <h3 className="font-heading text-2xl font-bold mb-3 text-[var(--deep-ebony)]">Advocate with Power</h3>
                             <p className="text-[var(--warm-stone)] leading-relaxed mb-6">
                                 Generate professional reports for schools and providers. Your data becomes your shield.
                             </p>
-                            <Link to="/bridge" className="font-semibold text-[var(--regal-purple)] flex items-center gap-2 hover:gap-3 transition-all">
+                            <Link to="/bridge" className="font-semibold text-[var(--regal-purple)] flex items-center gap-2 justify-center hover:gap-3 transition-all">
                                 Create Report <ArrowRight size={18} />
                             </Link>
                         </div>

@@ -2,14 +2,11 @@
  * Dashboard - The Journey Hub
  * 
  * Ruth E. Carter-inspired command center.
- * Regal, powerful, ancestrally grounded.
+ * Now with premium Afrofuturist custom icons.
  */
 
 import { Link } from 'react-router-dom';
-import {
-    Zap, MessageCircle, FileText, Heart,
-    ChevronRight, Sparkles
-} from 'lucide-react';
+import { ChevronRight, Sparkles } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useFamily } from '../contexts/FamilyContext';
 
@@ -34,7 +31,7 @@ export function Dashboard() {
                     </div>
                     {activeChild && (
                         <div className="bg-gradient-to-r from-[var(--regal-purple)] to-[var(--regal-purple-dark)] px-4 py-2 rounded-lg text-white font-medium flex items-center gap-2 shadow-md">
-                            <Heart size={16} className="text-[var(--gold-shimmer)] fill-current" />
+                            <Sparkles size={16} className="text-[var(--gold-shimmer)]" />
                             {activeChild.firstName}
                         </div>
                     )}
@@ -44,14 +41,16 @@ export function Dashboard() {
             {/* Gold Divider */}
             <hr className="divider-gold" />
 
-            {/* MAIN ACTIONS - Regal Cards */}
+            {/* MAIN ACTIONS - Premium Icon Cards */}
             <section>
                 <div className="grid grid-cols-2 gap-4">
-                    {/* Log Moments */}
-                    <Link to="/log" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
-                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--gold-accent)] to-[var(--gold-shimmer)] flex items-center justify-center shadow-md">
-                            <Zap className="text-[var(--deep-ebony)]" size={24} />
-                        </div>
+                    {/* Capture Moments */}
+                    <Link to="/log" className="card-regal group hover:shadow-xl transition-all p-5 h-52 flex flex-col justify-between relative overflow-hidden">
+                        <img
+                            src="/icons/capture.png"
+                            alt="Capture"
+                            className="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 transition-transform"
+                        />
                         <div>
                             <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">Capture</h3>
                             <p className="text-sm text-[var(--warm-stone)] mt-1">
@@ -62,10 +61,12 @@ export function Dashboard() {
                     </Link>
 
                     {/* Oracle */}
-                    <Link to="/chat" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
-                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[var(--regal-purple)] to-[var(--regal-purple-dark)] flex items-center justify-center shadow-md">
-                            <MessageCircle className="text-[var(--gold-shimmer)]" size={24} />
-                        </div>
+                    <Link to="/chat" className="card-regal group hover:shadow-xl transition-all p-5 h-52 flex flex-col justify-between relative overflow-hidden">
+                        <img
+                            src="/icons/oracle.png"
+                            alt="The Oracle"
+                            className="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 transition-transform"
+                        />
                         <div>
                             <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">The Oracle</h3>
                             <p className="text-sm text-[var(--warm-stone)] mt-1">
@@ -75,11 +76,13 @@ export function Dashboard() {
                         <ChevronRight size={20} className="absolute top-4 right-4 text-[var(--soft-stone)] group-hover:text-[var(--regal-purple)] transition-colors" />
                     </Link>
 
-                    {/* Supports */}
-                    <Link to="/homeplace" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
-                        <div className="w-12 h-12 rounded-lg bg-[var(--earth-orange)] flex items-center justify-center shadow-md">
-                            <Heart className="text-white" size={24} />
-                        </div>
+                    {/* Sanctuary */}
+                    <Link to="/homeplace" className="card-regal group hover:shadow-xl transition-all p-5 h-52 flex flex-col justify-between relative overflow-hidden">
+                        <img
+                            src="/icons/sanctuary.png"
+                            alt="Sanctuary"
+                            className="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 transition-transform"
+                        />
                         <div>
                             <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">Sanctuary</h3>
                             <p className="text-sm text-[var(--warm-stone)] mt-1">
@@ -89,11 +92,13 @@ export function Dashboard() {
                         <ChevronRight size={20} className="absolute top-4 right-4 text-[var(--soft-stone)] group-hover:text-[var(--earth-orange)] transition-colors" />
                     </Link>
 
-                    {/* Report */}
-                    <Link to="/bridge" className="card-regal group hover:shadow-lg transition-all p-5 h-44 flex flex-col justify-between">
-                        <div className="w-12 h-12 rounded-lg bg-[var(--warrior-red)] flex items-center justify-center shadow-md">
-                            <FileText className="text-white" size={24} />
-                        </div>
+                    {/* Advocacy */}
+                    <Link to="/bridge" className="card-regal group hover:shadow-xl transition-all p-5 h-52 flex flex-col justify-between relative overflow-hidden">
+                        <img
+                            src="/icons/advocacy.png"
+                            alt="Advocacy"
+                            className="w-16 h-16 rounded-xl shadow-lg group-hover:scale-110 transition-transform"
+                        />
                         <div>
                             <h3 className="font-heading font-bold text-xl text-[var(--deep-ebony)]">Advocacy</h3>
                             <p className="text-sm text-[var(--warm-stone)] mt-1">
@@ -117,7 +122,7 @@ export function Dashboard() {
                                 Today's Wisdom
                             </h3>
                             <p className="text-[var(--warm-stone)] leading-relaxed mb-4">
-                                "Behavior is the language of the unspoken need. Listen not with judgment, but with the heart of an ancestor who has seen a thousand struggles become a thousand strengths."
+                                "You are not fighting twice as hard because you are failing. You are fighting twice as hard because the system was not built for you. Your advocacy is ancestral power in action."
                             </p>
                             <Link to="/log" className="text-sm font-semibold text-[var(--regal-purple)] hover:text-[var(--regal-purple-light)] flex items-center gap-2 transition-colors">
                                 Begin Today's Capture <ChevronRight size={16} />
