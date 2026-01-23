@@ -5,6 +5,7 @@ import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import { FamilyProvider } from './contexts/FamilyContext';
 import { Layout } from './components/Layout';
 import { LandingPage } from './pages/LandingPage';
+import { Dashboard } from './pages/Dashboard';
 import { Signup } from './pages/Signup';
 import { Onboarding } from './pages/Onboarding';
 
@@ -36,6 +37,7 @@ function App() {
                 {/* App routes with Layout */}
                 <Route path="/" element={<Layout />}>
                   <Route index element={<LandingPage />} />
+                  <Route path="dashboard" element={<Dashboard />} />
                   <Route path="learn" element={<LearningHub />} />
                   <Route path="log" element={<ABCLogPage />} />
                   <Route path="strategies" element={<StrategiesPage />} />
