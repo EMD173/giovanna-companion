@@ -1,7 +1,7 @@
-/* Giovanna App Design System - Warm & Tactile (Restored) */
-/* Modern App-Like Layout + Warm "Homeplace" Aesthetics */
+/* Giovanna Design System - "Playful Adventure" Phase 15 */
+/* Inspired by Mightier: Gamified, rounded, and supportive */
 
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,62 +9,60 @@
 
 :root {
   /* ============================================
-     WARM BRAND PALETTE (Restored)
+     PLAYFUL ADVENTURE PALETTE
      ============================================ */
-  --giovanna-terracotta: #C1412B;
-  --giovanna-terracotta-light: #E68A7A;
-  --giovanna-terracotta-dark: #852B1C;
 
-  --giovanna-golden: #E5B83A;
-  --giovanna-golden-light: #F5D24F;
-  --giovanna-golden-dark: #A67D19;
+  /* Primary: Trust & Grounding (Deep Navy) */
+  --color-navy: #0F172A;
+  /* Slate 900 base */
+  --color-navy-light: #334155;
 
-  --giovanna-forest: #3D8B40;
-  --giovanna-forest-light: #5CB860;
-  --giovanna-forest-dark: #2D682F;
+  /* Action: Energy & Play (Vibrant Orange) */
+  --color-orange: #F97316;
+  --color-orange-hover: #EA580C;
+  --color-orange-light: #FFEDD5;
 
-  --giovanna-ocean: #2B5AA3;
-  --giovanna-ocean-light: #42A5F5;
-  --giovanna-ocean-dark: #1F4075;
+  /* Supports: Soft, friendly pastels */
+  --color-cream: #FFF7ED;
+  /* Main background */
+  --color-mint: #F0FDF4;
+  /* Success/Calm */
+  --color-sky: #F0F9FF;
+  /* Information/Air */
+  --color-rose: #FFF1F2;
+  /* Love/Care */
+  --color-lavender: #F5F3FF;
+  /* Magic/AI */
 
-  /* Warm Neutrals (App Backgrounds) */
-  --giovanna-warmth-50: #FDFBF7;
-  --giovanna-warmth-100: #F8F4ED;
-  --giovanna-warmth-200: #F0E8DA;
-  --giovanna-warmth-300: #E5D8C3;
-  --giovanna-warmth-400: #D4C4A8;
-  --giovanna-warmth-600: #9A8468;
-  --giovanna-warmth-700: #7C6850;
-  --giovanna-warmth-900: #403020;
+  /* Text Colors */
+  --text-main: var(--color-navy);
+  --text-muted: #64748B;
+  --text-inverse: #FFFFFF;
 
-  /* Mappings for Modern Components (Bridging the gap) */
-  --color-primary: var(--giovanna-terracotta);
-  --color-secondary: var(--giovanna-forest);
-  --color-accent: var(--giovanna-golden);
-  --color-background: var(--giovanna-warmth-50);
-  --color-text-main: var(--giovanna-warmth-900);
-  --color-text-muted: var(--giovanna-warmth-700);
-
-  /* Typography */
-  --font-display: 'Caveat', cursive;
+  /* Typography - Rounded & Friendly */
+  --font-heading: 'Quicksand', sans-serif;
+  /* Super rounded headers */
   --font-body: 'Nunito', sans-serif;
-  --font-ui: 'Inter', sans-serif;
-  /* For dense UI elements like inputs */
+  /* Readable but soft body */
 
-  /* Modern App Spacing & Radii */
-  --radius-sm: 8px;
+  /* Spacing & Shapes - The "Blob" Influence */
   --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 24px;
-  --radius-full: 9999px;
+  --radius-lg: 20px;
+  --radius-xl: 32px;
+  /* Super rounded cards */
+  --radius-blob: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  /* Organic shape example */
 
-  /* Warm Shadows */
-  --shadow-card: 0 4px 12px rgba(64, 48, 32, 0.08);
-  --shadow-hover: 0 8px 24px rgba(64, 48, 32, 0.12);
-  --shadow-glow: 0 0 20px rgba(229, 184, 58, 0.25);
+  /* Shadows - Soft & Lifted */
+  --shadow-card: 0 4px 0px rgba(15, 23, 42, 0.05);
+  /* Flat-ish shadow */
+  --shadow-button: 0 4px 0px rgba(15, 23, 42, 0.15);
+  /* 3D pressable feel */
+  --shadow-button-hover: 0 6px 0px rgba(15, 23, 42, 0.15);
+  --shadow-button-active: 0 0px 0px rgba(15, 23, 42, 0.15);
 
-  /* Animations */
-  --transition-base: 200ms ease;
+  --transition-bounce: 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Bouncy interaction */
 }
 
 /* ============================================
@@ -74,29 +72,33 @@
 body {
   margin: 0;
   font-family: var(--font-body);
-  background-color: var(--giovanna-warmth-100);
-  color: var(--color-text-main);
-  /* Slight texture for tactile feel */
-  background-image:
-    linear-gradient(180deg, var(--giovanna-warmth-50) 0%, var(--giovanna-warmth-100) 100%);
+  background-color: var(--color-cream);
+  color: var(--text-main);
+  background-image: radial-gradient(var(--color-orange-light) 1px, transparent 1px);
+  background-size: 40px 40px;
+  /* Subtle polka dot grid */
   min-height: 100vh;
 }
 
 h1,
 h2,
 h3,
-h4 {
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
   font-weight: 700;
-  color: var(--giovanna-warmth-900);
-  line-height: 1.2;
+  color: var(--color-navy);
+  letter-spacing: -0.02em;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.75rem;
+  line-height: 1.1;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 2.25rem;
 }
 
 h3 {
@@ -104,107 +106,126 @@ h3 {
 }
 
 /* ============================================
-   APP COMPONENT CLASSES
+   GAMIFIED COMPONENTS
    ============================================ */
 
-/* Cards that feel like paper/cards */
+/* Super Rounded Cards */
 .card {
   background: white;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-xl);
   padding: 1.5rem;
-  border: 1px solid var(--giovanna-warmth-200);
-  transition: transform var(--transition-base), box-shadow var(--transition-base);
+  border: 2px solid var(--color-orange-light);
+  box-shadow: var(--shadow-card);
+  transition: transform var(--transition-bounce);
 }
 
 .card:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
+  transform: translateY(-4px) rotate(1deg);
+  /* Playful tilt */
+  border-color: var(--color-orange);
 }
 
-.card-warm {
-  background: linear-gradient(135deg, #FDFBF7 0%, #F8F4ED 100%);
-  border: 1px solid rgba(184, 160, 128, 0.25);
-}
-
-/* Buttons - Tactile & Clickable */
+/* 3D "Pressable" Buttons */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.75rem 1.5rem;
-  font-weight: 700;
-  border-radius: var(--radius-md);
-  transition: all 0.2s;
+  padding: 0.8rem 1.75rem;
+  font-weight: 800;
+  border-radius: 9999px;
+  /* Pill shape */
+  transition: all 0.15s ease;
   cursor: pointer;
   border: none;
-  font-family: var(--font-ui);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  letter-spacing: 0.05em;
+  position: relative;
+  top: 0;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--giovanna-terracotta) 0%, #D65A47 100%);
+  background-color: var(--color-orange);
   color: white;
-  box-shadow: 0 4px 14px rgba(193, 65, 43, 0.35);
+  box-shadow: 0 5px 0px #C2410C;
+  /* Darker orange shadow for 3D effect */
 }
 
 .btn-primary:hover {
+  background-color: var(--color-orange-hover);
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(193, 65, 43, 0.45);
+  box-shadow: 0 7px 0px #C2410C;
+}
+
+.btn-primary:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0px #C2410C;
 }
 
 .btn-secondary {
-  background: white;
-  border: 2px solid var(--giovanna-warmth-300);
-  color: var(--giovanna-warmth-900);
+  background-color: white;
+  color: var(--color-navy);
+  border: 2px solid var(--color-navy-light);
+  box-shadow: 0 4px 0px var(--color-navy-light);
 }
 
 .btn-secondary:hover {
-  border-color: var(--giovanna-terracotta);
-  color: var(--giovanna-terracotta);
-  background: var(--giovanna-warmth-50);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0px var(--color-navy-light);
 }
 
-/* Inputs */
-.input-giovanna {
-  background: white;
-  border: 2px solid var(--giovanna-warmth-300);
-  border-radius: var(--radius-md);
-  padding: 0.75rem 1rem;
-  width: 100%;
-  font-family: var(--font-ui);
-  transition: all 0.2s;
+.btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0px var(--color-navy-light);
 }
 
-.input-giovanna:focus {
-  outline: none;
-  border-color: var(--giovanna-golden);
-  box-shadow: 0 0 0 4px rgba(229, 184, 58, 0.15);
+/* Badge / Sticker Styles */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  font-family: var(--font-heading);
 }
 
-/* Utiltity Gradients */
-.gradient-text {
-  background: linear-gradient(135deg, var(--giovanna-terracotta) 0%, #D65A47 100%);
+.badge-orange {
+  background: var(--color-orange-light);
+  color: var(--color-orange-hover);
+}
+
+.badge-blue {
+  background: var(--color-sky);
+  color: #0284C7;
+}
+
+.badge-green {
+  background: var(--color-mint);
+  color: #16A34A;
+}
+
+/* Blob Shapes for Backgrounds */
+.blob-shape {
+  position: absolute;
+  z-index: 0;
+  opacity: 0.5;
+  filter: blur(40px);
+}
+
+/* Navigation Blur - Keeping it but warmer */
+.nav-glass {
+  background: rgba(255, 247, 237, 0.9);
+  /* Warm cream glass */
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid var(--color-orange-light);
+}
+
+/* Helper for gradient text */
+.text-adventure {
+  background: linear-gradient(135deg, var(--color-navy) 0%, var(--color-orange) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
-
-.nav-blur {
-  background: rgba(253, 251, 247, 0.9);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--giovanna-warmth-300);
-}
-
-/* Mobile Bottom Navigation style shim */
-.mobile-nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  color: var(--giovanna-warmth-600);
-}
-
-.mobile-nav-item.active {
-  color: var(--giovanna-terracotta);
 }

@@ -1,15 +1,14 @@
 /**
- * Main Dashboard - "Command Center"
+ * Adventure Hub Dashboard
  * 
- * The central hub of the application.
- * Designed to feel like an App, not a webpage.
- * Focus: Quick Action Inputs + AI Process/Output Loop.
+ * The central player base. 
+ * Gamified "Power Up" cards for quick actions.
  */
 
 import { Link } from 'react-router-dom';
 import {
     Zap, MessageCircle, FileText, Heart,
-    ChevronRight, Sparkles, Activity, Calendar
+    ChevronRight, Sparkles, Map, Smile
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useFamily } from '../contexts/FamilyContext';
@@ -18,144 +17,109 @@ export function Dashboard() {
     const { user } = useAuth();
     const { activeChild } = useFamily();
 
-    const firstName = user?.displayName ? user.displayName.split(' ')[0] : 'Parent';
+    const firstName = user?.displayName ? user.displayName.split(' ')[0] : 'Captain';
 
     return (
-        <div className="pb-24 space-y-8">
-            {/* Header / Welcome */}
-            <header className="flex justify-between items-center px-2">
+        <div className="pb-32 space-y-8 px-4 pt-4">
+            {/* Adventure Header */}
+            <header className="flex justify-between items-end mb-6">
                 <div>
-                    <h1 className="text-3xl font-display font-bold text-[var(--giovanna-warmth-900)]">
-                        Hi, {firstName}
+                    <h1 className="text-3xl font-black text-[var(--color-navy)] mb-1">
+                        Hi, {firstName}!
                     </h1>
-                    <p className="text-[var(--giovanna-warmth-700)]">
-                        Command Center
+                    <p className="text-[var(--text-muted)] font-bold text-lg">
+                        Ready for today's adventure?
                     </p>
                 </div>
                 {activeChild && (
-                    <div className="bg-[var(--giovanna-warmth-200)] px-3 py-1 rounded-full text-sm font-bold text-[var(--giovanna-warmth-800)] flex items-center gap-2">
-                        <Heart size={14} className="text-[var(--giovanna-terracotta)] fill-current" />
+                    <div className="bg-white border-2 border-[var(--color-orange-light)] px-4 py-2 rounded-full font-bold text-[var(--color-navy)] flex items-center gap-2 shadow-sm">
+                        <Smile size={20} className="text-[var(--color-orange)]" />
                         {activeChild.firstName}
                     </div>
                 )}
             </header>
 
-            {/* QUICK ACTIONS GRID - The "Click this to do that" input center */}
+            {/* MAIN ACTIONS - "The Mission Types" */}
             <section>
-                <div className="flex items-center justify-between mb-4 px-2">
-                    <h2 className="font-bold text-xl text-[var(--giovanna-warmth-900)]">Quick Actions</h2>
-                </div>
-
                 <div className="grid grid-cols-2 gap-4">
-                    {/* Log ABC */}
-                    <Link to="/log" className="card-warm relative group hover:scale-[1.02] active:scale-95 transition-all p-5 h-40 flex flex-col justify-between border-l-4 border-l-[var(--giovanna-golden)]">
-                        <div className="bg-white/50 w-10 h-10 rounded-xl flex items-center justify-center">
-                            <Zap className="text-[var(--giovanna-golden-dark)]" size={24} />
+                    {/* Log = Capture Moment */}
+                    <Link to="/log" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-[var(--color-orange)] hover:border-[var(--color-orange)] active:scale-95 transition-all">
+                        <div className="w-12 h-12 rounded-2xl bg-[var(--color-orange-light)] flex items-center justify-center group-hover:rotate-12 transition-transform">
+                            <Zap className="text-[var(--color-orange)] fill-current" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-bold text-lg text-[var(--giovanna-warmth-900)]">Log Behavior</h3>
-                            <p className="text-xs text-[var(--giovanna-warmth-700)] leading-tight mt-1">
-                                Track what you see.
+                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Capture Moment</h3>
+                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
+                                Log ABCs
                             </p>
-                        </div>
-                        <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-100 transition-opacity">
-                            <ChevronRight size={20} />
                         </div>
                     </Link>
 
-                    {/* Ask AI */}
-                    <Link to="/chat" className="card-warm relative group hover:scale-[1.02] active:scale-95 transition-all p-5 h-40 flex flex-col justify-between border-l-4 border-l-[var(--giovanna-terracotta)]">
-                        <div className="bg-white/50 w-10 h-10 rounded-xl flex items-center justify-center">
-                            <MessageCircle className="text-[var(--giovanna-terracotta)]" size={24} />
+                    {/* Chat = Ask Sidekick */}
+                    <Link to="/chat" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-purple-500 border-2 border-purple-100 hover:border-purple-500 active:scale-95 transition-all">
+                        <div className="w-12 h-12 rounded-2xl bg-purple-100 flex items-center justify-center group-hover:-rotate-12 transition-transform">
+                            <MessageCircle className="text-purple-600 fill-current" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-bold text-lg text-[var(--giovanna-warmth-900)]">Ask AI</h3>
-                            <p className="text-xs text-[var(--giovanna-warmth-700)] leading-tight mt-1">
-                                Get strategies now.
+                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Ask Sidekick</h3>
+                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
+                                AI Strategies
                             </p>
-                        </div>
-                        <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-100 transition-opacity">
-                            <ChevronRight size={20} />
                         </div>
                     </Link>
 
-                    {/* Homeplace Supports */}
-                    <Link to="/homeplace" className="card-warm relative group hover:scale-[1.02] active:scale-95 transition-all p-5 h-40 flex flex-col justify-between border-l-4 border-l-[var(--giovanna-forest)]">
-                        <div className="bg-white/50 w-10 h-10 rounded-xl flex items-center justify-center">
-                            <Activity className="text-[var(--giovanna-forest)]" size={24} />
+                    {/* Supports = Safe House */}
+                    <Link to="/homeplace" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-green-500 border-2 border-green-100 hover:border-green-500 active:scale-95 transition-all">
+                        <div className="w-12 h-12 rounded-2xl bg-green-100 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Heart className="text-green-600 fill-current" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-bold text-lg text-[var(--giovanna-warmth-900)]">Supports</h3>
-                            <p className="text-xs text-[var(--giovanna-warmth-700)] leading-tight mt-1">
-                                Calming tools & safe spaces.
+                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Safe House</h3>
+                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
+                                Tools & Spaces
                             </p>
-                        </div>
-                        <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-100 transition-opacity">
-                            <ChevronRight size={20} />
                         </div>
                     </Link>
 
-                    {/* Share Packet */}
-                    <Link to="/bridge" className="card-warm relative group hover:scale-[1.02] active:scale-95 transition-all p-5 h-40 flex flex-col justify-between border-l-4 border-l-[var(--giovanna-ocean)]">
-                        <div className="bg-white/50 w-10 h-10 rounded-xl flex items-center justify-center">
-                            <FileText className="text-[var(--giovanna-ocean)]" size={24} />
+                    {/* Report = Advocacy Map */}
+                    <Link to="/bridge" className="card group p-5 h-44 flex flex-col justify-between border-b-8 border-b-blue-500 border-2 border-blue-100 hover:border-blue-500 active:scale-95 transition-all">
+                        <div className="w-12 h-12 rounded-2xl bg-blue-100 flex items-center justify-center group-hover:translate-x-2 transition-transform">
+                            <FileText className="text-blue-600 fill-current" size={24} />
                         </div>
                         <div>
-                            <h3 className="font-bold text-lg text-[var(--giovanna-warmth-900)]">PDF Report</h3>
-                            <p className="text-xs text-[var(--giovanna-warmth-700)] leading-tight mt-1">
-                                Share with schools.
+                            <h3 className="font-heading font-black text-xl text-[var(--color-navy)]">Team Report</h3>
+                            <p className="text-sm font-bold text-[var(--text-muted)] mt-1">
+                                Share PDF
                             </p>
-                        </div>
-                        <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-100 transition-opacity">
-                            <ChevronRight size={20} />
                         </div>
                     </Link>
                 </div>
             </section>
 
-            {/* "Process & Receive" - Recent Activity or Suggestions */}
+            {/* Daily Quest / Insights */}
             <section>
-                <div className="flex items-center justify-between mb-4 px-2">
-                    <h2 className="font-bold text-xl text-[var(--giovanna-warmth-900)] flex items-center gap-2">
-                        <Sparkles size={18} className="text-[var(--giovanna-golden-dark)]" />
-                        Insights for You
+                <div className="flex items-center gap-2 mb-3 px-1">
+                    <Sparkles size={20} className="text-[var(--color-orange)]" />
+                    <h2 className="font-black text-xl text-[var(--color-navy)]">
+                        Daily Discovery
                     </h2>
                 </div>
 
-                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[var(--giovanna-warmth-200)]">
-                    <div className="flex items-start gap-4">
-                        <div className="bg-[var(--giovanna-warmth-100)] p-3 rounded-full">
-                            <Calendar className="text-[var(--giovanna-warmth-500)]" size={20} />
-                        </div>
-                        <div>
-                            <p className="text-[var(--giovanna-warmth-900)] font-medium mb-1">
-                                No logs today yet.
-                            </p>
-                            <p className="text-sm text-[var(--giovanna-warmth-600)] mb-4">
-                                Tracking small moments helps us find big patterns. Did anything notable happen at breakfast?
-                            </p>
-                            <Link to="/log" className="text-sm font-bold text-[var(--giovanna-terracotta)] hover:underline">
-                                + Add Quick Log
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
+                <div className="bg-white rounded-[2rem] p-6 shadow-sm border-2 border-[var(--color-orange-light)] relative overflow-hidden">
+                    {/* Blob Decor */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-[var(--color-orange-light)] rounded-full filter blur-2xl opacity-40 -translate-y-1/2 translate-x-1/2"></div>
 
-            {/* Personal Support Plan Card */}
-            <section>
-                <div className="bg-gradient-to-br from-[var(--giovanna-ocean)] to-[var(--giovanna-ocean-dark)] rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
                     <div className="relative z-10">
-                        <h3 className="font-bold text-xl mb-2">Personal Support Plan</h3>
-                        <p className="text-blue-100 text-sm mb-4 max-w-[80%]">
-                            Build a strength-based profile to advocate for your child's needs.
+                        <p className="text-[var(--color-navy)] font-bold text-lg mb-2">
+                            The Adventure Begins!
                         </p>
-                        <Link to="/profile" className="inline-block bg-white text-[var(--giovanna-ocean-dark)] px-4 py-2 rounded-lg font-bold text-sm hover:bg-blue-50 transition-colors">
-                            Manage Profile
+                        <p className="text-[var(--text-muted)] font-medium mb-4 leading-relaxed">
+                            Every behavior communicates a need. Try logging one small thing today to start your map.
+                        </p>
+                        <Link to="/log" className="inline-flex items-center gap-2 text-[var(--color-orange)] font-black uppercase tracking-wide text-sm hover:underline">
+                            Start Tracking <ChevronRight size={16} strokeWidth={3} />
                         </Link>
                     </div>
-                    {/* Decorative Background Icon */}
-                    <FileText className="absolute -bottom-4 -right-4 text-white opacity-10" size={120} />
                 </div>
             </section>
         </div>

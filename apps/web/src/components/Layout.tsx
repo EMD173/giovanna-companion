@@ -1,13 +1,16 @@
 /**
- * Layout Component - Premium Redesign
+ * Layout Component - "Playful Adventure"
  * 
- * Modern, clean navbar with blur effect
- * Inter typography, Ocean/Teal accent colors
+ * Gamified navigation with rounded pill buttons and
+ * a floating bottom dock for mobile.
  */
 
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, BookOpen, PenTool, Layers, Menu, X, LogOut, Settings, Share2, Heart, Sparkles } from 'lucide-react';
+import {
+    Home, BookOpen, PenTool, Layers, Menu, X, LogOut,
+    Settings, Share2, Heart, Sparkles, Smile
+} from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { ToastContainer } from './Toast';
 
@@ -23,35 +26,38 @@ export function Layout() {
 
     const navItems = [
         { name: 'Home', path: '/', icon: <Home size={20} /> },
-        { name: 'Learning', path: '/learn', icon: <BookOpen size={20} /> },
-        { name: 'ABC Log', path: '/log', icon: <PenTool size={20} /> },
-        { name: 'Strategies', path: '/strategies', icon: <Layers size={20} /> },
-        { name: 'Bridge', path: '/bridge', icon: <Share2 size={20} /> },
+        { name: 'Adventure', path: '/dashboard', icon: <Sparkles size={20} /> },
+        { name: 'Capture', path: '/log', icon: <PenTool size={20} /> },
+        { name: 'Sidekick', path: '/chat', icon: <Smile size={20} /> },
+        { name: 'Map', path: '/learn', icon: <BookOpen size={20} /> },
     ];
 
     return (
-        <div className="min-h-screen flex flex-col">
-            {/* Top Navigation Bar - Modern blur effect */}
-            <nav className="nav-blur sticky top-0 z-50 border-b border-slate-200/50">
+        <div className="min-h-screen flex flex-col font-body bg-[var(--color-cream)]">
+            {/* Top Navigation Bar - Playful Glass */}
+            <nav className="nav-glass sticky top-0 z-50">
                 <div className="container">
-                    <div className="flex justify-between h-16 items-center">
-                        {/* Logo */}
-                        <Link to="/" className="flex items-center gap-3" onClick={closeMenu}>
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-ocean to-teal flex items-center justify-center shadow-md">
-                                <Sparkles size={22} className="text-white" />
+                    <div className="flex justify-between h-20 items-center">
+                        {/* Logo - Sticker Style */}
+                        <Link to="/" className="flex items-center gap-3 group" onClick={closeMenu}>
+                            <div className="w-12 h-12 rounded-full bg-[var(--color-orange)] flex items-center justify-center shadow-[0_4px_0px_#C2410C] group-hover:translate-y-[-2px] transition-transform">
+                                <Sparkles size={24} className="text-white fill-white" />
                             </div>
-                            <span className="font-bold text-2xl text-charcoal tracking-tight">
+                            <span className="font-heading font-black text-2xl text-[var(--color-navy)] tracking-tight">
                                 Giovanna
                             </span>
                         </Link>
 
-                        {/* Desktop Nav */}
-                        <div className="hidden md:flex items-center gap-1">
+                        {/* Desktop Nav - Pill Buttons */}
+                        <div className="hidden md:flex items-center gap-2">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.path}
                                     to={item.path}
-                                    className={`nav-link ${isActive(item.path) ? 'active' : ''}`}
+                                    className={`px-5 py-2.5 rounded-full font-bold transition-all border-2 ${isActive(item.path)
+                                        ? 'bg-[var(--color-navy)] border-[var(--color-navy)] text-white shadow-[0_4px_0px_rgba(15,23,42,0.4)] transform -translate-y-1'
+                                        : 'border-transparent text-[var(--color-navy-light)] hover:bg-[var(--color-orange-light)] hover:text-[var(--color-orange)]'
+                                        }`}
                                 >
                                     {item.name}
                                 </Link>
@@ -64,14 +70,14 @@ export function Layout() {
                                 <>
                                     <Link
                                         to="/settings"
-                                        className="p-2 text-slate hover:text-ocean hover:bg-soft-blue rounded-lg transition"
+                                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white border-2 border-[var(--color-orange-light)] text-[var(--color-navy)] hover:border-[var(--color-orange)] transition-colors"
                                         title="Settings"
                                     >
                                         <Settings size={20} />
                                     </Link>
                                     <button
                                         onClick={logout}
-                                        className="p-2 text-slate hover:text-coral hover:bg-red-50 rounded-lg transition"
+                                        className="w-10 h-10 flex items-center justify-center rounded-full bg-white border-2 border-red-100 text-red-500 hover:border-red-400 hover:bg-red-50 transition-colors"
                                         title="Sign Out"
                                     >
                                         <LogOut size={20} />
@@ -79,87 +85,80 @@ export function Layout() {
                                 </>
                             ) : (
                                 <Link to="/signup" className="btn btn-primary">
-                                    Get Started
+                                    Start Adventure
                                 </Link>
                             )}
                         </div>
 
-                        {/* Mobile Menu Button */}
+                        {/* Mobile Menu Button - Big & Touchable */}
                         <button
                             onClick={toggleMenu}
-                            className="md:hidden p-2 rounded-lg text-slate hover:text-charcoal hover:bg-soft-blue transition"
+                            className="md:hidden w-12 h-12 flex items-center justify-center rounded-2xl bg-white border-2 border-[var(--color-orange-light)] text-[var(--color-navy)] shadow-sm"
                         >
-                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
                         </button>
                     </div>
                 </div>
-
-                {/* Mobile Menu */}
-                {isMenuOpen && (
-                    <div className="md:hidden bg-white border-b border-slate-200 shadow-lg">
-                        <div className="container py-4 space-y-2">
-                            {navItems.map((item) => (
-                                <Link
-                                    key={item.path}
-                                    to={item.path}
-                                    onClick={closeMenu}
-                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition ${isActive(item.path)
-                                            ? 'bg-gradient-to-r from-ocean to-teal text-white'
-                                            : 'text-slate hover:bg-soft-blue hover:text-ocean'
-                                        }`}
-                                >
-                                    {item.icon}
-                                    {item.name}
-                                </Link>
-                            ))}
-                            <div className="border-t border-slate-200 pt-4 mt-4">
-                                {user ? (
-                                    <>
-                                        <Link
-                                            to="/settings"
-                                            onClick={closeMenu}
-                                            className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-slate hover:bg-soft-blue"
-                                        >
-                                            <Settings size={20} />
-                                            Settings
-                                        </Link>
-                                        <button
-                                            onClick={() => { logout(); closeMenu(); }}
-                                            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium text-coral hover:bg-red-50"
-                                        >
-                                            <LogOut size={20} />
-                                            Sign Out
-                                        </button>
-                                    </>
-                                ) : (
-                                    <Link
-                                        to="/signup"
-                                        onClick={closeMenu}
-                                        className="block text-center btn btn-primary w-full"
-                                    >
-                                        Get Started
-                                    </Link>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                )}
             </nav>
 
+            {/* Mobile Menu Dropdown (if needed) */}
+            {isMenuOpen && (
+                <div className="md:hidden fixed inset-0 z-40 bg-[var(--color-cream)] pt-24 px-4">
+                    <div className="flex flex-col gap-4">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.path}
+                                to={item.path}
+                                onClick={closeMenu}
+                                className={`p-4 rounded-xl font-bold border-2 flex items-center gap-4 ${isActive(item.path)
+                                    ? 'bg-[var(--color-navy)] border-[var(--color-navy)] text-white'
+                                    : 'bg-white border-[var(--color-orange-light)] text-[var(--color-navy)]'
+                                    }`}
+                            >
+                                {item.icon}
+                                {item.name}
+                            </Link>
+                        ))}
+                        {user && (
+                            <button
+                                onClick={() => { logout(); closeMenu(); }}
+                                className="p-4 rounded-xl font-bold border-2 bg-red-50 border-red-100 text-red-500 flex items-center gap-4"
+                            >
+                                <LogOut size={20} />
+                                Sign Out
+                            </button>
+                        )}
+                    </div>
+                </div>
+            )}
+
             {/* Main Content */}
-            <main className="flex-1">
+            <main className="flex-1 pb-24 md:pb-0">
                 <Outlet />
             </main>
 
-            {/* Footer */}
-            <footer className="py-8 text-center border-t border-slate-200 bg-white/50">
-                <p className="text-slate flex items-center justify-center gap-2">
-                    Made with <Heart size={16} className="text-coral fill-current" /> by{' '}
-                    <span className="font-bold text-ocean">
-                        Eli Marshall Davis
-                    </span>
-                </p>
-            </footer>
+            {/* Mobile Bottom Navigation - Floating Dock style */}
+            <nav className="md:hidden fixed bottom-4 left-4 right-4 bg-white rounded-3xl border-2 border-[var(--color-navy-light)] shadow-[0_8px_0px_rgba(15,23,42,0.2)] z-50 p-2">
+                <div className="grid grid-cols-5 h-14 items-center">
+                    {navItems.map((item) => (
+                        <Link
+                            key={item.path}
+                            to={item.path}
+                            className={`flex flex-col items-center justify-center transition-all ${isActive(item.path)
+                                    ? 'text-[var(--color-orange)] -translate-y-2'
+                                    : 'text-[var(--color-navy-light)] hover:text-[var(--color-navy)]'
+                                }`}
+                        >
+                            <div className={`p-2 rounded-full ${isActive(item.path) ? 'bg-[var(--color-orange-light)]' : ''}`}>
+                                {React.cloneElement(item.icon as React.ReactElement, {
+                                    size: isActive(item.path) ? 24 : 22,
+                                    strokeWidth: 2.5
+                                })}
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </nav>
 
             <ToastContainer />
         </div>

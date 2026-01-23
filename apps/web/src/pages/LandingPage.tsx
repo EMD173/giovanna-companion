@@ -1,175 +1,160 @@
 /**
- * Landing Page - Warm Redesign
+ * Landing Page - "Playful Adventure"
  * 
- * Tactile, "Homeplace" feel with clear app functionality.
- * Warm terracotta, gold, and forest green accents.
+ * Gamified, supportive, and energetic.
+ * Navy basics + Orange actions + "Blob" decorations.
  */
 
-import { ArrowRight, Shield, Heart, Sparkles, Star, Zap, MessageCircle } from 'lucide-react';
+import { ArrowRight, Shield, Heart, Sparkles, Star, Zap, MessageCircle, Smile } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function LandingPage() {
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen overflow-hidden relative">
+            {/* Background Decor - Blobs */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--color-orange-light)] rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-pulse blob-shape translate-x-1/3 -translate-y-1/3"></div>
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--color-sky)] rounded-full mix-blend-multiply filter blur-3xl opacity-50 blob-shape -translate-x-1/2 translate-y-1/2"></div>
+
             {/* Hero Section */}
-            <section className="py-12 md:py-20 text-center">
-                <div className="container max-w-4xl">
-                    {/* Trust Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--giovanna-warmth-200)] border border-[var(--giovanna-warmth-300)] mb-8 shadow-sm">
-                        <Sparkles size={16} className="text-[var(--giovanna-golden-dark)]" />
-                        <span className="text-sm font-bold text-[var(--giovanna-warmth-800)]">
-                            Trusted by 5,000+ families
+            <section className="relative pt-20 pb-32 text-center z-10">
+                <div className="container max-w-4xl px-4">
+                    {/* Achievement Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border-2 border-[var(--color-orange-light)] mb-8 shadow-sm transform hover:scale-105 transition-transform cursor-default">
+                        <Star size={20} className="text-[var(--color-orange)] fill-current" />
+                        <span className="font-bold text-[var(--color-navy)] tracking-wide uppercase text-xs">
+                            Trusted by 5,000+ Super Parents
                         </span>
                     </div>
 
                     {/* Main Headline */}
-                    <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 text-[var(--giovanna-warmth-900)]">
-                        Parenting with{' '}
-                        <span className="gradient-text">Confidence</span>,
+                    <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                        Turn Struggles into
                         <br />
-                        Not Compliance.
+                        <span className="text-[var(--color-orange)] inline-block transform -rotate-2 decoration-wavy underline decoration-[var(--color-sky)]">Strengths!</span>
                     </h1>
 
                     {/* Subheadline */}
-                    <p className="text-lg md:text-xl text-[var(--giovanna-warmth-700)] max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
-                        Your daily command center for neurodivergent parenting.
-                        <br className="hidden md:block" />
-                        Log behaviors, get AI strategies, and advocate with data.
+                    <p className="text-xl md:text-2xl text-[var(--text-muted)] max-w-2xl mx-auto mb-12 font-medium leading-relaxed">
+                        Your neuro-affirming partner for the parenting adventure.
+                        Log moments, unlock strategies, and level up your advocacy.
                     </p>
 
                     {/* CTAs */}
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link to="/signup" className="btn btn-primary text-lg px-10 py-4 shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all">
-                            Start Your Dashboard
-                            <ArrowRight size={20} className="ml-2" />
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <Link to="/signup" className="btn btn-primary text-xl px-12 py-5 shadow-xl">
+                            Start Your Adventure
+                            <ArrowRight size={24} className="ml-2" />
                         </Link>
                         <Link
                             to="/learn"
-                            className="btn btn-secondary text-lg px-10 py-4"
+                            className="btn btn-secondary text-lg px-8 py-4"
                         >
-                            Explore Strategies
+                            View the Map
                         </Link>
                     </div>
 
-                    {/* Social Proof */}
-                    <div className="flex items-center justify-center gap-1 mt-8">
-                        {[...Array(5)].map((_, i) => (
-                            <Star key={i} size={20} className="fill-[var(--giovanna-golden)] text-[var(--giovanna-golden)]" />
-                        ))}
-                        <span className="ml-2 text-sm text-[var(--giovanna-warmth-800)] font-bold">
-                            4.9/5 from 500+ reviews
-                        </span>
+                    {/* Social Proof with Friendly Avatars */}
+                    <div className="flex items-center justify-center gap-3 mt-10 p-4 bg-white/60 backdrop-blur rounded-2xl inline-flex border border-[var(--color-navy-light)]/10">
+                        <div className="flex -space-x-3">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center font-bold text-xs text-slate-500">
+                                    <Smile size={20} />
+                                </div>
+                            ))}
+                        </div>
+                        <div className="text-left">
+                            <div className="flex text-[var(--color-orange)]">
+                                {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+                            </div>
+                            <span className="text-xs font-bold text-[var(--color-navy)]">
+                                4.9/5 Rating
+                            </span>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Application Features Grid - "Dashboard Preview" */}
-            <section className="py-16 md:py-24 bg-white border-y border-[var(--giovanna-warmth-200)]">
+            {/* Feature Cards - "Power Ups" */}
+            <section className="py-20 bg-white relative">
+                {/* Wavy Top Border via SVG or CSS could go here, keeping it simple for now */}
                 <div className="container">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-                        What you can do <span className="text-[var(--giovanna-terracotta)]">right now</span>
-                    </h2>
-                    <p className="text-lg text-[var(--giovanna-warmth-700)] text-center max-w-2xl mx-auto mb-12">
-                        Powerful tools wrapped in a warm, supportive interface.
-                    </p>
+                    <div className="text-center mb-16">
+                        <h2 className="text-4xl font-black mb-4">Choose Your Power Up</h2>
+                        <p className="text-xl text-[var(--text-muted)]">Tools designed to make every day easier.</p>
+                    </div>
 
                     <div className="grid md:grid-cols-3 gap-8">
-                        {/* Feature 1 */}
-                        <div className="card">
-                            <div className="w-14 h-14 rounded-2xl bg-[var(--giovanna-warmth-100)] border border-[var(--giovanna-warmth-200)] flex items-center justify-center mb-6">
-                                <Zap size={28} className="text-[var(--giovanna-golden-dark)]" />
+                        {/* Card 1 */}
+                        <div className="card group">
+                            <div className="w-16 h-16 rounded-2xl bg-[var(--color-orange-light)] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <Zap size={32} className="text-[var(--color-orange)]" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">
-                                Quick Log Behaviors
-                            </h3>
-                            <p className="text-[var(--giovanna-warmth-700)] mb-4">
-                                Spot patterns instantly. Log Antecedents, Behaviors, and Consequences (ABC) in seconds.
+                            <h3 className="text-2xl font-bold mb-3">Quick Capture</h3>
+                            <p className="text-[var(--text-muted)] font-medium leading-relaxed mb-6">
+                                Spot patterns like a detective. Log "moments" (ABCs) in seconds to understand the 'why' behind behaviors.
                             </p>
-                            <Link to="/log" className="text-[var(--giovanna-terracotta)] font-bold text-sm hover:underline">Try Logging →</Link>
+                            <Link to="/log" className="font-bold text-[var(--color-navy)] flex items-center gap-2 hover:gap-3 transition-all">
+                                Try Logging <ArrowRight size={18} />
+                            </Link>
                         </div>
 
-                        {/* Feature 2 */}
-                        <div className="card">
-                            <div className="w-14 h-14 rounded-2xl bg-[var(--giovanna-warmth-100)] border border-[var(--giovanna-warmth-200)] flex items-center justify-center mb-6">
-                                <MessageCircle size={28} className="text-[var(--giovanna-terracotta)]" />
+                        {/* Card 2 */}
+                        <div className="card group">
+                            <div className="w-16 h-16 rounded-2xl bg-[var(--color-lavender)] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <MessageCircle size={32} className="text-purple-600" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">
-                                Ask Giovanna AI
-                            </h3>
-                            <p className="text-[var(--giovanna-warmth-700)] mb-4">
-                                "My child is screaming at bath time. What do I do?" Get instant, neuro-affirming advice.
+                            <h3 className="text-2xl font-bold mb-3">Sidekick AI</h3>
+                            <p className="text-[var(--text-muted)] font-medium leading-relaxed mb-6">
+                                Stuck? Ask Giovanna. Get instant, neuro-affirming scripts and strategies for any situation.
                             </p>
-                            <Link to="/chat" className="text-[var(--giovanna-terracotta)] font-bold text-sm hover:underline">Start Chat →</Link>
+                            <Link to="/chat" className="font-bold text-[var(--color-navy)] flex items-center gap-2 hover:gap-3 transition-all">
+                                Chat Now <ArrowRight size={18} />
+                            </Link>
                         </div>
 
-                        {/* Feature 3 */}
-                        <div className="card">
-                            <div className="w-14 h-14 rounded-2xl bg-[var(--giovanna-warmth-100)] border border-[var(--giovanna-warmth-200)] flex items-center justify-center mb-6">
-                                <Shield size={28} className="text-[var(--giovanna-forest)]" />
+                        {/* Card 3 */}
+                        <div className="card group">
+                            <div className="w-16 h-16 rounded-2xl bg-[var(--color-mint)] flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                                <Shield size={32} className="text-green-600" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">
-                                Share Securely
-                            </h3>
-                            <p className="text-[var(--giovanna-warmth-700)] mb-4">
-                                Generate professional PDF reports for IEP meetings. You control who sees what.
+                            <h3 className="text-2xl font-bold mb-3">Advocacy Shield</h3>
+                            <p className="text-[var(--text-muted)] font-medium leading-relaxed mb-6">
+                                Create professional PDF reports to share with schools. Advocate with data, not just feelings.
                             </p>
-                            <Link to="/bridge" className="text-[var(--giovanna-terracotta)] font-bold text-sm hover:underline">Create Report →</Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* App Step-by-Step */}
-            <section className="py-16 md:py-24">
-                <div className="container">
-                    <div className="card-warm p-8 md:p-12 rounded-[2rem] text-center max-w-5xl mx-auto shadow-lg border border-[var(--giovanna-warmth-300)]">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-8">
-                            Your Daily Flow
-                        </h2>
-
-                        <div className="grid md:grid-cols-3 gap-8 text-left">
-                            <div className="flex gap-4">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--giovanna-terracotta)] text-white flex items-center justify-center font-bold">1</div>
-                                <div>
-                                    <h4 className="font-bold text-lg mb-1">Input</h4>
-                                    <p className="text-[var(--giovanna-warmth-800)] text-sm">Tap to log what you see. "Child is overwhelmed by loud noises."</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--giovanna-golden)] text-white flex items-center justify-center font-bold">2</div>
-                                <div>
-                                    <h4 className="font-bold text-lg mb-1">Process</h4>
-                                    <p className="text-[var(--giovanna-warmth-800)] text-sm">AI analyzes the input against neuro-affirming strategies.</p>
-                                </div>
-                            </div>
-                            <div className="flex gap-4">
-                                <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[var(--giovanna-forest)] text-white flex items-center justify-center font-bold">3</div>
-                                <div>
-                                    <h4 className="font-bold text-lg mb-1">Receive</h4>
-                                    <p className="text-[var(--giovanna-warmth-800)] text-sm">Get immediate, actionable suggestions: "Try noise-canceling headphones."</p>
-                                </div>
-                            </div>
+                            <Link to="/bridge" className="font-bold text-[var(--color-navy)] flex items-center gap-2 hover:gap-3 transition-all">
+                                Create Report <ArrowRight size={18} />
+                            </Link>
                         </div>
                     </div>
                 </div>
             </section>
 
             {/* Final CTA */}
-            <section className="pb-24">
-                <div className="container text-center">
-                    <p className="text-xl font-bold text-[var(--giovanna-warmth-700)] mb-6">
-                        Ready to support your child with confidence?
-                    </p>
-                    <Link
-                        to="/signup"
-                        className="inline-flex items-center justify-center gap-2 px-12 py-5 text-xl font-bold rounded-xl bg-[var(--giovanna-terracotta)] text-white hover:bg-[#D65A47] transition shadow-xl"
-                    >
-                        Create Free Account
-                        <ArrowRight size={24} />
-                    </Link>
-                    <p className="mt-4 text-sm text-[var(--giovanna-warmth-600)]">
-                        No credit card required • Private & Secure
-                    </p>
+            <section className="py-24 text-center">
+                <div className="container max-w-3xl">
+                    <div className="bg-[var(--color-navy)] rounded-[3rem] p-12 md:p-20 relative overflow-hidden shadow-2xl">
+                        {/* Decor */}
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-[var(--color-orange)] rounded-full filter blur-[80px] opacity-30"></div>
+                        <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500 rounded-full filter blur-[80px] opacity-30"></div>
+
+                        <div className="relative z-10">
+                            <h2 className="text-white text-3xl md:text-5xl font-black mb-6">
+                                Ready to Level Up?
+                            </h2>
+                            <p className="text-blue-100 text-xl font-medium mb-10">
+                                Join 5,000+ families turning daily challenges into wins.
+                            </p>
+                            <Link
+                                to="/signup"
+                                className="btn btn-primary text-xl px-16 py-6 border-4 border-white/10"
+                            >
+                                Get Started Free!
+                            </Link>
+                            <p className="mt-6 text-blue-200 text-sm font-bold opacity-80">
+                                NO CREDIT CARD REQUIRED
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
