@@ -6,9 +6,10 @@
  */
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, increment } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from './AuthContext';
+import { shouldResetUsageCycle, toDate } from '../lib/launchGuards';
 import {
     type SubscriptionTier,
     type UserSubscription,
@@ -64,6 +65,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
             return;
         }
 
+        setLoading(true);
         const subRef = doc(db, 'subscriptions', user.uid);
 
         // Real-time listener
@@ -73,8 +75,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
 
                 // Check if usage needs monthly reset
                 const now = new Date();
-                const lastReset = new Date(data.usage.lastResetDate);
-                if (now.getMonth() !== lastReset.getMonth() || now.getFullYear() !== lastReset.getFullYear()) {
+                if (shouldResetUsageCycle(data.usage.lastResetDate, now)) {
                     // Reset monthly usage
                     const updatedUsage = {
                         aiQueriesUsed: 0,
@@ -83,6 +84,8 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
                     };
                     await setDoc(subRef, { usage: updatedUsage }, { merge: true });
                     data.usage = updatedUsage;
+                } else {
+                    data.usage.lastResetDate = toDate(data.usage.lastResetDate);
                 }
 
                 setSubscription(data);
@@ -123,8 +126,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
         const subRef = doc(db, 'subscriptions', user.uid);
         await setDoc(subRef, {
             usage: {
-                ...subscription.usage,
-                aiQueriesUsed: subscription.usage.aiQueriesUsed + 1
+                aiQueriesUsed: increment(1)
             }
         }, { merge: true });
     };
@@ -134,8 +136,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
         const subRef = doc(db, 'subscriptions', user.uid);
         await setDoc(subRef, {
             usage: {
-                ...subscription.usage,
-                sharePacketsUsed: subscription.usage.sharePacketsUsed + 1
+                sharePacketsUsed: increment(1)
             }
         }, { merge: true });
     };

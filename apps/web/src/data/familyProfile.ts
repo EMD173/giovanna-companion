@@ -14,7 +14,8 @@ import type { HomeplaceSupports } from './homeplaceSupports';
 
 export interface FamilyProfile {
     id: string;
-    userId: string;  // Owner of this profile
+    adminId: string;  // Owner of this profile (matches Firestore rules)
+    userId: string;   // Legacy alias — same as adminId
     createdAt: Timestamp;
     updatedAt: Timestamp;
 
@@ -254,7 +255,11 @@ export interface ExtendedFamilyMember {
 // ============================================
 
 export type StakeholderRole =
-    | 'parent'
+    | 'admin'
+    | 'co-captain'
+    | 'legal-guardian'
+    | 'village'
+    | 'responder'
     | 'therapist'
     | 'teacher'
     | 'doctor'
@@ -338,6 +343,7 @@ export function createEmptyChildProfile(id: string): ChildProfile {
 export function createEmptyFamilyProfile(userId: string, id: string): FamilyProfile {
     return {
         id,
+        adminId: userId,
         userId,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now(),

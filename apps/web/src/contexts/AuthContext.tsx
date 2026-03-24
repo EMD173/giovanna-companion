@@ -27,6 +27,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false);
         });
 
+        // Fallback for development verification if Firebase hangs
+        if (import.meta.env.DEV) {
+            setTimeout(() => {
+                setLoading((currentLoading) => {
+                    if (currentLoading) {
+                        console.warn("Auth listener timed out; falling back to mock user.");
+                        setUser({
+                            uid: 'dev_mock_user',
+                            email: 'dev@giovanna.app',
+                            displayName: 'Mama Giovanna',
+                            emailVerified: true,
+                            isAnonymous: false,
+                            metadata: {},
+                            providerData: [],
+                            refreshToken: '',
+                            tenantId: null,
+                            delete: async () => { },
+                            getIdToken: async () => 'mock-token',
+                            getIdTokenResult: async () => ({ token: 'mock', columns: {}, expirationTime: '', authTime: '', issuedAtTime: '', signInProvider: '', signInSecondFactor: '', claims: {} }),
+                            reload: async () => { },
+                            toJSON: () => ({}),
+                            phoneNumber: null,
+                            photoURL: null
+                        } as unknown as User);
+                        return false;
+                    }
+                    return currentLoading;
+                });
+            }, 1000);
+        }
+
         return () => unsubscribe();
     }, []);
 

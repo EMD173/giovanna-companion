@@ -1,37 +1,29 @@
 /**
- * Stripe Payment Integration Stubs
- * 
- * Ready to connect when you add your Stripe API keys.
- * These functions provide the interface - just add your keys to make it work.
+ * Stripe Payment Integration — Cloud Function Client
+ *
+ * Connects the client UI to Firebase Cloud Functions that handle
+ * Stripe Checkout and Customer Portal sessions server-side.
+ *
+ * File: src/lib/stripe.ts
  */
 
+import { httpsCallable } from 'firebase/functions';
+import { functions } from './firebase';
 import { TIER_INFO, type SubscriptionTier } from '../data/subscriptionTiers';
 
 // ============================================
-// CONFIGURATION
+// CLOUD FUNCTION REFERENCES
 // ============================================
 
-// Get from environment or API config
-const STRIPE_PUBLISHABLE_KEY = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || '';
-const STRIPE_CHECKOUT_URL = import.meta.env.VITE_STRIPE_CHECKOUT_URL || '/api/create-checkout';
+const createCheckoutFn = httpsCallable<
+    { tier: string; billing: string; userEmail: string; successUrl: string; cancelUrl: string },
+    { url: string; sessionId: string }
+>(functions, 'createCheckoutSession');
 
-// Price IDs from your Stripe Dashboard
-// Set these in your environment or update directly
-const PRICE_IDS: Record<SubscriptionTier, { monthly: string; yearly: string }> = {
-    free: { monthly: '', yearly: '' },
-    companion: {
-        monthly: import.meta.env.VITE_STRIPE_COMPANION_MONTHLY || 'price_companion_monthly',
-        yearly: import.meta.env.VITE_STRIPE_COMPANION_YEARLY || 'price_companion_yearly'
-    },
-    pro: {
-        monthly: import.meta.env.VITE_STRIPE_PRO_MONTHLY || 'price_pro_monthly',
-        yearly: import.meta.env.VITE_STRIPE_PRO_YEARLY || 'price_pro_yearly'
-    },
-    enterprise: {
-        monthly: import.meta.env.VITE_STRIPE_ENTERPRISE_MONTHLY || 'price_enterprise_monthly',
-        yearly: import.meta.env.VITE_STRIPE_ENTERPRISE_YEARLY || 'price_enterprise_yearly'
-    }
-};
+const createPortalFn = httpsCallable<
+    { returnUrl?: string },
+    { url: string }
+>(functions, 'createPortalSession');
 
 // ============================================
 // CHECKOUT FUNCTIONS
@@ -47,40 +39,22 @@ export interface CheckoutOptions {
 }
 
 /**
- * Create a Stripe Checkout session
- * Returns the checkout URL to redirect the user to
+ * Create a Stripe Checkout session via Cloud Function.
+ * Returns the Stripe-hosted checkout URL.
  */
 export async function createCheckoutSession(options: CheckoutOptions): Promise<string> {
-    const { tier, billing, userId, userEmail, successUrl, cancelUrl } = options;
-
-    // Stub implementation - returns mock URL
-    // Replace with actual Stripe API call when ready
-    if (!STRIPE_PUBLISHABLE_KEY) {
-        console.log('[Stripe Stub] Would create checkout for:', tier, billing);
-        return `/checkout-stub?tier=${tier}&billing=${billing}`;
-    }
-
-    const priceId = PRICE_IDS[tier][billing];
+    const { tier, billing, userEmail, successUrl, cancelUrl } = options;
 
     try {
-        const response = await fetch(STRIPE_CHECKOUT_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                priceId,
-                userId,
-                userEmail,
-                successUrl: successUrl || `${window.location.origin}/settings?upgrade=success`,
-                cancelUrl: cancelUrl || `${window.location.origin}/settings?upgrade=cancelled`
-            })
+        const result = await createCheckoutFn({
+            tier,
+            billing,
+            userEmail,
+            successUrl: successUrl || `${window.location.origin}/upgrade?upgrade=success`,
+            cancelUrl: cancelUrl || `${window.location.origin}/upgrade?upgrade=cancelled`,
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to create checkout session');
-        }
-
-        const { url } = await response.json();
-        return url;
+        return result.data.url;
     } catch (error) {
         console.error('Checkout error:', error);
         throw error;
@@ -100,28 +74,16 @@ export async function redirectToCheckout(options: CheckoutOptions): Promise<void
 // ============================================
 
 /**
- * Open Stripe Customer Portal for managing subscription
+ * Open Stripe Customer Portal for managing subscription.
+ * userId param kept for interface compatibility.
  */
-export async function openCustomerPortal(userId: string): Promise<string> {
-    // Stub implementation
-    if (!STRIPE_PUBLISHABLE_KEY) {
-        console.log('[Stripe Stub] Would open portal for user:', userId);
-        return '/portal-stub';
-    }
-
+export async function openCustomerPortal(_userId: string): Promise<string> {
     try {
-        const response = await fetch('/api/create-portal-session', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId })
+        const result = await createPortalFn({
+            returnUrl: `${window.location.origin}/settings`,
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to create portal session');
-        }
-
-        const { url } = await response.json();
-        return url;
+        return result.data.url;
     } catch (error) {
         console.error('Portal error:', error);
         throw error;
@@ -193,13 +155,13 @@ import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
 import Stripe from 'stripe';
 
-const stripe = new Stripe(functions.config().stripe.secret_key, {
-    apiVersion: '2023-10-16'
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: '2023-10-16' as any
 });
 
 export const stripeWebhook = functions.https.onRequest(async (req, res) => {
     const sig = req.headers['stripe-signature'] as string;
-    const endpointSecret = functions.config().stripe.webhook_secret;
+    const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
     
     let event: Stripe.Event;
     

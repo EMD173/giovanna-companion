@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useStrategies, type Strategy } from '../hooks/useStrategies';
 import { Plus, CheckCircle, Trash2, Layers } from 'lucide-react';
+import { sanctuary, typography } from '../shared/theme';
 
 export function StrategiesPage() {
     const { strategies, loading, addStrategy, updateStatus, deleteStrategy } = useStrategies();
     const [isAdding, setIsAdding] = useState(false);
-
-    // Form State
     const [title, setTitle] = useState('');
     const [procedure, setProcedure] = useState('');
     const [category, setCategory] = useState<Strategy['category']>('Behavior');
@@ -19,116 +18,250 @@ export function StrategiesPage() {
         setProcedure('');
     };
 
+    const catColors: Record<string, { bg: string; text: string; border: string }> = {
+        Sensory: { bg: sanctuary.sageBg, text: sanctuary.sage, border: sanctuary.sageBorder },
+        Behavior: { bg: sanctuary.roseBg, text: sanctuary.rose, border: sanctuary.roseBorder },
+        Communication: { bg: sanctuary.goldBg, text: sanctuary.gold, border: sanctuary.goldBorder },
+        Routine: { bg: sanctuary.purpleBg, text: sanctuary.purple, border: sanctuary.purpleBorder },
+    };
+
     return (
-        <div className="pb-20">
-            <div className="flex justify-between items-end mb-6">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-900">My Strategy Deck</h1>
-                    <p className="text-slate-600">What works for your child.</p>
+        <div style={{ background: sanctuary.bg, minHeight: '100vh', paddingBottom: '128px' }}>
+            <div style={{ maxWidth: '860px', margin: '0 auto', padding: '32px 24px' }}>
+
+                {/* Header */}
+                <div className="sanctuary-enter" style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-end',
+                    marginBottom: '28px',
+                }}>
+                    <div>
+                        <h1 style={{
+                            fontFamily: typography.heading,
+                            fontSize: '2.2rem',
+                            fontWeight: 700,
+                            color: sanctuary.text,
+                            letterSpacing: '-0.02em',
+                            marginBottom: '4px',
+                        }}>My Strategy Deck</h1>
+                        <p style={{
+                            color: sanctuary.textMuted,
+                            fontSize: '0.95rem',
+                            fontFamily: typography.body,
+                        }}>What works for your child.</p>
+                    </div>
+                    <button
+                        onClick={() => setIsAdding(!isAdding)}
+                        className="sanctuary-pill"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '10px 18px',
+                            borderRadius: '12px',
+                            background: `linear-gradient(135deg, ${sanctuary.purple}, #4B0082)`,
+                            color: '#fff',
+                            border: 'none',
+                            fontWeight: 700,
+                            fontSize: '0.88rem',
+                            cursor: 'pointer',
+                            boxShadow: '0 4px 16px rgba(107, 76, 154, 0.25)',
+                            fontFamily: typography.body,
+                        }}
+                    >
+                        <Plus size={18} /> New Card
+                    </button>
                 </div>
-                <button
-                    onClick={() => setIsAdding(!isAdding)}
-                    className="bg-indigo-600 text-white px-4 py-2 rounded-lg font-bold flex items-center gap-2 hover:bg-indigo-700"
-                >
-                    <Plus size={20} /> New Card
-                </button>
+
+                {/* Add Form */}
+                {isAdding && (
+                    <div className="sanctuary-enter sanctuary-card" style={{
+                        background: sanctuary.bgCard,
+                        borderRadius: '20px',
+                        border: `1px solid ${sanctuary.purpleBorder}`,
+                        padding: '24px',
+                        marginBottom: '24px',
+                        boxShadow: sanctuary.shadowMd,
+                        position: 'relative',
+                    }}>
+                        <div style={{
+                            position: 'absolute', top: 0, left: '24px', right: '24px', height: '2px',
+                            background: `linear-gradient(90deg, transparent, ${sanctuary.purple}40, transparent)`,
+                        }} />
+                        <form onSubmit={handleSubmit}>
+                            <div style={{ marginBottom: '16px' }}>
+                                <label style={labelStyle}>Strategy Name</label>
+                                <input
+                                    required
+                                    value={title}
+                                    onChange={e => setTitle(e.target.value)}
+                                    placeholder="e.g., Deep Pressure Squeeze"
+                                    style={inputStyle}
+                                />
+                            </div>
+                            <div style={{ marginBottom: '16px' }}>
+                                <label style={labelStyle}>How do you do it?</label>
+                                <textarea
+                                    required
+                                    rows={3}
+                                    value={procedure}
+                                    onChange={e => setProcedure(e.target.value)}
+                                    placeholder="Step 1... Step 2..."
+                                    style={{ ...inputStyle, resize: 'vertical' as const, minHeight: '80px' }}
+                                />
+                            </div>
+                            <div style={{ marginBottom: '20px' }}>
+                                <label style={labelStyle}>Category</label>
+                                <select
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value as Strategy['category'])}
+                                    style={inputStyle}
+                                >
+                                    <option value="Behavior">Behavior</option>
+                                    <option value="Sensory">Sensory</option>
+                                    <option value="Communication">Communication</option>
+                                    <option value="Routine">Routine</option>
+                                </select>
+                            </div>
+                            <div style={{ display: 'flex', gap: '10px' }}>
+                                <button type="submit" style={{
+                                    flex: 1, padding: '12px',
+                                    borderRadius: '12px',
+                                    background: `linear-gradient(135deg, ${sanctuary.purple}, #4B0082)`,
+                                    color: '#fff', border: 'none', fontWeight: 700,
+                                    fontSize: '0.92rem', cursor: 'pointer',
+                                    fontFamily: typography.body,
+                                }}>Save Card</button>
+                                <button type="button" onClick={() => setIsAdding(false)} style={{
+                                    padding: '12px 20px', borderRadius: '12px',
+                                    background: 'none', color: sanctuary.textMuted,
+                                    border: `1px solid ${sanctuary.border}`,
+                                    fontWeight: 600, cursor: 'pointer',
+                                    fontFamily: typography.body,
+                                }}>Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                )}
+
+                {/* Content */}
+                {loading ? (
+                    <div style={{
+                        textAlign: 'center', padding: '48px',
+                        color: sanctuary.textMuted, fontFamily: typography.body,
+                    }}>Loading deck...</div>
+                ) : strategies.length === 0 ? (
+                    <div style={{
+                        textAlign: 'center', padding: '48px 32px',
+                        background: sanctuary.bgCard,
+                        borderRadius: '20px',
+                        border: `1px dashed ${sanctuary.border}`,
+                    }}>
+                        <Layers size={48} style={{ color: sanctuary.borderLight, margin: '0 auto 12px' }} />
+                        <p style={{ color: sanctuary.textMuted, fontFamily: typography.body, marginBottom: '4px' }}>
+                            Your deck is empty.
+                        </p>
+                        <p style={{ color: sanctuary.textMuted, fontSize: '0.88rem', fontFamily: typography.body }}>
+                            Add strategies that help your child so you don't forget.
+                        </p>
+                    </div>
+                ) : (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px' }}>
+                        {strategies.map((card, idx) => {
+                            const cc = catColors[card.category] || catColors.Behavior;
+                            return (
+                                <div key={card.id} className={`sanctuary-card sanctuary-enter sanctuary-enter-${Math.min(idx, 5)}`} style={{
+                                    background: sanctuary.bgCard,
+                                    borderRadius: '20px',
+                                    border: `1px solid ${sanctuary.border}`,
+                                    padding: '20px',
+                                    boxShadow: sanctuary.shadow,
+                                    position: 'relative',
+                                    overflow: 'hidden',
+                                }}>
+                                    <div style={{
+                                        position: 'absolute', top: 0, left: '20px', right: '20px', height: '2px',
+                                        background: `linear-gradient(90deg, transparent, ${cc.text}30, transparent)`,
+                                    }} />
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                                        <span style={{
+                                            display: 'inline-block', padding: '3px 10px', borderRadius: '100px',
+                                            background: cc.bg, color: cc.text, border: `1px solid ${cc.border}`,
+                                            fontSize: '0.68rem', fontWeight: 700, textTransform: 'uppercase',
+                                            letterSpacing: '0.06em', fontFamily: typography.body,
+                                        }}>{card.category}</span>
+                                        {card.status === 'successful' && (
+                                            <span style={{ color: sanctuary.sage, display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.75rem', fontWeight: 700 }}>
+                                                <CheckCircle size={14} /> Works!
+                                            </span>
+                                        )}
+                                    </div>
+                                    <h3 style={{
+                                        fontFamily: typography.heading,
+                                        fontWeight: 700,
+                                        fontSize: '1.1rem',
+                                        color: sanctuary.text,
+                                        marginBottom: '6px',
+                                    }}>{card.title}</h3>
+                                    <p style={{
+                                        color: sanctuary.textMuted,
+                                        fontSize: '0.85rem',
+                                        fontFamily: typography.body,
+                                        lineHeight: 1.6,
+                                        marginBottom: '16px',
+                                    }}>{card.procedure}</p>
+                                    <div style={{
+                                        display: 'flex', gap: '8px',
+                                        borderTop: `1px solid ${sanctuary.border}`,
+                                        paddingTop: '12px',
+                                    }}>
+                                        <button
+                                            onClick={() => updateStatus(card.id, 'successful')}
+                                            style={{
+                                                flex: 1, padding: '8px', borderRadius: '8px',
+                                                background: sanctuary.sageBg, border: `1px solid ${sanctuary.sageBorder}`,
+                                                color: sanctuary.sage, fontWeight: 700, fontSize: '0.78rem',
+                                                cursor: 'pointer', fontFamily: typography.body,
+                                            }}
+                                        >It Worked</button>
+                                        <button
+                                            onClick={() => deleteStrategy(card.id)}
+                                            style={{
+                                                padding: '8px 12px', borderRadius: '8px',
+                                                background: 'none', border: `1px solid ${sanctuary.border}`,
+                                                color: sanctuary.textMuted, cursor: 'pointer',
+                                            }}
+                                        ><Trash2 size={14} /></button>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
-
-            {isAdding && (
-                <div className="bg-indigo-50 border border-indigo-100 p-6 rounded-xl mb-8 animate-in fade-in slide-in-from-top-4">
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-bold text-indigo-900 mb-1">Strategy Name</label>
-                            <input
-                                required
-                                className="w-full p-2 border border-indigo-200 rounded-lg"
-                                placeholder="e.g., Deep Pressure Squeeze"
-                                value={title}
-                                onChange={e => setTitle(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-bold text-indigo-900 mb-1">How do you do it?</label>
-                            <textarea
-                                required
-                                className="w-full p-2 border border-indigo-200 rounded-lg"
-                                rows={2}
-                                placeholder="Step 1... Step 2..."
-                                value={procedure}
-                                onChange={e => setProcedure(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-sm font-bold text-indigo-900 mb-1">Category</label>
-                            <select
-                                className="w-full p-2 border border-indigo-200 rounded-lg bg-white"
-                                value={category}
-                                onChange={(e) => setCategory(e.target.value as Strategy['category'])}
-                            >
-                                <option value="Behavior">Behavior</option>
-                                <option value="Sensory">Sensory</option>
-                                <option value="Communication">Communication</option>
-                                <option value="Routine">Routine</option>
-                            </select>
-                        </div>
-                        <div className="flex gap-2">
-                            <button type="submit" className="flex-1 bg-indigo-600 text-white py-2 rounded-lg font-bold">Save Card</button>
-                            <button type="button" onClick={() => setIsAdding(false)} className="px-4 py-2 text-indigo-600">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            )}
-
-            {loading ? (
-                <div className="text-center py-12 text-gray-400">Loading deck...</div>
-            ) : strategies.length === 0 ? (
-                <div className="text-center py-12 bg-slate-50 rounded-xl border border-dashed border-slate-300">
-                    <Layers className="h-12 w-12 mx-auto text-slate-300 mb-2" />
-                    <p className="text-slate-500">Your deck is empty.</p>
-                    <p className="text-sm text-slate-400">Add strategies that help your child so you don't forget.</p>
-                </div>
-            ) : (
-                <div className="grid md:grid-cols-2 gap-4">
-                    {strategies.map((card) => (
-                        <div key={card.id} className="bg-white p-5 rounded-xl border border-slate-200 shadow-sm relative group hover:border-indigo-200 transition-colors">
-
-                            <div className="flex justify-between items-start mb-2">
-                                <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full ${card.category === 'Sensory' ? 'bg-blue-100 text-blue-700' :
-                                    card.category === 'Behavior' ? 'bg-rose-100 text-rose-700' :
-                                        'bg-indigo-100 text-indigo-700'
-                                    }`}>
-                                    {card.category}
-                                </span>
-                                {card.status === 'successful' && (
-                                    <span className="text-green-600 flex items-center gap-1 text-xs font-bold">
-                                        <CheckCircle size={14} /> Works!
-                                    </span>
-                                )}
-                            </div>
-
-                            <h3 className="font-bold text-lg text-slate-800 mb-2">{card.title}</h3>
-                            <p className="text-slate-600 text-sm leading-relaxed mb-4">{card.procedure}</p>
-
-                            <div className="flex gap-2 mt-auto pt-4 border-t border-slate-100">
-                                <button
-                                    onClick={() => updateStatus(card.id, 'successful')}
-                                    className="flex-1 text-xs font-bold text-green-600 bg-green-50 py-2 rounded hover:bg-green-100"
-                                    title="Mark as Effective"
-                                >
-                                    It Worked
-                                </button>
-                                <button
-                                    onClick={() => deleteStrategy(card.id)}
-                                    className="px-3 text-slate-400 hover:text-red-500"
-                                    title="Delete Card"
-                                >
-                                    <Trash2 size={16} />
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
         </div>
     );
 }
+
+const labelStyle: React.CSSProperties = {
+    display: 'block',
+    fontSize: '0.82rem',
+    fontWeight: 700,
+    color: sanctuary.textSecondary,
+    marginBottom: '6px',
+    fontFamily: typography.body,
+};
+
+const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '12px 14px',
+    borderRadius: '10px',
+    border: `1.5px solid ${sanctuary.border}`,
+    background: sanctuary.bg,
+    color: sanctuary.text,
+    fontSize: '0.92rem',
+    fontFamily: typography.body,
+    outline: 'none',
+    boxSizing: 'border-box',
+};

@@ -4,4 +4,52 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return
+
+          if (id.includes('/recharts/') || id.includes('/d3-')) {
+            return 'charts'
+          }
+
+          if (
+            id.includes('/firebase/') ||
+            id.includes('/@firebase/') ||
+            id.includes('/idb/')
+          ) {
+            return 'firebase'
+          }
+
+          if (
+            id.includes('/react-router-dom/') ||
+            id.includes('/react-router/') ||
+            id.includes('/@remix-run/')
+          ) {
+            return 'router'
+          }
+
+          if (id.includes('/lucide-react/') || id.includes('/@phosphor-icons/')) {
+            return 'icons'
+          }
+
+          if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('/scheduler/')) {
+            return 'react-vendor'
+          }
+
+          if (
+            id.includes('/date-fns/') ||
+            id.includes('/fuse.js/') ||
+            id.includes('/clsx/') ||
+            id.includes('/tailwind-merge/')
+          ) {
+            return 'app-utils'
+          }
+
+          return 'vendor'
+        },
+      },
+    },
+  },
 })

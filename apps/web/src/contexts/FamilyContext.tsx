@@ -5,7 +5,7 @@
  */
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { doc, setDoc, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, onSnapshot, getDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from './AuthContext';
 import {
@@ -13,28 +13,32 @@ import {
     type ChildProfile,
     createEmptyFamilyProfile
 } from '../data/familyProfile';
+import type { IntakeProfile } from '../types/intake';
+
+import { type FamilyRole } from '../types/family';
+
+// ============================================
+// CONTEXT INTERFACE
+// ============================================
 
 interface FamilyContextValue {
     family: FamilyProfile | null;
+    intakeProfile: IntakeProfile | null;
     loading: boolean;
     error: string | null;
-
-    // Family operations
     updateFamily: (updates: Partial<FamilyProfile>) => Promise<void>;
-
-    // Child operations
     addChild: (child: ChildProfile) => Promise<void>;
     updateChild: (childId: string, updates: Partial<ChildProfile>) => Promise<void>;
     removeChild: (childId: string) => Promise<void>;
     getChild: (childId: string) => ChildProfile | undefined;
-
-    // Active child (for single-child views)
     activeChild: ChildProfile | null;
     setActiveChildId: (id: string | null) => void;
+    inviteMember: (email: string, role: FamilyRole, name: string) => Promise<void>;
 }
 
 const FamilyContext = createContext<FamilyContextValue>({
     family: null,
+    intakeProfile: null,
     loading: true,
     error: null,
     updateFamily: async () => { },
@@ -43,12 +47,14 @@ const FamilyContext = createContext<FamilyContextValue>({
     removeChild: async () => { },
     getChild: () => undefined,
     activeChild: null,
-    setActiveChildId: () => { }
+    setActiveChildId: () => { },
+    inviteMember: async () => { }
 });
 
 export function FamilyProvider({ children }: { children: ReactNode }) {
     const { user } = useAuth();
     const [family, setFamily] = useState<FamilyProfile | null>(null);
+    const [intakeProfile, setIntakeProfile] = useState<IntakeProfile | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [activeChildId, setActiveChildId] = useState<string | null>(null);
@@ -57,10 +63,14 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (!user) {
             setFamily(null);
+            setIntakeProfile(null);
+            setActiveChildId(null);
+            setError(null);
             setLoading(false);
             return;
         }
 
+        setLoading(true);
         const familyRef = doc(db, 'families', user.uid);
 
         const unsubscribe = onSnapshot(familyRef, async (snapshot) => {
@@ -69,15 +79,33 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
                     const data = snapshot.data() as FamilyProfile;
                     setFamily(data);
 
-                    // Set first child as active if none selected
-                    if (!activeChildId && data.children.length > 0) {
-                        setActiveChildId(data.children[0].id);
+                    // Also fetch intake profile from user doc
+                    const userDoc = await getDoc(doc(db, 'users', user.uid));
+                    if (userDoc.exists() && userDoc.data().intakeProfile) {
+                        setIntakeProfile(userDoc.data().intakeProfile as IntakeProfile);
+                    } else {
+                        setIntakeProfile(null);
                     }
+
+                    // Keep the selected child when possible; otherwise choose the first available child.
+                    setActiveChildId(prev => {
+                        if (data.children.length === 0) {
+                            return null;
+                        }
+                        if (prev && data.children.some(child => child.id === prev)) {
+                            return prev;
+                        }
+                        if (data.children.length > 0) {
+                            return data.children[0].id;
+                        }
+                        return null;
+                    });
                 } else {
                     // Create empty profile for new users
                     const newFamily = createEmptyFamilyProfile(user.uid, user.uid);
                     await setDoc(familyRef, newFamily);
                     setFamily(newFamily);
+                    setActiveChildId(null);
                 }
                 setError(null);
             } catch (err) {
@@ -89,7 +117,8 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
         });
 
         return () => unsubscribe();
-    }, [user, activeChildId]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
 
     const updateFamily = async (updates: Partial<FamilyProfile>) => {
         if (!user || !family) return;
@@ -130,11 +159,25 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
         return family?.children.find(c => c.id === childId);
     };
 
+    const inviteMember = async (email: string, role: FamilyRole, name: string) => {
+        if (!user || !family) return;
+        const invitationRef = doc(collection(db, 'families', family.id, 'invitations'));
+        await setDoc(invitationRef, {
+            email,
+            role,
+            name,
+            invitedBy: user.uid,
+            status: 'pending',
+            createdAt: new Date()
+        });
+    };
+
     const activeChild = activeChildId ? getChild(activeChildId) || null : null;
 
     return (
         <FamilyContext.Provider value={{
             family,
+            intakeProfile,
             loading,
             error,
             updateFamily,
@@ -142,6 +185,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
             updateChild,
             removeChild,
             getChild,
+            inviteMember,
             activeChild,
             setActiveChildId
         }}>

@@ -75,7 +75,11 @@ function ShareCard({ access, onRemove }: { access: ShareAccess; onRemove: () => 
     const [expanded, setExpanded] = useState(false);
 
     const roleLabels: Record<StakeholderRole, string> = {
-        parent: 'Parent',
+        admin: 'Admin',
+        'co-captain': 'Co-Captain',
+        'legal-guardian': 'Legal Guardian',
+        village: 'Village',
+        responder: 'Responder',
         therapist: 'Therapist',
         teacher: 'Teacher',
         doctor: 'Doctor',

@@ -11,15 +11,39 @@ A lifelong, neuro-affirming AI companion for neurodivergent individuals and thei
 ## Getting Started
 
 ```bash
-# Install dependencies
+# Install frontend dependencies
 cd apps/web && npm install
 
 # Run development server
 npm run dev
 
+# Build frontend
+npm run build
+
+# Install and build cloud functions
+cd ../../functions && npm install && npm run build
+
 # Deploy
-npm run build && firebase deploy
+cd .. && firebase deploy
 ```
+
+## Environment Setup
+
+```bash
+# Frontend env
+cp apps/web/.env.example apps/web/.env
+
+# Functions env
+cp functions/.env.example functions/.env
+```
+
+The frontend reads Firebase config from `apps/web/.env`.
+The Cloud Functions code reads server-side secrets from `functions/.env`.
+
+## Beta Readiness
+
+- Launch checklist: `docs/BETA_LAUNCH_CHECKLIST.md`
+- Repeatable smoke test: `cd apps/web && npm run smoke:beta`
 
 ## Project Structure
 

@@ -21,6 +21,7 @@ export interface TierLimits {
     homeplaceSupports: boolean;
     customReports: boolean;
     earlyFeatures: boolean;
+    educatorTraining: boolean;
 }
 
 export interface UserSubscription {
@@ -63,7 +64,8 @@ export const TIER_CONFIG: Record<SubscriptionTier, TierLimits> = {
         ecModeAccess: true,  // EC Mode is FREE - core to mission
         homeplaceSupports: false,
         customReports: false,
-        earlyFeatures: false
+        earlyFeatures: false,
+        educatorTraining: false
     },
     companion: {
         aiQueriesPerMonth: 150,
@@ -78,7 +80,8 @@ export const TIER_CONFIG: Record<SubscriptionTier, TierLimits> = {
         ecModeAccess: true,
         homeplaceSupports: true,
         customReports: false,
-        earlyFeatures: false
+        earlyFeatures: false,
+        educatorTraining: false
     },
     pro: {
         aiQueriesPerMonth: 500,
@@ -93,7 +96,8 @@ export const TIER_CONFIG: Record<SubscriptionTier, TierLimits> = {
         ecModeAccess: true,
         homeplaceSupports: true,
         customReports: true,
-        earlyFeatures: true
+        earlyFeatures: true,
+        educatorTraining: true
     },
     enterprise: {
         aiQueriesPerMonth: -1,  // Unlimited
@@ -108,7 +112,8 @@ export const TIER_CONFIG: Record<SubscriptionTier, TierLimits> = {
         ecModeAccess: true,
         homeplaceSupports: true,
         customReports: true,
-        earlyFeatures: true
+        earlyFeatures: true,
+        educatorTraining: true
     }
 };
 

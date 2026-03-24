@@ -12,6 +12,9 @@ import {
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 
+export type FunctionHypothesis = 'escape' | 'attention' | 'tangible' | 'sensory';
+export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
+
 export interface ABCEntry {
     id: string;
     familyId: string;
@@ -22,7 +25,19 @@ export interface ABCEntry {
     intensity: number; // 1-10
     context: string[]; // e.g., 'Home', 'School', 'Noise'
     notes?: string;
+    childId?: string;                       // Links to ChildProfile.id
+    childName?: string;                     // Denormalized for display
+    functionHypothesis?: FunctionHypothesis | null; // BCBA function category
+    timeOfDay?: TimeOfDay;                  // Auto-captured from timestamp
     createdAt: Timestamp;
+}
+
+function getTimeOfDay(date: Date): TimeOfDay {
+    const hour = date.getHours();
+    if (hour >= 5 && hour < 12) return 'morning';
+    if (hour >= 12 && hour < 17) return 'afternoon';
+    if (hour >= 17 && hour < 21) return 'evening';
+    return 'night';
 }
 
 export function useABCLogs() {
@@ -63,13 +78,14 @@ export function useABCLogs() {
         return () => unsubscribe();
     }, [user]);
 
-    const addLog = async (entry: Omit<ABCEntry, 'id' | 'familyId' | 'createdAt' | 'timestamp'> & { timestamp: Date }) => {
+    const addLog = async (entry: Omit<ABCEntry, 'id' | 'familyId' | 'createdAt' | 'timestamp' | 'timeOfDay'> & { timestamp: Date }) => {
         if (!user) throw new Error("Must be logged in");
 
         await addDoc(collection(db, 'abcEntries'), {
             ...entry,
             familyId: user.uid,
             timestamp: Timestamp.fromDate(entry.timestamp),
+            timeOfDay: getTimeOfDay(entry.timestamp),
             createdAt: serverTimestamp()
         });
     };

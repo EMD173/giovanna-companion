@@ -1,7 +1,13 @@
-/* Giovanna Design System - Phase 16: Ruth E. Carter Inspired */
-/* Afrofuturist • Regal • Grounded • Ancestrally Wise */
+/* ============================================
+   GIOVANNA DESIGN SYSTEM - Premium Warmth
+   ============================================
+   Inspired by care, compassion, and sanctuary
+   Typography: Warm, humanistic, inviting
+   Components: iOS glass morphism, soft shadows
+   ============================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+/* Import warm, friendly fonts */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,94 +15,150 @@
 
 :root {
   /* ============================================
-     RUTH E. CARTER PALETTE
+     WARM COLOR PALETTE
+     Care • Compassion • Understanding • Support
      ============================================ */
 
-  /* The Regal / Wakandan Colors */
-  --regal-purple: #4C1D95;
-  /* Royal, Ancestral Wisdom (Violet 900) */
-  --regal-purple-light: #7C3AED;
-  /* Lighter accent */
-  --regal-purple-dark: #2E1065;
-  /* Deep, rich background */
+  /* Primary - Warm Purple (Caring, Wise) */
+  --primary-purple: #6B4C9A;
+  /* Softer, warmer purple */
+  --primary-purple-light: #8B6BB8;
+  --primary-purple-dark: #4A3570;
 
-  /* Warrior / Protection */
-  --warrior-red: #991B1B;
-  /* Dora Milaje Red */
-  --warrior-red-light: #DC2626;
+  /* Accent - Golden Warmth (Hope, Light) */
+  --gold-accent: #D4A853;
+  --gold-shimmer: #E8C97A;
+  --gold-deep: #B08930;
 
-  /* Earth / Vitality (Mining Tribe) */
-  --earth-orange: #C2410C;
-  /* Deep, burnt orange */
-  --earth-orange-light: #F97316;
+  /* Earth Tones (Grounded, Safe) */
+  --earth-terracotta: #C17A5E;
+  --earth-sage: #7A9B7A;
+  --earth-warm: #D4A574;
 
-  /* Metallic / Precious */
-  --gold-accent: #D97706;
-  /* Metallic Gold */
-  --gold-shimmer: #FBBF24;
-  /* Bright Gold Highlight */
+  /* Soft Neutrals (Gentle, Breathing Room) */
+  --neutral-cream: #FDF8F3;
+  /* Warm cream background */
+  --neutral-warm-white: #FFFFFF;
+  --neutral-soft-gray: #F7F3EE;
+  --neutral-text: #3D3832;
+  /* Warm dark for text */
+  --neutral-text-soft: #6B6560;
+  /* Secondary text */
+  --neutral-border: #E8E2DA;
+  /* Soft borders */
 
-  /* Grounded Neutrals (Malcolm X Suits + Sinners) */
-  --deep-ebony: #1C1917;
-  /* Stone 900 - Main dark */
-  --charcoal: #292524;
-  /* Stone 800 */
-  --warm-stone: #57534E;
-  /* Stone 600 */
+  /* Legacy mappings for existing components */
+  --regal-purple: var(--primary-purple);
+  --regal-purple-light: var(--primary-purple-light);
+  --regal-purple-dark: var(--primary-purple-dark);
+  --deep-ebony: var(--neutral-text);
+  --ivory-cream: var(--neutral-cream);
+  --parchment: var(--neutral-soft-gray);
   --soft-stone: #A8A29E;
-  /* Stone 400 */
-  --ivory-cream: #FAFAF9;
-  /* Stone 50 - Light bg */
-  --parchment: #F5F5F4;
-  /* Stone 100 */
+  --warm-stone: #6B6560;
+  --warrior-red: #B85450;
+  --charcoal: #3D3832;
 
-  /* Typography */
-  --font-heading: 'Cormorant Garamond', serif;
-  /* Regal, dignified serif */
-  --font-body: 'DM Sans', sans-serif;
-  /* Clean, modern sans */
+  /* ============================================
+     TYPOGRAPHY - Warm & Humanistic
+     ============================================ */
+  --font-heading: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-body: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Spacing & Shapes */
+  /* Generous spacing for readability */
+  --line-height-body: 1.7;
+  --line-height-heading: 1.3;
+  --letter-spacing: 0.01em;
+
+  /* ============================================
+     SPACING SYSTEM - Breathing Room
+     ============================================ */
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* ============================================
+     BORDER RADIUS - Soft, Friendly Curves
+     ============================================ */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 100px;
 
-  /* Shadows - Layered, textured depth */
-  --shadow-elevated: 0 4px 20px rgba(28, 25, 23, 0.15);
-  --shadow-gold: 0 4px 12px rgba(217, 119, 6, 0.25);
-  --shadow-purple: 0 4px 12px rgba(76, 29, 149, 0.3);
+  /* ============================================
+     SHADOWS - Soft, Layered Depth
+     ============================================ */
+  --shadow-soft: 0 2px 8px rgba(61, 56, 50, 0.06);
+  --shadow-medium: 0 4px 16px rgba(61, 56, 50, 0.08);
+  --shadow-elevated: 0 8px 32px rgba(61, 56, 50, 0.1);
+  --shadow-glow-gold: 0 4px 20px rgba(212, 168, 83, 0.25);
+  --shadow-glow-purple: 0 4px 20px rgba(107, 76, 154, 0.2);
 
-  /* Texture - Subtle noise for "lived-in" feel */
-  --texture-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  /* Glass shadow */
+  --shadow-glass: 0 4px 30px rgba(0, 0, 0, 0.05);
+
+  /* ============================================
+     LIQUID GLASS MATERIAL SYSTEM
+     Afrofuturist Regal + Modern Frosted Glass
+     ============================================ */
+
+  /* Glass Base - Warm cream with transparency */
+  --glass-base: rgba(253, 248, 243, 0.60);
+  --glass-base-solid: rgba(253, 248, 243, 0.85);
+  --glass-blur: 40px;
+  --glass-border: rgba(255, 255, 255, 0.20);
+  --glass-border-accent: rgba(255, 215, 0, 0.15);
+  --glass-saturation: 180%;
+
+  /* Refraction Layer - Gold shimmer on edges */
+  --refraction-gold: linear-gradient(135deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.12) 50%,
+      transparent 100%);
+  --refraction-purple: linear-gradient(135deg,
+      transparent 0%,
+      rgba(75, 0, 130, 0.08) 50%,
+      transparent 100%);
+
+  /* Deep Ebony - WCAG AAA Compliant (7:1+ contrast) */
+  --text-ebony: #1A1A1A;
+  --text-ebony-soft: #2D2D2D;
+
+  /* Icon States */
+  --icon-active: #4B0082;
+  /* Regal Purple */
+  --icon-inactive: #1A1A1A;
+  /* Deep Ebony */
+  --icon-hover: #6B4C9A;
+  /* Warm Purple */
 }
 
 /* ============================================
-   BASE STYLES - GROUNDED FOUNDATION
+   BASE STYLES - WARM FOUNDATION
    ============================================ */
 
 body {
   margin: 0;
   font-family: var(--font-body);
-  background-color: var(--ivory-cream);
-  color: var(--deep-ebony);
+  font-size: 16px;
+  line-height: var(--line-height-body);
+  letter-spacing: var(--letter-spacing);
+  background-color: var(--neutral-cream);
+  color: var(--neutral-text);
   min-height: 100vh;
-  /* Subtle grain texture for "lived-in" feel */
-  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: var(--texture-grain);
-  opacity: 0.02;
-  pointer-events: none;
-  z-index: 1000;
-}
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
 
 h1,
 h2,
@@ -106,13 +168,14 @@ h5,
 h6 {
   font-family: var(--font-heading);
   font-weight: 600;
-  color: var(--deep-ebony);
+  color: var(--neutral-text);
+  line-height: var(--line-height-heading);
   letter-spacing: 0.01em;
+  margin-top: 0;
 }
 
 h1 {
   font-size: 2.5rem;
-  line-height: 1.15;
   font-weight: 700;
 }
 
@@ -124,152 +187,388 @@ h3 {
   font-size: 1.5rem;
 }
 
+h4 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--space-md);
+}
+
 /* ============================================
-   REGAL COMPONENTS
+   iOS GLASS BUBBLE COMPONENTS
+   Premium, tactile, inviting
    ============================================ */
 
-/* Dignified Cards */
-.card-regal {
-  background: white;
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  border: 1px solid var(--parchment);
+.glass-bubble {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-pill);
+  padding: var(--space-sm) var(--space-lg);
+  box-shadow: var(--shadow-glass);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.glass-bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.glass-bubble:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Glass Card - for larger containers */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-medium);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
   box-shadow: var(--shadow-elevated);
+  transform: translateY(-2px);
+}
+
+/* ============================================
+   LIQUID GLASS PANEL
+   Premium frosted glass with gold refraction
+   ============================================ */
+
+.glass-panel {
+  background: var(--glass-base);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glass);
   position: relative;
   overflow: hidden;
 }
 
-.card-regal::before {
+/* Gold shimmer refraction on edges */
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--refraction-gold);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glass-panel:hover::before {
+  opacity: 1;
+}
+
+/* Solid variant for nav bars */
+.glass-panel-solid {
+  background: var(--glass-base-solid);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-medium);
+}
+
+/* ============================================
+   WARM CARD COMPONENT
+   For resource cards, topic cards, etc.
+   ============================================ */
+
+.card-warm {
+  background: var(--neutral-warm-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  border: 1px solid var(--neutral-border);
+  box-shadow: var(--shadow-soft);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-warm:hover {
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-3px);
+  border-color: rgba(107, 76, 154, 0.2);
+}
+
+/* Card with gradient accent */
+.card-gradient-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-gradient-accent::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--regal-purple), var(--gold-accent));
+  background: linear-gradient(90deg, var(--primary-purple), var(--gold-accent));
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
 }
 
-/* Gold-Bordered Input - The Oracle's Voice */
-.input-oracle {
+/* ============================================
+   ICON CONTAINERS - Properly Aligned
+   ============================================ */
+
+.icon-container {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-container-sm {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: var(--radius-md);
+}
+
+.icon-container-lg {
+  width: 72px;
+  height: 72px;
+  min-width: 72px;
+  border-radius: var(--radius-xl);
+}
+
+/* Icon gradient backgrounds */
+.icon-gradient-warm {
+  background: linear-gradient(135deg, #FED7AA 0%, #FDBA74 100%);
+}
+
+.icon-gradient-purple {
+  background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 100%);
+}
+
+.icon-gradient-gold {
+  background: linear-gradient(135deg, var(--gold-shimmer) 0%, var(--gold-accent) 100%);
+}
+
+.icon-gradient-sage {
+  background: linear-gradient(135deg, #BBF7D0 0%, #86EFAC 100%);
+}
+
+.icon-gradient-rose {
+  background: linear-gradient(135deg, #FECDD3 0%, #FDA4AF 100%);
+}
+
+.icon-gradient-blue {
+  background: linear-gradient(135deg, #BFDBFE 0%, #93C5FD 100%);
+}
+
+/* ============================================
+   BUTTONS - Premium, Tactile
+   ============================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, var(--primary-purple), var(--primary-purple-light));
+  color: white;
+  box-shadow: var(--shadow-glow-purple);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(107, 76, 154, 0.35);
+}
+
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, var(--gold-accent), var(--gold-shimmer));
+  color: var(--neutral-text);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(212, 168, 83, 0.4);
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 2px solid var(--neutral-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: transparent;
+  color: var(--neutral-text);
+}
+
+.btn-ghost:hover {
+  border-color: var(--primary-purple);
+  color: var(--primary-purple);
+  background: rgba(107, 76, 154, 0.05);
+}
+
+/* Legacy button support */
+.btn-regal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-lg);
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: linear-gradient(135deg, var(--gold-accent), var(--gold-shimmer));
+  color: var(--neutral-text);
+  box-shadow: var(--shadow-glow-gold);
+}
+
+.btn-regal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(212, 168, 83, 0.4);
+}
+
+/* ============================================
+   FORM INPUTS - Soft, Inviting
+   ============================================ */
+
+.input-warm {
   width: 100%;
-  padding: 1rem 1.25rem;
-  border: 2px solid var(--soft-stone);
+  padding: var(--space-md);
+  border: 2px solid var(--neutral-border);
   border-radius: var(--radius-lg);
   font-family: var(--font-body);
   font-size: 1rem;
-  background: white;
+  background: var(--neutral-warm-white);
+  color: var(--neutral-text);
+  transition: all 0.2s ease;
+}
+
+.input-warm:focus {
+  outline: none;
+  border-color: var(--primary-purple);
+  box-shadow: 0 0 0 4px rgba(107, 76, 154, 0.1);
+}
+
+.input-warm::placeholder {
+  color: var(--neutral-text-soft);
+}
+
+/* Legacy input support */
+.input-oracle {
+  width: 100%;
+  padding: var(--space-md);
+  border: 2px solid var(--neutral-border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  background: var(--neutral-warm-white);
   transition: all 0.2s ease;
 }
 
 .input-oracle:focus {
   outline: none;
   border-color: var(--gold-accent);
-  box-shadow: var(--shadow-gold);
+  box-shadow: var(--shadow-glow-gold);
 }
 
-/* Regal Button */
-.btn-regal {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.875rem 1.5rem;
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  transition: all 0.2s ease;
-  cursor: pointer;
-  border: none;
-  font-family: var(--font-body);
-  font-size: 0.95rem;
+/* ============================================
+   NAVIGATION - Warm Glass
+   ============================================ */
+
+.nav-regal {
+  background: rgba(253, 248, 243, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--neutral-border);
 }
 
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold-accent), var(--gold-shimmer));
-  color: var(--deep-ebony);
-  box-shadow: var(--shadow-gold);
-}
+/* ============================================
+   CHAT BUBBLES - Warm & Inviting
+   ============================================ */
 
-.btn-gold:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.35);
-}
-
-.btn-purple {
-  background: linear-gradient(135deg, var(--regal-purple), var(--regal-purple-light));
-  color: white;
-  box-shadow: var(--shadow-purple);
-}
-
-.btn-purple:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(76, 29, 149, 0.4);
-}
-
-/* Message Bubbles - The Oracle's Wisdom */
 .bubble-user {
-  background: var(--deep-ebony);
-  color: var(--ivory-cream);
-  border-radius: var(--radius-lg) var(--radius-lg) 4px var(--radius-lg);
-  padding: 1rem 1.25rem;
-  border-left: 3px solid var(--gold-accent);
+  background: var(--neutral-text);
+  color: var(--neutral-cream);
+  border-radius: var(--radius-xl) var(--radius-xl) var(--space-xs) var(--radius-xl);
+  padding: var(--space-md) var(--space-lg);
 }
 
 .bubble-oracle {
-  background: linear-gradient(135deg, var(--regal-purple-dark), var(--regal-purple));
+  background: linear-gradient(135deg, var(--primary-purple-dark), var(--primary-purple));
   color: white;
-  border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) 4px;
-  padding: 1rem 1.25rem;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Subtle geometric pattern overlay for Oracle bubble */
-.bubble-oracle::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0L20 10L10 20L0 10L10 0z' fill='%23ffffff' fill-opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-}
-
-/* Navigation - Grounded Glass */
-.nav-regal {
-  background: rgba(250, 250, 249, 0.95);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--parchment);
-}
-
-/* Okavango Triangle Accent (SVG as pseudo-element) */
-.okavango-accent {
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) var(--space-xs);
+  padding: var(--space-md) var(--space-lg);
   position: relative;
 }
 
-.okavango-accent::after {
-  content: '';
-  position: absolute;
-  width: 24px;
-  height: 24px;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2L22 20H2L12 2z' fill='%23D97706' fill-opacity='0.2'/%3E%3C/svg%3E");
-  opacity: 0.5;
+/* ============================================
+   LEGACY SUPPORT
+   ============================================ */
+
+.card-regal {
+  background: var(--neutral-warm-white);
+  border-radius: var(--radius-xl);
+  padding: var(--space-lg);
+  border: 1px solid var(--neutral-border);
+  box-shadow: var(--shadow-medium);
 }
 
-/* Gold Divider */
 .divider-gold {
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--gold-accent), transparent);
   border: none;
-  margin: 2rem 0;
+  margin: var(--space-xl) 0;
 }
 
-/* Loading Animation - Ancestral Pulse */
-@keyframes ancestral-pulse {
+/* Loading Animation */
+@keyframes pulse-gentle {
 
   0%,
   100% {
-    opacity: 0.3;
-    transform: scale(0.8);
+    opacity: 0.4;
+    transform: scale(0.9);
   }
 
   50% {
@@ -284,7 +583,7 @@ h3 {
   height: 10px;
   background: var(--gold-accent);
   border-radius: 50%;
-  animation: ancestral-pulse 1.2s ease-in-out infinite;
+  animation: pulse-gentle 1.2s ease-in-out infinite;
 }
 
 .loading-oracle span:nth-child(2) {
@@ -293,4 +592,714 @@ h3 {
 
 .loading-oracle span:nth-child(3) {
   animation-delay: 0.4s;
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+
+.text-warm {
+  color: var(--neutral-text);
+}
+
+.text-soft {
+  color: var(--neutral-text-soft);
+}
+
+.text-heading {
+  font-family: var(--font-heading);
+}
+
+.text-body {
+  font-family: var(--font-body);
+}
+
+.bg-cream {
+  background: var(--neutral-cream);
+}
+
+.bg-white {
+  background: var(--neutral-warm-white);
+}
+
+.rounded-warm {
+  border-radius: var(--radius-xl);
+}
+
+.rounded-pill {
+  border-radius: var(--radius-pill);
+}
+
+.shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+.shadow-medium {
+  box-shadow: var(--shadow-medium);
+}
+
+.shadow-elevated {
+  box-shadow: var(--shadow-elevated);
+}
+
+/* ============================================
+   RESPONSIVE NAVIGATION (Inline styles preferred)
+   ============================================ */
+
+/* Desktop nav links */
+.desktop-nav-links {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .desktop-nav-links {
+    display: flex;
+  }
+}
+
+/* Mobile bottom nav handled via inline styles */
+
+/* ============================================
+   SANCTUARY PREMIUM MICRO-ANIMATIONS
+   Apple-level interaction polish
+   ============================================ */
+
+@keyframes sanctuaryFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sanctuaryScaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes gentlePulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes shimmerSlide {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+.sanctuary-enter {
+  animation: sanctuaryFadeIn 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.sanctuary-enter-1 { animation-delay: 0.05s; }
+.sanctuary-enter-2 { animation-delay: 0.1s; }
+.sanctuary-enter-3 { animation-delay: 0.15s; }
+.sanctuary-enter-4 { animation-delay: 0.2s; }
+.sanctuary-enter-5 { animation-delay: 0.25s; }
+.sanctuary-enter-6 { animation-delay: 0.3s; }
+
+.sanctuary-card {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sanctuary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(45, 42, 38, 0.12),
+              0 4px 12px rgba(45, 42, 38, 0.06);
+}
+
+.sanctuary-card:active {
+  transform: translateY(-1px) scale(0.99);
+  transition-duration: 0.1s;
+}
+
+.sanctuary-pill {
+  transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sanctuary-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(45, 42, 38, 0.1);
+}
+
+/* ============================================
+   LANDING PAGE — Afrofuturist Sanctuary
+   Dark immersive hero with gold particle FX
+   ============================================ */
+
+/* Full-page dark container */
+.landing-page {
+  background: #0D0D0D;
+  color: #F5F0E8;
+  overflow-x: hidden;
+}
+
+/* Hero Section — deep gradient + aurora glow */
+.landing-hero {
+  position: relative;
+  min-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 1.5rem;
+  background: linear-gradient(170deg, #1A0A2E 0%, #110820 40%, #0D0D0D 100%);
+  overflow: hidden;
+}
+
+/* Aurora glow behind headline */
+.landing-hero::before {
+  content: '';
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(75, 0, 130, 0.35) 0%,
+    rgba(212, 175, 55, 0.12) 40%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  pointer-events: none;
+  animation: aurora-pulse 6s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-pulse {
+  0% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+}
+
+/* Floating particles layer */
+.landing-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.landing-particle {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--gold-shimmer);
+  opacity: 0;
+  animation: particle-float linear infinite;
+}
+
+@keyframes particle-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100vh) scale(1);
+  }
+}
+
+/* Gold shimmer text */
+.landing-text-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #F5D76E 50%, #D4AF37 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gold-shimmer 4s ease-in-out infinite;
+}
+
+@keyframes gold-shimmer {
+  0%, 100% {
+    background-position: 0% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+}
+
+/* Hero badge */
+.landing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: rgba(245, 240, 232, 0.7);
+  margin-bottom: 2rem;
+}
+
+/* Hero headline */
+.landing-headline {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #F5F0E8;
+  margin-bottom: 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero subheadline */
+.landing-subheadline {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.55);
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* Primary CTA — gold glass */
+.landing-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 40px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #D4AF37, #E8C97A);
+  color: #1A0A2E;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 30px rgba(212, 175, 55, 0.3);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-cta-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(212, 175, 55, 0.5);
+}
+
+/* Ghost CTA */
+.landing-cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  background: transparent;
+  color: rgba(245, 240, 232, 0.7);
+  border: 1px solid rgba(245, 240, 232, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+  z-index: 1;
+}
+
+.landing-cta-ghost:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  color: #F5F0E8;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ============================================
+   FEATURE CARDS — Dark Glass Morphism
+   ============================================ */
+
+.landing-features {
+  padding: 6rem 1.5rem;
+  background: linear-gradient(180deg, #0D0D0D 0%, #0A0A0A 100%);
+}
+
+.landing-section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  color: #F5F0E8;
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.landing-section-sub {
+  text-align: center;
+  color: rgba(245, 240, 232, 0.45);
+  font-size: 1.05rem;
+  margin-bottom: 4rem;
+}
+
+.landing-glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.landing-glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0) 0%, rgba(212, 175, 55, 0.15) 50%, rgba(75, 0, 130, 0) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.landing-glass-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.landing-glass-card:hover::before {
+  opacity: 1;
+}
+
+/* Feature icon container */
+.landing-icon-wrap {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.landing-icon-wrap::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  filter: blur(12px);
+  opacity: 0.4;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.landing-glass-card:hover .landing-icon-wrap::after {
+  opacity: 0.7;
+}
+
+.landing-icon-purple {
+  background: linear-gradient(135deg, #4B0082 0%, #6B4C9A 100%);
+}
+
+.landing-icon-purple::after {
+  background: rgba(75, 0, 130, 0.5);
+}
+
+.landing-icon-gold {
+  background: linear-gradient(135deg, #D4AF37 0%, #E8C97A 100%);
+}
+
+.landing-icon-gold::after {
+  background: rgba(212, 175, 55, 0.5);
+}
+
+.landing-icon-rose {
+  background: linear-gradient(135deg, #8B3A62 0%, #B85450 100%);
+}
+
+.landing-icon-rose::after {
+  background: rgba(184, 84, 80, 0.4);
+}
+
+.landing-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #F5F0E8;
+  margin-bottom: 0.75rem;
+}
+
+.landing-card-text {
+  color: rgba(245, 240, 232, 0.5);
+  line-height: 1.7;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.landing-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--gold-shimmer);
+  text-decoration: none;
+  transition: gap 0.3s ease, color 0.3s ease;
+}
+
+.landing-card-link:hover {
+  gap: 10px;
+  color: #F5D76E;
+}
+
+/* ============================================
+   PHILOSOPHY STRIP
+   ============================================ */
+
+.landing-philosophy {
+  padding: 5rem 1.5rem;
+  text-align: center;
+  background: #0A0A0A;
+  position: relative;
+}
+
+.landing-philosophy::before,
+.landing-philosophy::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 1px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+}
+
+.landing-philosophy::before {
+  margin-bottom: 3rem;
+}
+
+.landing-philosophy::after {
+  margin-top: 3rem;
+}
+
+.landing-philosophy blockquote {
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  font-style: italic;
+  font-weight: 500;
+  color: rgba(245, 240, 232, 0.65);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ============================================
+   FINAL CTA — Cinematic Panel
+   ============================================ */
+
+.landing-final-cta {
+  padding: 6rem 1.5rem;
+  background: #0D0D0D;
+}
+
+.landing-final-panel {
+  max-width: 800px;
+  margin: 0 auto;
+  background: linear-gradient(145deg, #1A0A2E 0%, #110820 60%, #0D0D0D 100%);
+  border-radius: var(--radius-2xl);
+  padding: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 4rem);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Gold accent bar */
+.landing-final-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4AF37, var(--primary-purple), #D4AF37, transparent);
+}
+
+/* Radial glow */
+.landing-final-panel::after {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 500px;
+  height: 200px;
+  background: radial-gradient(ellipse, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Fade-up animation for scroll reveal */
+.landing-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fade-up 0.8s ease-out forwards;
+}
+
+@keyframes fade-up {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.landing-fade-up-delay-1 {
+  animation-delay: 0.15s;
+}
+
+.landing-fade-up-delay-2 {
+  animation-delay: 0.3s;
+}
+
+.landing-fade-up-delay-3 {
+  animation-delay: 0.45s;
+}
+
+.landing-fade-up-delay-4 {
+  animation-delay: 0.6s;
+}
+
+/* ============================================
+   ACCESSIBILITY — WCAG 2.1 AA
+   Focus indicators, skip links, screen reader
+   ============================================ */
+
+/* Skip-to-content link — visible on Tab, hidden otherwise */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 99999;
+  padding: 12px 24px;
+  background: #D4AF37;
+  color: #1A1A1A;
+  font-weight: 700;
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  border-radius: 0 0 12px 12px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: top 0.15s ease;
+}
+
+.skip-to-content:focus {
+  top: 0;
+  outline: none;
+}
+
+/* Global focus-visible ring — gold accent for keyboard users only */
+*:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Remove focus ring for mouse clicks (browsers that support :focus-visible) */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Buttons and interactive elements — enhanced focus state */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[role="button"]:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2);
+}
+
+/* Card links — visible focus for large interactive surfaces */
+.sanctuary-card:focus-visible,
+.sanctuary-pill:focus-visible {
+  outline: 2px solid #D4AF37;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(212, 175, 55, 0.15);
+}
+
+/* Screen reader only — visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion — respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .sanctuary-enter,
+  .sanctuary-card,
+  .glass-card,
+  .glass-bubble {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --neutral-border: #666;
+    --neutral-text-soft: #333;
+  }
+
+  .glass-bubble,
+  .glass-card,
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: #333 !important;
+  }
+
+  button,
+  a {
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* Spinner animation (for PageLoadingFallback) */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
