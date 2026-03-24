@@ -39,9 +39,11 @@ service cloud.firestore {
     // ============================================
 
     // Families: Create allowed if auth; Read/Write only by admin
+    // familyId == uid check handles onSnapshot before doc exists
     match /families/{familyId} {
       allow create: if request.auth != null;
-      allow read, update, delete: if request.auth != null && resource.data.adminId == request.auth.uid;
+      allow read: if request.auth != null && (familyId == request.auth.uid || resource.data.adminId == request.auth.uid);
+      allow update, delete: if request.auth != null && resource.data.adminId == request.auth.uid;
     }
 
     // Module Progress: Subcollection under families
