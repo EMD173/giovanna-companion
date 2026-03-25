@@ -35,6 +35,27 @@ export function IEPReportPage() {
     useEffect(() => {
         async function loadProfile() {
             if (!activeChild) return;
+
+            // DEV BYPASS: seed mock safety profile
+            const isDemoOrBypass = localStorage.getItem('DEMO_MODE') === 'true'
+                || (!import.meta.env.PROD && localStorage.getItem('DEV_BYPASS') === 'true');
+            if (isDemoOrBypass) {
+                setSafetyProfile({
+                    id: 'mock_safety',
+                    triggers: ['Sudden loud noises', 'Unexpected schedule changes', 'Crowded/overstimulating spaces', 'Being touched without warning'],
+                    comforts: ['Noise-canceling headphones', 'Weighted blanket', 'Quiet corner with books', 'Deep breathing with mama', 'Favorite stuffed giraffe'],
+                    diagnosis: 'Autism Spectrum Disorder (Level 1), Sensory Processing Disorder',
+                    communicationStyle: 'Verbal with processing delays. Responds best to calm, clear language. Needs 5-10 seconds to process before responding.',
+                    emergencyContacts: [],
+                    medications: [],
+                    elopementRisk: 'low',
+                    emergencyScript: 'Stay calm. Speak softly. Offer headphones or weighted blanket. Do not touch without asking. Call mama at 205-555-0123.',
+                    updatedAt: new Date(),
+                } as unknown as SafetyProfile);
+                setLoading(false);
+                return;
+            }
+
             try {
                 const docRef = doc(db, 'children', activeChild.id, 'safetyProfile', 'current');
                 const snap = await getDoc(docRef);

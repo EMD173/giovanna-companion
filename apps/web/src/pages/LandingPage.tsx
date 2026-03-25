@@ -16,9 +16,9 @@
 import {
     ArrowRight, Sparkles, GraduationCap, Users,
     BookOpen, MessageCircle, Shield, Star, Heart, Check,
-    ChevronRight, Award
+    ChevronRight, Award, Play
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
 
 // ============================================
@@ -62,6 +62,12 @@ function Particles({ count = 20 }: { count?: number }) {
 // ============================================
 
 export function LandingPage() {
+    const navigate = useNavigate();
+
+    const handleTryDemo = () => {
+        localStorage.setItem('DEMO_MODE', 'true');
+        navigate('/dashboard');
+    };
     return (
         <div className="landing-page">
             {/* ======== INLINE NAV ======== */}
@@ -97,23 +103,24 @@ export function LandingPage() {
             <section className="landing-hero">
                 <Particles count={24} />
 
-                {/* Badge */}
+                {/* Reality Statement Badge */}
                 <div className="landing-badge landing-fade-up">
                     <Sparkles size={14} style={{ color: '#D4AF37' }} />
-                    Neuro-Affirming Companion
+                    A Reality Statement
                 </div>
 
-                {/* Headline */}
+                {/* The Reality Statement — Headline */}
                 <h1 className="landing-headline landing-fade-up landing-fade-up-delay-1">
-                    Parenting with<br />
-                    <span className="landing-text-gold">Wisdom</span>, Not Worry.
+                    Behavioral intelligence<br />
+                    <span className="landing-text-gold">is now in YOUR hands.</span>
                 </h1>
 
                 {/* Subheadline */}
                 <p className="landing-subheadline landing-fade-up landing-fade-up-delay-2">
-                    The first AI companion built for families raising neurodivergent children —
-                    centering Black and Brown families with culturally-responsive strategies,
-                    practitioner-grade training, and a community that truly gets it.
+                    The analysis that used to cost $5,000 and require a clinician? Now it comes 
+                    from 10-second voice notes on your phone. Whether it's autism, trauma, 
+                    impulse control, or intellectual disability — you finally have data-driven 
+                    strategies individualized to YOUR child, in every setting.
                 </p>
 
                 {/* CTAs */}
@@ -124,8 +131,14 @@ export function LandingPage() {
                         Begin Your Journey
                         <ArrowRight size={20} />
                     </Link>
-                    <button onClick={() => document.getElementById('pillars')?.scrollIntoView({ behavior: 'smooth' })} className="landing-cta-ghost">
-                        See What's Inside
+                    <button onClick={handleTryDemo} className="landing-cta-ghost" style={{
+                        display: 'flex', alignItems: 'center', gap: '8px',
+                        background: 'rgba(212, 175, 55, 0.12)',
+                        border: '1px solid rgba(212, 175, 55, 0.4)',
+                        color: '#E8C97A',
+                    }}>
+                        <Play size={16} fill="#E8C97A" />
+                        Try the Demo
                     </button>
                 </div>
 
@@ -282,8 +295,8 @@ export function LandingPage() {
                         gap: '20px',
                     }}>
                         <ToolCard icon={<MessageCircle size={22} color="#D4AF37" />}
-                            title="The Oracle"
-                            text="AI companion grounded in research and deep respect. Ask anything." />
+                            title="Insight"
+                            text="AI that remembers your child's story. The more you share, the smarter it gets." />
                         <ToolCard icon={<BookOpen size={22} color="#8B6CB8" />}
                             title="ABC Capture"
                             text="Document behaviors with the ABC framework. Patterns emerge." />
@@ -389,7 +402,7 @@ export function LandingPage() {
                             period="forever"
                             description="Get started with neuro-affirming support."
                             features={[
-                                '30 Oracle conversations/mo',
+                                '30 Insight conversations/mo',
                                 '1 child profile',
                                 'ABC behavior logging',
                                 'EC Mode access',
@@ -408,7 +421,7 @@ export function LandingPage() {
                             description="More support for growing families."
                             badge="BEST VALUE"
                             features={[
-                                '150 Oracle conversations/mo',
+                                '150 Insight conversations/mo',
                                 '3 child profiles',
                                 'Professional share packets',
                                 'Homeplace sanctuary tools',
@@ -428,7 +441,7 @@ export function LandingPage() {
                             description="Unlimited sharing + educator training."
                             badge="POPULAR"
                             features={[
-                                '500 Oracle conversations/mo',
+                                '500 Insight conversations/mo',
                                 '5 child profiles',
                                 'Unlimited share packets',
                                 'All 6 Practice modules',

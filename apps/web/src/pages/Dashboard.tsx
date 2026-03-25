@@ -63,7 +63,7 @@ function getContextualSuggestion(logs: ABCEntry[], timeBlock: string, mode: 'sur
     // No logs yet — encourage first capture
     if (logs.length === 0) {
         return {
-            text: 'Start your first Capture to give The Oracle context about your child.',
+            text: 'Start your first Capture to give Insight context about your child.',
             action: 'Log a moment',
             link: '/log'
         };
@@ -73,8 +73,8 @@ function getContextualSuggestion(logs: ABCEntry[], timeBlock: string, mode: 'sur
     const recentHigh = logs.slice(0, 3).filter(l => l.intensity >= 7);
     if (recentHigh.length >= 2) {
         return {
-            text: 'Several high-intensity moments recently. The Oracle can help find the pattern.',
-            action: 'Ask The Oracle',
+            text: 'Several high-intensity moments recently. Insight can help find the pattern.',
+            action: 'Ask Insight',
             link: '/chat'
         };
     }
@@ -91,8 +91,8 @@ function getContextualSuggestion(logs: ABCEntry[], timeBlock: string, mode: 'sur
     // Evening — reflect
     if (timeBlock === 'evening' || timeBlock === 'night') {
         return {
-            text: "Before you rest, The Oracle can help you reflect on today's moments.",
-            action: 'Reflect with Oracle',
+            text: "Before you rest, Insight can help you reflect on today's moments.",
+            action: 'Reflect with Insight',
             link: '/chat'
         };
     }
@@ -324,7 +324,7 @@ export function Dashboard() {
                                     title="Sanctuary" subtitle="Safety & Comfort" />
                                 <ActionCard i={4} to="/chat" icon={<MessageCircle size={22} />}
                                     iconColor={sanctuary.purple} iconBg={sanctuary.purpleBg}
-                                    title="The Oracle" subtitle="Ask for help" />
+                                    title="Insight" subtitle="Ask for help" />
                             </>
                         ) : (
                             <>
@@ -333,7 +333,7 @@ export function Dashboard() {
                                     title="Capture" subtitle="Document the moments." accent="gold" />
                                 <ActionCard i={4} to="/chat" icon={<MessageCircle size={22} />}
                                     iconColor={sanctuary.purple} iconBg={sanctuary.purpleBg}
-                                    title="The Oracle" subtitle="Seek wisdom." accent="purple" />
+                                    title="Insight" subtitle="Seek wisdom." accent="purple" />
                                 <ActionCard i={5} to="/homeplace" icon={<Home size={22} />}
                                     iconColor={sanctuary.sage} iconBg={sanctuary.sageBg}
                                     title="Sanctuary" subtitle="Safe spaces & tools." accent="sage" />

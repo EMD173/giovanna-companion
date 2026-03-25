@@ -7,6 +7,7 @@ import { QuickLogMode } from '../components/QuickLogMode';
 import { BehaviorPatterns } from '../components/BehaviorPatterns';
 import { BehaviorTrends } from '../components/BehaviorTrends';
 import { PostLogInsight } from '../components/PostLogInsight';
+import { CapturePreview } from '../components/CapturePreview';
 import { useABCLogs, type FunctionHypothesis } from '../hooks/useABCLogs';
 import { sanctuary, typography } from '../shared/theme';
 
@@ -207,6 +208,11 @@ export function ABCLogPage() {
                                 visible={!!lastSavedFunction}
                                 onDismiss={() => setLastSavedFunction(null)}
                             />
+                        )}
+                        {logs.length === 0 && (
+                            <div style={{ marginBottom: '24px' }}>
+                                <CapturePreview onStartLogging={() => setView('form')} />
+                            </div>
                         )}
                         <ABCLogList />
                     </>

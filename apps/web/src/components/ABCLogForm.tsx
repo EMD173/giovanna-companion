@@ -127,25 +127,74 @@ export function ABCLogForm({ onClose, onSave }: { onClose?: () => void; onSave?:
         display: 'inline-flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: '32px',
-        height: '32px',
-        borderRadius: '50%',
+        gap: '4px',
+        minWidth: '42px',
+        height: '42px',
+        padding: '0 12px',
+        borderRadius: '100px',
         border: 'none',
         cursor: 'pointer',
         transition: 'all 0.2s ease',
+        fontFamily: typography.body,
+        fontWeight: 700,
+        fontSize: '0.72rem',
         background: isListening && activeField === field
             ? sanctuary.rose
-            : sanctuary.bgAlt,
+            : `linear-gradient(135deg, ${sanctuary.roseBg}, ${sanctuary.roseBorder})`,
         color: isListening && activeField === field
             ? '#fff'
-            : sanctuary.textMuted,
+            : sanctuary.rose,
         boxShadow: isListening && activeField === field
-            ? `0 0 0 3px ${sanctuary.roseBg}`
+            ? `0 0 0 4px ${sanctuary.roseBg}, 0 4px 12px rgba(184,84,80,0.3)`
+            : '0 2px 8px rgba(184,84,80,0.1)',
+        animation: isListening && activeField === field
+            ? 'micPulse 1.5s infinite'
             : 'none',
     });
 
     return (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+            {/* Voice-First Banner */}
+            {voiceSupported && (
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '12px 16px',
+                    borderRadius: '14px',
+                    background: `linear-gradient(135deg, ${sanctuary.roseBg}, rgba(184,84,80,0.08))`,
+                    border: `1px solid ${sanctuary.roseBorder}`,
+                }}>
+                    <div style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '50%',
+                        background: sanctuary.rose,
+                        color: '#fff',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        animation: 'micPulse 2s infinite',
+                    }}>
+                        <Mic size={18} />
+                    </div>
+                    <div>
+                        <div style={{
+                            fontSize: '0.85rem',
+                            fontWeight: 700,
+                            color: sanctuary.text,
+                            fontFamily: typography.body,
+                        }}>Tap any 🎤 to talk instead of type</div>
+                        <div style={{
+                            fontSize: '0.75rem',
+                            color: sanctuary.textMuted,
+                            fontFamily: typography.body,
+                        }}>Voice capture — just describe what happened</div>
+                    </div>
+                </div>
+            )}
 
             {/* Time of Day Badge + Child Selector Row */}
             <div style={{
@@ -229,8 +278,8 @@ export function ABCLogForm({ onClose, onSave }: { onClose?: () => void; onSave?:
                             aria-label={isListening && activeField === 'antecedent' ? 'Stop recording' : 'Start voice input'}
                         >
                             {isListening && activeField === 'antecedent'
-                                ? <MicOff size={14} />
-                                : <Mic size={14} />
+                                ? <><MicOff size={14} /> Stop</>
+                                : <><Mic size={14} /> Speak</>
                             }
                         </button>
                     )}
@@ -264,8 +313,8 @@ export function ABCLogForm({ onClose, onSave }: { onClose?: () => void; onSave?:
                             aria-label={isListening && activeField === 'behavior' ? 'Stop recording' : 'Start voice input'}
                         >
                             {isListening && activeField === 'behavior'
-                                ? <MicOff size={14} />
-                                : <Mic size={14} />
+                                ? <><MicOff size={14} /> Stop</>
+                                : <><Mic size={14} /> Speak</>
                             }
                         </button>
                     )}
@@ -301,8 +350,8 @@ export function ABCLogForm({ onClose, onSave }: { onClose?: () => void; onSave?:
                             aria-label={isListening && activeField === 'consequence' ? 'Stop recording' : 'Start voice input'}
                         >
                             {isListening && activeField === 'consequence'
-                                ? <MicOff size={14} />
-                                : <Mic size={14} />
+                                ? <><MicOff size={14} /> Stop</>
+                                : <><Mic size={14} /> Speak</>
                             }
                         </button>
                     )}

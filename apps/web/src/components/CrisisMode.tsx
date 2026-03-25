@@ -441,7 +441,7 @@ export function CrisisMode({ onExit, initialMessage }: CrisisModeProps) {
                         fontFamily: typography.body, fontSize: '0.92rem',
                         color: 'rgba(245,240,232,0.5)', marginBottom: '32px', lineHeight: 1.6,
                     }}>
-                        This creates an ABC log entry so the Oracle can learn from this moment.
+                        This creates an ABC log entry so Insight can learn from this moment.
                         Take your time — no rush.
                     </p>
 
@@ -557,7 +557,7 @@ export function CrisisMode({ onExit, initialMessage }: CrisisModeProps) {
                         color: 'rgba(245,240,232,0.5)', lineHeight: 1.6,
                         maxWidth: '400px', marginBottom: '40px',
                     }}>
-                        This moment is now part of {childName}'s story. The Oracle will use it to
+                        This moment is now part of {childName}'s story. Insight will use it to
                         find patterns and help you prepare for next time.
                     </p>
                     <button onClick={onExit} style={{
@@ -567,7 +567,7 @@ export function CrisisMode({ onExit, initialMessage }: CrisisModeProps) {
                         color: '#8B6CB8', fontFamily: typography.body,
                         fontSize: '1rem', fontWeight: 700, cursor: 'pointer',
                     }}>
-                        Return to The Oracle
+                        Return to Insight
                     </button>
                 </div>
             )}

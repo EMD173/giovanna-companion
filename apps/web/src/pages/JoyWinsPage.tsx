@@ -46,7 +46,51 @@ export function JoyWinsPage() {
     const [category, setCategory] = useState<WinEntry['category']>('joy');
     const [saving, setSaving] = useState(false);
 
+    const isDemoMode = localStorage.getItem('DEMO_MODE') === 'true';
+    const isDevBypass = localStorage.getItem('DEV_BYPASS') === 'true';
+
     useEffect(() => {
+        // Demo/Dev mode: seed mock wins
+        if (isDemoMode || isDevBypass) {
+            const childName = activeChild?.preferredName || activeChild?.firstName || 'Amara';
+            const now = Date.now();
+            setWins([
+                {
+                    id: 'demo-1',
+                    userId: 'demo_user',
+                    childName,
+                    content: `${childName} asked for headphones BEFORE the fire drill today. She recognized her own trigger and self-advocated. I cried in the car.`,
+                    category: 'milestone',
+                    createdAt: { toDate: () => new Date(now - 86400000) } as Timestamp,
+                },
+                {
+                    id: 'demo-2',
+                    userId: 'demo_user',
+                    childName,
+                    content: `First time she sat through an entire dinner without leaving the table. We used the visual timer strategy from Insight and it WORKED.`,
+                    category: 'breakthrough',
+                    createdAt: { toDate: () => new Date(now - 86400000 * 2) } as Timestamp,
+                },
+                {
+                    id: 'demo-3',
+                    userId: 'demo_user',
+                    childName,
+                    content: `She drew a picture of our family at the park and said "this is my happy place." My heart is so full.`,
+                    category: 'joy',
+                    createdAt: { toDate: () => new Date(now - 86400000 * 3) } as Timestamp,
+                },
+                {
+                    id: 'demo-4',
+                    userId: 'demo_user',
+                    childName,
+                    content: `${childName} said "I need a break" to her teacher instead of running out of the classroom. FIRST TIME EVER.`,
+                    category: 'first',
+                    createdAt: { toDate: () => new Date(now - 86400000 * 4) } as Timestamp,
+                },
+            ]);
+            return;
+        }
+
         if (!user) return;
         const q = query(
             collection(db, 'joyWins'),
@@ -57,7 +101,7 @@ export function JoyWinsPage() {
             setWins(snap.docs.map(d => ({ id: d.id, ...d.data() })) as WinEntry[]);
         });
         return () => unsub();
-    }, [user]);
+    }, [user, isDemoMode, isDevBypass, activeChild]);
 
     const handleSave = async () => {
         if (!user || !content.trim()) return;

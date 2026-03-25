@@ -1,8 +1,8 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { Search, ChevronDown, ChevronUp, Share2, BookOpen, ExternalLink, Sparkles } from 'lucide-react';
 import { initialContent, type ContentItem } from '../data/learningContent';
-import { GiovannaChat } from '../components/GiovannaChat';
 import { useECMode } from '../contexts/ECModeContext';
 import { LensPanel } from '../components/ec/LensPanel';
 import { ECModeIndicator } from '../components/ec/LensPanel';
@@ -11,7 +11,7 @@ import { sanctuary, typography } from '../shared/theme';
 export function LearningHub() {
     const [searchTerm, setSearchTerm] = useState('');
     const [expandedId, setExpandedId] = useState<string | null>(null);
-    const [isChatOpen, setIsChatOpen] = useState(false);
+    const navigate = useNavigate();
     const { enabled: ecModeEnabled } = useECMode();
 
     const fuse = useMemo(() => new Fuse(initialContent, {
@@ -108,7 +108,7 @@ export function LearningHub() {
                             fontSize: '1rem',
                             color: sanctuary.text,
                             marginBottom: '4px',
-                        }}>Ask The Oracle</h3>
+                        }}>Ask Insight</h3>
                         <p style={{
                             color: sanctuary.textSecondary,
                             fontSize: '0.85rem',
@@ -119,7 +119,7 @@ export function LearningHub() {
                             Need help explaining this to a teacher? Try: <em>"How do I explain that my child needs sensory breaks, not punishment?"</em>
                         </p>
                         <button
-                            onClick={() => setIsChatOpen(true)}
+                            onClick={() => navigate('/chat')}
                             style={{
                                 background: 'none', border: 'none', cursor: 'pointer',
                                 color: sanctuary.purple,
@@ -166,7 +166,7 @@ export function LearningHub() {
                     ))}
                 </div>
 
-                <GiovannaChat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+
             </div>
         </div>
     );

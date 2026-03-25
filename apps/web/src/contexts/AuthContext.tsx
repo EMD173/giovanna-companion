@@ -22,6 +22,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        // DEMO MODE: Immediately provide mock user without waiting for Firebase
+        const isDemoMode = localStorage.getItem('DEMO_MODE') === 'true';
+        if (isDemoMode) {
+            setUser({
+                uid: 'demo_user',
+                email: 'demo@giovanna.app',
+                displayName: 'Demo Parent',
+                emailVerified: true,
+                isAnonymous: false,
+                metadata: {},
+                providerData: [],
+                refreshToken: '',
+                tenantId: null,
+                delete: async () => { },
+                getIdToken: async () => 'demo-token',
+                getIdTokenResult: async () => ({ token: 'demo', columns: {}, expirationTime: '', authTime: '', issuedAtTime: '', signInProvider: '', signInSecondFactor: '', claims: {} }),
+                reload: async () => { },
+                toJSON: () => ({}),
+                phoneNumber: null,
+                photoURL: null
+            } as unknown as User);
+            setLoading(false);
+            return; // Skip Firebase listener in demo mode
+        }
+
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             setLoading(false);

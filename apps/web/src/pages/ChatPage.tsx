@@ -329,6 +329,9 @@ export function ChatPage() {
         [patterns, activeChild]
     );
 
+    // DEMO MODE: Pre-scripted conversation showing how the Oracle works
+    const isDemoMode = localStorage.getItem('DEMO_MODE') === 'true';
+
     const scrollToBottom = useCallback(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, []);
@@ -341,6 +344,39 @@ export function ChatPage() {
         if (hasInitialized.current) return;
 
         hasInitialized.current = true;
+
+        if (isDemoMode) {
+            // In demo mode, show a pre-scripted conversation that demonstrates the Oracle's capabilities
+            const childName = activeChild?.preferredName || activeChild?.firstName || 'Amara';
+            setMessages([
+                {
+                    role: 'assistant',
+                    content: `Welcome, honored one. I am here to walk alongside you on this journey with ${childName}. I understand you may carry the weight of navigating systems that weren't built for you — but you are not alone.\n\nI've been reviewing ${childName}'s recent behavioral data and I see some important patterns we should talk about.`,
+                    timestamp: new Date(Date.now() - 300000)
+                },
+                {
+                    role: 'user',
+                    content: `I've been logging ${childName}'s behaviors for a couple weeks. What are you seeing?`,
+                    timestamp: new Date(Date.now() - 240000)
+                },
+                {
+                    role: 'assistant',
+                    content: `Based on ${childName}'s 5 recent entries, here's what I'm seeing — and this applies everywhere, not just school:\n\n📊 **Top Triggers:**\n• **Routine/schedule changes** appear in 3 of 5 logs (60%) — this is ${childName}'s most consistent trigger\n• **Sensory overload** (noise, crowded spaces) appears in 2 of 5 logs\n\n⏰ **Time Patterns:**\n• Most incidents cluster in the **afternoon** — right after transitions\n\n🧠 **Function Analysis:**\n• 3 of 5 behaviors serve an **escape** function — ${childName} is trying to get away from overwhelming situations\n• 2 serve a **sensory** function — seeking regulation\n\n💡 **What's Working:**\nWhen ${childName} receives **noise-canceling headphones + a quiet space**, she consistently self-regulates within 3-5 minutes.\n\n**This means:** ${childName}'s nervous system needs **predictability and sensory safety** — at home, at school, at the grocery store, at church. These aren't "behaviors" — they're communication. And now you have the data to prove it.`,
+                    timestamp: new Date(Date.now() - 180000)
+                },
+                {
+                    role: 'user',
+                    content: `So what do I actually DO with this? How does this help me?`,
+                    timestamp: new Date(Date.now() - 120000)
+                },
+                {
+                    role: 'assistant',
+                    content: `This is what makes this approach different — you're not just getting school accommodations. You're getting **individualized strategies for every setting:**\n\n🏠 **At Home:**\n• Post a visual schedule in the kitchen — update it each morning together\n• Give 5-minute warnings before ANY routine change\n• Keep noise-canceling headphones accessible in every room\n\n🏫 **At School:**\n• Share your Behavioral Intelligence Report with her teacher and request these as accommodations\n• "I have 5 documented entries showing that when ${childName} receives advance transition warnings, she self-regulates within 3-5 minutes"\n\n🏥 **At Therapy / Doctor:**\n• Share the same data with OT, speech, or behavioral providers — they can build on YOUR patterns, not start from scratch\n\n🛒 **In the Community:**\n• Grocery store? Bring the headphones. Plan for a calm-down space before you go\n• Predict the triggers, prepare the supports\n\n💪 **The bottom line:** You now have what used to require a $5,000 behavioral assessment — documented, data-driven understanding of YOUR child. And it came from 10-second voice notes on your phone.\n\n*This is behavioral intelligence. It's never been available like this before.*`,
+                    timestamp: new Date(Date.now() - 60000)
+                },
+            ]);
+            return;
+        }
 
         if (persistedMessages.length > 0) {
             setMessages(persistedMessages);
@@ -355,7 +391,7 @@ export function ChatPage() {
                 timestamp: new Date()
             }]);
         }
-    }, [convoLoading, persistedMessages, activeChild, patterns.length]);
+    }, [convoLoading, persistedMessages, activeChild, patterns.length, isDemoMode]);
 
     // Voice-to-text
     const toggleVoice = () => {
@@ -402,6 +438,36 @@ export function ChatPage() {
         const userMessage: ChatMessage = { role: 'user', content: userMsg, timestamp: new Date() };
         setMessages(prev => [...prev, userMessage]);
         setIsLoading(true);
+
+        // DEMO MODE: keyword-based responder — no API needed
+        if (isDemoMode) {
+            const childName = activeChild?.preferredName || activeChild?.firstName || 'your child';
+            const lower = userMsg.toLowerCase();
+            let demoResponse = '';
+
+            if (lower.includes('strategy') || lower.includes('help') || lower.includes('calm') || lower.includes('what do i do')) {
+                demoResponse = `Based on ${childName}'s patterns, here are strategies tailored to her specific triggers:\n\n🏠 **At Home:**\n• Before any routine change, give a 5-minute verbal + visual countdown\n• Keep noise-canceling headphones in every room she uses\n• Create a "calm corner" with her weighted blanket and fidget tools\n\n🏫 **At School:**\n• Request a visual schedule at her desk, updated each morning\n• Ask for a designated quiet space she can access independently\n\n🛒 **In the Community:**\n• Bring headphones to the grocery store. Plan for sensory breaks.\n• Preview new environments with photos before visiting\n\n*In your real account, these strategies would update automatically as you log more moments. **[Sign up free](/)** to get strategies built from YOUR child's data.*`;
+            } else if (lower.includes('trigger') || lower.includes('pattern') || lower.includes('why')) {
+                demoResponse = `Great question. From ${childName}'s 5 logged moments, the data shows:\n\n📊 **Primary trigger:** Routine/schedule changes (60% of incidents)\n📊 **Secondary trigger:** Sensory overload — noise and crowds (40%)\n⏰ **Peak time:** Afternoons, especially during transitions\n🧠 **Function:** Mostly escape-driven — ${childName} is trying to get away from overwhelming input\n\nThis pattern is consistent with sensory processing differences. The good news? Once you know the pattern, you can **predict and prevent** instead of just react.\n\n*With a full account, Insight analyzes YOUR child's unique patterns in real-time. **[Sign up free](/)** to start.*`;
+            } else if (lower.includes('school') || lower.includes('teacher') || lower.includes('iep')) {
+                demoResponse = `Here's how to present your behavioral intelligence to ${childName}'s school:\n\n📋 **What to say:**\n"I've been documenting ${childName}'s behaviors using a structured framework. I have data showing that 60% of incidents are triggered by unexpected routine changes, and that advance warnings reduce incidents significantly."\n\n✅ **What to request:**\n1. Visual schedule at her desk\n2. 5-minute transition warnings\n3. Quiet space access\n4. Noise-canceling headphones in class\n\n*Your Behavioral Intelligence Report is printable and shareable — ready for any meeting. **[Sign up free](/)** to generate yours.*`;
+            } else if (lower.includes('doctor') || lower.includes('therapy') || lower.includes('therapist')) {
+                demoResponse = `When sharing with ${childName}'s providers:\n\n🏥 **For the pediatrician/specialist:**\nShare your Behavioral Intelligence Report — it shows documented triggers, function analysis, and what calming strategies are already working. This saves them from starting assessments from scratch.\n\n💆 **For OT/Speech/Behavioral therapists:**\nYour data shows ${childName} responds best to sensory regulation tools (headphones, weighted blanket). Therapists can build on YOUR documented patterns instead of guessing.\n\n*In your full account, you can generate separate share packets for each provider. **[Sign up free](/)** to start.*`;
+            } else {
+                demoResponse = `That's a great question! In your full account, Insight would analyze ${childName}'s specific behavioral data to give you a personalized answer.\n\nHere's what Insight can do with YOUR data:\n• 🔍 Identify triggers you might not see yourself\n• 📊 Track patterns over time — weekly, monthly trends\n• 🧠 Analyze the function behind every behavior\n• 💡 Suggest individualized strategies for home, school, therapy, and community\n• 📄 Generate shareable reports for teachers, doctors, and therapists\n\n*This kind of behavioral intelligence has never been available to parents before. **[Sign up free](/)** to try it with your own child's data.*`;
+            }
+
+            setTimeout(() => {
+                const assistantMsg: ChatMessage = {
+                    role: 'assistant',
+                    content: demoResponse,
+                    timestamp: new Date()
+                };
+                setMessages(prev => [...prev, assistantMsg]);
+                setIsLoading(false);
+            }, 1200); // Small delay to feel natural
+            return;
+        }
 
         // Persist user message
         try { await addMessage(userMessage); } catch (e) { console.error('Failed to persist message:', e); }
@@ -529,15 +595,33 @@ export function ChatPage() {
                             color: isCrisisMode ? '#F5F0E8' : sanctuary.text,
                             letterSpacing: '-0.01em', marginBottom: '2px',
                         }}>
-                            {isCrisisMode ? 'Crisis Support' : 'The Oracle'}
+                            {isCrisisMode ? 'Crisis Support' : 'Insight'}
                         </h1>
                         <p style={{
                             fontSize: '0.85rem',
                             color: isCrisisMode ? 'rgba(255,255,255,0.5)' : sanctuary.textMuted,
                             fontFamily: typography.body, fontWeight: 500,
                         }}>
-                            {isCrisisMode ? 'You are not alone. I\'m right here.' : 'Ancestral Wisdom for Modern Parenting'}
+                            {isCrisisMode ? 'You are not alone. I\'m right here.' : 'AI-Powered Behavioral Intelligence'}
                         </p>
+                        {!isCrisisMode && (
+                            <div style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '5px',
+                                padding: '3px 10px',
+                                borderRadius: '100px',
+                                background: sanctuary.goldBg,
+                                border: `1px solid ${sanctuary.goldBorder}`,
+                                fontSize: '0.68rem',
+                                fontWeight: 700,
+                                color: sanctuary.gold,
+                                fontFamily: typography.body,
+                                letterSpacing: '0.02em',
+                            }}>
+                                🧠 Remembers your child's story
+                            </div>
+                        )}
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '6px' }}>
                         {isCrisisMode ? (

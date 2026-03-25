@@ -17,6 +17,13 @@ export function ProtectedRoute() {
     const { family, loading: familyLoading } = useFamily();
     const location = useLocation();
 
+    // Dev bypass or Demo mode: skip auth/family checks
+    const isDemoOrBypass = localStorage.getItem('DEMO_MODE') === 'true'
+        || (!import.meta.env.PROD && localStorage.getItem('DEV_BYPASS') === 'true');
+    if (isDemoOrBypass) {
+        return <Outlet />;
+    }
+
     if (loading || familyLoading) {
         return (
             <div style={{

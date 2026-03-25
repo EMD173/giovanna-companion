@@ -10,6 +10,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { List as Menu, X, SignOut as LogOut, GearSix as Settings } from '@phosphor-icons/react';
 import { useAuth } from '../contexts/AuthContext';
 import { ToastContainer } from './Toast';
+import { DemoBanner } from './DemoBanner';
 import { useIsDesktop } from '../hooks/useMediaQuery';
 import { sanctuary, typography } from '../shared/theme';
 import {
@@ -41,7 +42,7 @@ export function Layout() {
         { name: 'Village', path: '/village', Icon: VillageIcon },
         { name: 'Journey', path: '/dashboard', Icon: JourneyIcon },
         { name: 'Capture', path: '/log', Icon: CaptureIcon },
-        { name: 'Oracle', path: '/chat', Icon: OracleIcon },
+        { name: 'Insight', path: '/chat', Icon: OracleIcon },
         { name: 'Practice', path: '/practice', Icon: PracticeIcon },
         { name: 'Educator', path: '/educator-training', Icon: EducatorIcon },
         { name: 'Respite', path: '/respite', Icon: RespiteIcon },
@@ -50,6 +51,9 @@ export function Layout() {
 
     return (
         <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            {/* Demo Mode Banner — sticky top when DEMO_MODE active */}
+            <DemoBanner />
+
             {/* Skip-to-content link — visible on Tab for keyboard users */}
             <a href="#main-content" className="skip-to-content">
                 Skip to main content

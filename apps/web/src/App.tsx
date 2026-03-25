@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Suspense, lazy, useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
 import { ECModeProvider } from './contexts/ECModeContext';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
@@ -45,6 +45,14 @@ const UpgradePage = lazy(() => import('./pages/UpgradePage').then(m => ({ defaul
 const PracticeModulesPage = lazy(() => import('./pages/PracticeModulesPage').then(m => ({ default: m.PracticeModulesPage })));
 const EducatorTrainingPage = lazy(() => import('./pages/EducatorTrainingPage').then(m => ({ default: m.EducatorTrainingPage })));
 const RespiteMarketplacePage = lazy(() => import('./pages/RespiteMarketplacePage').then(m => ({ default: m.RespiteMarketplacePage })));
+const DemoEntry = lazy(() => import('./pages/DemoEntry').then(m => ({ default: m.DemoEntry })));
+
+/** Scrolls to top on every route change */
+function ScrollToTop() {
+    const { pathname } = useLocation();
+    useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+    return null;
+}
 
 function App() {
   return (
@@ -53,12 +61,15 @@ function App() {
         <FamilyProvider>
           <ECModeProvider>
             <BrowserRouter>
+              <ScrollToTop />
               <ErrorBoundary fallbackTitle="Giovanna needs a moment">
                 <Suspense fallback={<PageLoadingFallback />}>
                   <Routes>
                     {/* ====== PUBLIC ROUTES ====== */}
                     {/* Teacher/provider share view — no auth required */}
                     <Route path="/share" element={<PublicShareView />} />
+                    {/* Direct demo link — shareable URL */}
+                    <Route path="/demo" element={<DemoEntry />} />
 
                     {/* Public routes with Layout (Landing, Signup, Learn) */}
                     <Route path="/" element={<Layout />}>

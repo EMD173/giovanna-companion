@@ -84,6 +84,37 @@ export function DevNav() {
                     }}>
                         Dev Navigation
                     </div>
+                    {/* Auth Bypass Toggle */}
+                    <button
+                        onClick={() => {
+                            const current = localStorage.getItem('DEV_BYPASS') === 'true';
+                            if (current) {
+                                localStorage.removeItem('DEV_BYPASS');
+                            } else {
+                                localStorage.setItem('DEV_BYPASS', 'true');
+                            }
+                            window.location.reload();
+                        }}
+                        style={{
+                            display: 'block',
+                            width: '100%',
+                            padding: '8px 12px',
+                            border: 'none',
+                            borderRadius: '10px',
+                            background: localStorage.getItem('DEV_BYPASS') === 'true'
+                                ? 'rgba(80, 200, 120, 0.15)' : 'rgba(184, 84, 80, 0.15)',
+                            color: localStorage.getItem('DEV_BYPASS') === 'true'
+                                ? '#50C878' : '#B85450',
+                            fontSize: '0.75rem',
+                            fontWeight: 700,
+                            textAlign: 'left',
+                            cursor: 'pointer',
+                            marginBottom: '6px',
+                            letterSpacing: '0.03em',
+                        }}
+                    >
+                        {localStorage.getItem('DEV_BYPASS') === 'true' ? '🔓 Auth Bypass ON' : '🔒 Auth Bypass OFF'}
+                    </button>
                     {routes.map(route => {
                         const isActive = location.pathname === route.path;
                         return (

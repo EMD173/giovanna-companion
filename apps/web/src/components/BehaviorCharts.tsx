@@ -312,11 +312,11 @@ function generateInsights(logs: ABCEntry[]): {
     if (prev7 === 0 && last7 > 0) {
         freqInsight = `${last7} moments captured this week. Keep logging — patterns emerge around 10 entries.`;
     } else if (last7 > prev7) {
-        freqInsight = `${last7} moments this week (up from ${prev7} last week). More data means better Oracle insights.`;
+        freqInsight = `${last7} moments this week (up from ${prev7} last week). More data means better Insight analysis.`;
     } else if (last7 < prev7) {
         freqInsight = `${last7} moments this week (down from ${prev7}). Fewer logs can mean things are calmer — that's worth celebrating.`;
     } else {
-        freqInsight = `${last7} moments this week, same as last. Consistency helps the Oracle see deeper patterns.`;
+        freqInsight = `${last7} moments this week, same as last. Consistency helps Insight see deeper patterns.`;
     }
 
     // Function insight
@@ -330,7 +330,7 @@ function generateInsights(logs: ABCEntry[]): {
     const timeCounts = processTimeOfDayData(logs);
     const peakTime = timeCounts.reduce((a, b) => a.count > b.count ? a : b);
     const timeInsight = peakTime.count > 0
-        ? `${peakTime.label.split(' (')[0]} is the most active time (${peakTime.count} moments). The Oracle can suggest preparation strategies for this window.`
+        ? `${peakTime.label.split(' (')[0]} is the most active time (${peakTime.count} moments). Insight can suggest preparation strategies for this window.`
         : 'Time-of-day patterns will emerge as you log more.';
 
     // Intensity insight
@@ -454,7 +454,7 @@ export function BehaviorCharts({ logs, childName }: BehaviorChartsProps) {
                             }}>
                                 After a few Capture entries, these charts will reveal patterns
                                 in your child's behavior — timing, function, intensity, and trends.
-                                The Oracle uses this same data to give you deeper guidance.
+                                Insight uses this same data to give you deeper guidance.
                             </p>
                         </div>
                     ) : (
