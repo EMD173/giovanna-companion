@@ -202,7 +202,10 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
         const unsubscribe = onSnapshot(familyRef, async (snapshot) => {
             try {
                 if (snapshot.exists()) {
-                    const data = snapshot.data() as FamilyProfile;
+                    const raw = snapshot.data();
+                    // Ensure children is always an array — docs created
+                    // before children were included won't have this field.
+                    const data = { ...raw, children: raw.children ?? [] } as FamilyProfile;
                     setFamily(data);
 
                     // Also fetch intake profile from user doc
