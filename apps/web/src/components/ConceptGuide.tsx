@@ -56,7 +56,7 @@ export default function ConceptGuide({ ambassadorName }: ConceptGuideProps) {
             {!isOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '148px',
+                    bottom: '48px',
                     right: '12px',
                     background: sanctuary.goldBg,
                     border: `1px solid ${sanctuary.goldBorder}`,
