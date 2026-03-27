@@ -92,6 +92,12 @@ export function Onboarding() {
     const hasCompletedSetup = hasCompletedFamilySetup(family);
 
     useEffect(() => {
+        // Ambassador mode: skip onboarding entirely — demo data is loaded
+        if (localStorage.getItem('AMBASSADOR_MODE') === 'true') {
+            navigate('/dashboard', { replace: true });
+            return;
+        }
+
         if (!user) {
             navigate('/signup', { replace: true });
             return;
