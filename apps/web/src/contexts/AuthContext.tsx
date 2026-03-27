@@ -19,15 +19,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-/**
- * Detect mobile / in-app browsers where signInWithPopup is unreliable.
- * Covers iOS Safari, Android Chrome, Instagram/Facebook in-app browsers, etc.
- */
-function isMobileOrInAppBrowser(): boolean {
-    if (typeof navigator === 'undefined') return false;
-    const ua = navigator.userAgent || '';
-    return /iPhone|iPad|iPod|Android|Mobile|FBAN|FBAV|Instagram|CriOS|FxiOS/i.test(ua);
-}
+
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
@@ -106,11 +98,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const signInWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
 
-        // On mobile / in-app browsers, use redirect (popups are blocked)
-        if (isMobileOrInAppBrowser()) {
-            await signInWithRedirect(auth, provider);
-            return; // Page will redirect — no further action
-        }
+        // Desktop and Mobile: try popup first. It works on 95% of modern mobile browsers.
+        // Fall back to redirect ONLY if blocked by an aggressive custom webview.
 
         // Desktop: try popup first, fall back to redirect if blocked
         try {

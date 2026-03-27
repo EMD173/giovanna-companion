@@ -74,20 +74,16 @@ export function LandingPage() {
     };
     return (
         <div className="landing-page">
-            {/* ======== INLINE NAV ======== */}
-            <nav style={{
-                position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10,
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '20px 32px',
-            }}>
+            {/* ======== RESPONSIVE NAV ======== */}
+            <nav className="landing-nav-container">
                 <Link to="/" style={{
                     fontFamily: 'var(--font-heading)', fontWeight: 700, fontSize: '1.5rem',
                     color: '#F5F0E8', textDecoration: 'none', letterSpacing: '0.02em',
                 }}>
                     Giovanna
                 </Link>
-                <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                    <button onClick={toggleLang} style={{
+                <div className="landing-nav-actions">
+                    <button onClick={toggleLang} className="landing-nav-lang" style={{
                         color: 'rgba(245, 240, 232, 0.6)', fontSize: '0.82rem',
                         fontWeight: 600, fontFamily: 'var(--font-body)',
                         background: 'rgba(255, 255, 255, 0.06)',
@@ -98,7 +94,7 @@ export function LandingPage() {
                     }}>
                         {locale === 'en' ? '🌐 ES' : '🌐 EN'}
                     </button>
-                    <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })} style={{
+                    <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })} className="landing-nav-pricing" style={{
                         color: 'rgba(245, 240, 232, 0.6)', textDecoration: 'none',
                         fontSize: '0.9rem', fontWeight: 500, fontFamily: 'var(--font-body)',
                         transition: 'color 0.2s ease', background: 'none', border: 'none',
@@ -106,7 +102,7 @@ export function LandingPage() {
                     }}>
                         {t('landing.pricing')}
                     </button>
-                    <Link to="/signup" className="landing-cta-ghost" style={{
+                    <Link to="/signup" className="landing-cta-ghost landing-nav-btn" style={{
                         padding: '10px 28px', fontSize: '0.9rem',
                     }}>
                         {t('landing.signIn')}
