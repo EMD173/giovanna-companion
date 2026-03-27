@@ -12,7 +12,8 @@ import { useAuth } from '../contexts/AuthContext';
 import { useSubscription } from '../contexts/SubscriptionContext';
 import { ToastContainer } from './Toast';
 import { DemoBanner } from './DemoBanner';
-import { AccessibilityFab } from './AccessibilityFab';
+
+
 import { useIsDesktop } from '../hooks/useMediaQuery';
 import { useI18n } from '../lib/i18n';
 import { sanctuary, typography } from '../shared/theme';
@@ -345,8 +346,8 @@ export function Layout() {
                 </nav>
             )}
 
-            {/* Accessibility FAB — language toggle + read aloud */}
-            <AccessibilityFab showTooltip={isLanding} />
+
+
 
             <ToastContainer />
 
