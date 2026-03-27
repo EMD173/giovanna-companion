@@ -66,123 +66,130 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
             || localStorage.getItem('AMBASSADOR_MODE') === 'true'
             || (!import.meta.env.PROD && localStorage.getItem('DEV_BYPASS') === 'true');
         if (isDemoOrBypass) {
-            const mockChild = {
-                ...createEmptyFamilyProfile('dev_mock_user', 'dev_mock_user'),
-                familyName: 'Davis Family',
-                children: [{
-                    id: 'child_mock_amara',
-                    firstName: 'Amara',
-                    lastName: 'Davis',
-                    preferredName: 'Mari',
-                    pronouns: 'she/her',
-                    dateOfBirth: new Date('2019-06-15'),
-                    interests: ['music', 'drawing', 'animals'],
-                    strengths: ['Visual Thinking', 'Music / Rhythm', 'Honesty', 'Deep Focus'],
-                    diagnoses: [{
-                        name: 'Autism Spectrum Disorder (Level 1)',
-                        diagnosedDate: new Date('2022-03-01'),
-                        diagnosedBy: 'Dr. Patricia Williams',
-                        notes: 'Diagnosed at age 2.5 after developmental screening',
-                        shareWithSchool: true,
-                        shareWithTherapists: true
-                    }, {
-                        name: 'Sensory Processing Disorder',
-                        diagnosedDate: new Date('2022-06-15'),
-                        diagnosedBy: 'Dr. Patricia Williams',
-                        notes: 'Primarily auditory and tactile sensitivities',
-                        shareWithSchool: true,
-                        shareWithTherapists: true
+            try {
+                const mockChild = {
+                    ...createEmptyFamilyProfile('dev_mock_user', 'dev_mock_user'),
+                    familyName: 'Davis Family',
+                    children: [{
+                        id: 'child_mock_amara',
+                        firstName: 'Amara',
+                        lastName: 'Davis',
+                        preferredName: 'Mari',
+                        pronouns: 'she/her',
+                        dateOfBirth: new Date('2019-06-15'),
+                        interests: ['music', 'drawing', 'animals'],
+                        strengths: ['Visual Thinking', 'Music / Rhythm', 'Honesty', 'Deep Focus'],
+                        diagnoses: [{
+                            name: 'Autism Spectrum Disorder (Level 1)',
+                            diagnosedDate: new Date('2022-03-01'),
+                            diagnosedBy: 'Dr. Patricia Williams',
+                            notes: 'Diagnosed at age 2.5 after developmental screening',
+                            shareWithSchool: true,
+                            shareWithTherapists: true
+                        }, {
+                            name: 'Sensory Processing Disorder',
+                            diagnosedDate: new Date('2022-06-15'),
+                            diagnosedBy: 'Dr. Patricia Williams',
+                            notes: 'Primarily auditory and tactile sensitivities',
+                            shareWithSchool: true,
+                            shareWithTherapists: true
+                        }],
+                        currentGrade: 'Kindergarten',
+                        currentSchool: {
+                            name: 'Oakwood Elementary',
+                            district: 'Birmingham City Schools',
+                            contactName: 'Mrs. Jennifer Clark',
+                            contactEmail: 'jclark@oakwood.edu',
+                            hasIEP: true,
+                            has504: false
+                        },
+                        schoolHistory: [],
+                        homeplaceSupports: {
+                            calmingPractices: ['Deep breathing', 'Weighted blanket'],
+                            sensoryTools: ['Noise-canceling headphones', 'Fidget cube'],
+                            movement: ['Swinging', 'Trampoline'],
+                            routines: ['Visual schedule', 'Morning checklist'],
+                            trustedPeople: ['Mama', 'Grandma Rose', 'Ms. Thomas (teacher)'],
+                            communitySpaces: ['Library quiet room', 'Church nursery'],
+                            musicSounds: ['Lo-fi beats', 'Nature sounds'],
+                            comfortFoods: ['Mac and cheese', 'Apple slices'],
+                            textures: ['Soft blankets', 'Play-Doh'],
+                            customSupports: []
+                        },
+                        therapyServices: [{
+                            type: 'OT' as const,
+                            providerName: 'Sarah Mitchell, OTR/L',
+                            providerOrg: 'Bright Futures Therapy',
+                            frequency: '2x/week',
+                            startDate: new Date('2023-01-15'),
+                            isActive: true,
+                            contactEmail: 'smitchell@brightfutures.com'
+                        }, {
+                            type: 'Speech' as const,
+                            providerName: 'Dr. Marcus Johnson, CCC-SLP',
+                            providerOrg: 'UAB Speech Clinic',
+                            frequency: '1x/week',
+                            startDate: new Date('2022-09-01'),
+                            isActive: true,
+                            contactEmail: 'mjohnson@uab.edu'
+                        }],
+                        communicationStyle: {
+                            primaryMode: 'verbal' as const,
+                            expressiveLevel: 'Speaks in full sentences but may need processing time',
+                            receptiveLevel: 'Understands multi-step directions with visual support',
+                            bestTimeToTalk: 'Morning, after breakfast routine',
+                            triggers: ['Sudden loud noises', 'Unexpected schedule changes', 'Crowded spaces'],
+                            calmingStrategies: ['Noise-canceling headphones', 'Deep pressure (weighted blanket)', 'Quiet corner with books']
+                        },
+                        milestones: [{
+                            id: 'ms_1',
+                            date: new Date('2024-12-15'),
+                            category: 'win' as const,
+                            title: 'First full day without meltdown',
+                            description: 'Amara completed an entire school day using her strategies!',
+                            isPositive: true
+                        }, {
+                            id: 'ms_2',
+                            date: new Date('2025-01-20'),
+                            category: 'school' as const,
+                            title: 'IEP Goal Met — Letter Recognition',
+                            description: 'She can now recognize all 26 letters!',
+                            isPositive: true
+                        }],
+                        narrative: {
+                            whoTheyAre: 'Amara is a bright, creative soul who sees the world in patterns and colors others miss.',
+                            whatTheyLove: 'She loves music — especially drums and piano. She draws for hours and has an incredible memory for animal facts.',
+                            howTheyShow: 'She shows love by sharing her drawings, singing songs she made up, and gentle touches on your hand.',
+                            whatHelps: 'Visual schedules, advance notice of transitions, noise-canceling headphones in loud spaces, and patient adults who let her process at her own pace.',
+                            dreams: 'She wants to be a veterinarian and "help all the animals feel safe."',
+                            updatedAt: new Date() as unknown as Timestamp
+                        }
                     }],
-                    currentGrade: 'Kindergarten',
-                    currentSchool: {
-                        name: 'Oakwood Elementary',
-                        district: 'Birmingham City Schools',
-                        contactName: 'Mrs. Jennifer Clark',
-                        contactEmail: 'jclark@oakwood.edu',
-                        hasIEP: true,
-                        has504: false
-                    },
-                    schoolHistory: [],
-                    homeplaceSupports: {
-                        calmingPractices: ['Deep breathing', 'Weighted blanket'],
-                        sensoryTools: ['Noise-canceling headphones', 'Fidget cube'],
-                        movement: ['Swinging', 'Trampoline'],
-                        routines: ['Visual schedule', 'Morning checklist'],
-                        trustedPeople: ['Mama', 'Grandma Rose', 'Ms. Thomas (teacher)'],
-                        communitySpaces: ['Library quiet room', 'Church nursery'],
-                        musicSounds: ['Lo-fi beats', 'Nature sounds'],
-                        comfortFoods: ['Mac and cheese', 'Apple slices'],
-                        textures: ['Soft blankets', 'Play-Doh'],
-                        customSupports: []
-                    },
-                    therapyServices: [{
-                        type: 'OT' as const,
-                        providerName: 'Sarah Mitchell, OTR/L',
-                        providerOrg: 'Bright Futures Therapy',
-                        frequency: '2x/week',
-                        startDate: new Date('2023-01-15'),
-                        isActive: true,
-                        contactEmail: 'smitchell@brightfutures.com'
-                    }, {
-                        type: 'Speech' as const,
-                        providerName: 'Dr. Marcus Johnson, CCC-SLP',
-                        providerOrg: 'UAB Speech Clinic',
-                        frequency: '1x/week',
-                        startDate: new Date('2022-09-01'),
-                        isActive: true,
-                        contactEmail: 'mjohnson@uab.edu'
+                    members: [{
+                        userId: 'dev_mock_user',
+                        role: 'admin',
+                        name: 'Mama Giovanna',
+                        email: 'dev@giovanna.app'
                     }],
-                    communicationStyle: {
-                        primaryMode: 'verbal' as const,
-                        expressiveLevel: 'Speaks in full sentences but may need processing time',
-                        receptiveLevel: 'Understands multi-step directions with visual support',
-                        bestTimeToTalk: 'Morning, after breakfast routine',
-                        triggers: ['Sudden loud noises', 'Unexpected schedule changes', 'Crowded spaces'],
-                        calmingStrategies: ['Noise-canceling headphones', 'Deep pressure (weighted blanket)', 'Quiet corner with books']
-                    },
-                    milestones: [{
-                        id: 'ms_1',
-                        date: new Date('2024-12-15'),
-                        category: 'win' as const,
-                        title: 'First full day without meltdown',
-                        description: 'Amara completed an entire school day using her strategies!',
-                        isPositive: true
-                    }, {
-                        id: 'ms_2',
-                        date: new Date('2025-01-20'),
-                        category: 'school' as const,
-                        title: 'IEP Goal Met — Letter Recognition',
-                        description: 'She can now recognize all 26 letters!',
-                        isPositive: true
-                    }],
-                    narrative: {
-                        whoTheyAre: 'Amara is a bright, creative soul who sees the world in patterns and colors others miss.',
-                        whatTheyLove: 'She loves music — especially drums and piano. She draws for hours and has an incredible memory for animal facts.',
-                        howTheyShow: 'She shows love by sharing her drawings, singing songs she made up, and gentle touches on your hand.',
-                        whatHelps: 'Visual schedules, advance notice of transitions, noise-canceling headphones in loud spaces, and patient adults who let her process at her own pace.',
-                        dreams: 'She wants to be a veterinarian and "help all the animals feel safe."',
-                        updatedAt: Timestamp.now()
-                    }
-                }],
-                members: [{
-                    userId: 'dev_mock_user',
-                    role: 'admin',
-                    name: 'Mama Giovanna',
-                    email: 'dev@giovanna.app'
-                }],
-                plan: 'companion'
-            };
-            setFamily(mockChild as unknown as FamilyProfile);
-            setActiveChildId('child_mock_amara');
-            setIntakeProfile({
-                capacityMode: 'growth',
-                village: ['Grandmother / Big Mama', 'Auntie'],
-                spiritualImportance: 'medium',
-                familyValues: ['Faith / Spirituality', 'Joy & Laughter', 'Excellence & Achievement'],
-                policeAnxiety: 'high',
-                historicalChallenges: ['Dismissed by pediatricians', 'School labeled behavior as bad'],
-                childStrengths: ['Music / Rhythm', 'Visual Thinking', 'Deep Focus']
-            } as unknown as IntakeProfile);
+                    plan: 'companion'
+                };
+                setFamily(mockChild as unknown as FamilyProfile);
+                setActiveChildId('child_mock_amara');
+                setIntakeProfile({
+                    capacityMode: 'growth',
+                    village: ['Grandmother / Big Mama', 'Auntie'],
+                    spiritualImportance: 'medium',
+                    familyValues: ['Faith / Spirituality', 'Joy & Laughter', 'Excellence & Achievement'],
+                    policeAnxiety: 'high',
+                    historicalChallenges: ['Dismissed by pediatricians', 'School labeled behavior as bad'],
+                    childStrengths: ['Music / Rhythm', 'Visual Thinking', 'Deep Focus']
+                } as unknown as IntakeProfile);
+            } catch (err) {
+                console.error('[FamilyContext] Mock data init failed:', err);
+                // Clear the flags so we don't loop
+                localStorage.removeItem('DEMO_MODE');
+                localStorage.removeItem('AMBASSADOR_MODE');
+            }
             setLoading(false);
             return;
         }
