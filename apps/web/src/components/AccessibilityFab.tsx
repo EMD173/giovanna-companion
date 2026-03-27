@@ -48,14 +48,14 @@ export function AccessibilityFab({ showTooltip = false }: { showTooltip?: boolea
                     aria-label={t('a11y.accessibility')}
                     style={{
                         position: 'fixed',
-                        bottom: '140px',
+                        bottom: '210px',
                         right: '20px',
                         width: '260px',
                         background: sanctuary.bgCard,
                         border: `1px solid ${sanctuary.border}`,
                         borderRadius: '20px',
                         boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)',
-                        zIndex: 999,
+                        zIndex: 10000,
                         overflow: 'hidden',
                         backdropFilter: 'blur(16px)',
                         WebkitBackdropFilter: 'blur(16px)',
@@ -196,7 +196,7 @@ export function AccessibilityFab({ showTooltip = false }: { showTooltip?: boolea
             {showTooltip && isHovered && !isOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '100px',
+                    bottom: '170px',
                     right: '80px',
                     background: 'rgba(26, 10, 46, 0.92)',
                     border: `1px solid ${sanctuary.border}`,
@@ -228,7 +228,7 @@ export function AccessibilityFab({ showTooltip = false }: { showTooltip?: boolea
                 aria-expanded={isOpen}
                 style={{
                     position: 'fixed',
-                    bottom: '90px',
+                    bottom: '155px',
                     right: '20px',
                     width: '52px',
                     height: '52px',
@@ -242,7 +242,7 @@ export function AccessibilityFab({ showTooltip = false }: { showTooltip?: boolea
                     alignItems: 'center',
                     justifyContent: 'center',
                     boxShadow: '0 4px 20px rgba(75, 0, 130, 0.4)',
-                    zIndex: 998,
+                    zIndex: 9999,
                     transition: 'all 0.3s ease',
                 }}
             >

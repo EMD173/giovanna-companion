@@ -81,12 +81,12 @@ const es: Record<string, string> = {
     'landing.pillar2f2': 'Seguimiento de créditos PD y certificados',
     'landing.pillar2f3': 'Calificaciones: Mejor / Aceptable / Dañino',
     'landing.pillar2cta': 'Comienza la Formación Gratis',
-    'landing.pillar3Title': 'Mercado de Cuidado de Respiro',
-    'landing.pillar3Text': 'Encuentra proveedores de cuidado de respiro confiables y verificados cerca de ti — o en todo el país para viajes de vacaciones. Busca por especialidad, radio, credenciales y calificaciones. Porque el cuidado sostenible requiere cuidadores sostenibles.',
-    'landing.pillar3f1': 'Búsqueda por radio GPS a nivel nacional',
+    'landing.pillar3Title': 'Lugar de Cuidado de Respiro',
+    'landing.pillar3Text': 'Un Lugar de Hogar es donde tu hijo es conocido, no solo vigilado. Encuentra proveedores de cuidado de respiro confiables con quienes construyes relaciones reales — personas que se convierten en parte de tu comunidad. Porque el cuidado sostenible comienza con un lugar que se siente como hogar.',
+    'landing.pillar3f1': 'Coincidencia de cuidado guiada por IA para tu hijo',
     'landing.pillar3f2': 'Filtros de especialidad (Autismo, TDAH, médico, etc.)',
-    'landing.pillar3f3': 'Calificaciones de Super Proveedor y reseñas',
-    'landing.pillar3cta': 'Encontrar Proveedores Gratis',
+    'landing.pillar3f3': 'Proveedores de la Red Hogar y reseñas comunitarias',
+    'landing.pillar3cta': 'Encontrar Cuidado de Hogar',
 
     // Página de Inicio — Herramientas
     'landing.toolkitTitle': 'Kit de Herramientas Integrado',
@@ -127,12 +127,12 @@ const es: Record<string, string> = {
 
     // Página de Inicio — CTA Final
     'landing.finalTitle': 'Tu Familia Merece Esto',
-    'landing.finalText': 'No estás luchando el doble porque estés fallando. Estás luchando el doble porque el sistema no fue construido para ti. Tu lucha es poder ancestral en acción.',
+    'landing.finalText': 'Ella no está atrapada en un ciclo perpetuo. Él puede saborear su propia vibración. No más hacerse pequeño — ¿para qué? ¿Para quién? Vistas exquisitas, lujo intencional. Estás redefiniendo tu brillo.',
     'landing.beginFree': 'Comienza Gratis',
     'landing.noCreditCard': 'Sin tarjeta de crédito. Cancela cuando quieras.',
 
     // Página de Inicio — Pie de Página
-    'landing.footerTagline': 'Un compañero de IA neuro-afirmativo. Construido con amor, investigación e intención ancestral.',
+    'landing.footerTagline': 'Aplicaciones personales creadas específicamente para tu familia por Eli Davis, Candidato a PhD, Universidad de Carolina del Sur — con más de 30 años trabajando con familias neurodivergentes.',
     'landing.signIn': 'Iniciar Sesión',
     'landing.pricing': 'Precios',
 

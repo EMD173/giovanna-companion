@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
-import { useI18n } from '../lib/i18n';
+import { useI18n, type Locale } from '../lib/i18n';
 
 // ============================================
 // PARTICLES (unchanged from original)
@@ -64,7 +64,9 @@ function Particles({ count = 20 }: { count?: number }) {
 
 export function LandingPage() {
     const navigate = useNavigate();
-    const { t } = useI18n();
+    const { t, locale, setLocale } = useI18n();
+
+    const toggleLang = () => setLocale(locale === 'en' ? 'es' : 'en' as Locale);
 
     const handleTryDemo = () => {
         localStorage.setItem('DEMO_MODE', 'true');
@@ -85,6 +87,17 @@ export function LandingPage() {
                     Giovanna
                 </Link>
                 <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+                    <button onClick={toggleLang} style={{
+                        color: 'rgba(245, 240, 232, 0.6)', fontSize: '0.82rem',
+                        fontWeight: 600, fontFamily: 'var(--font-body)',
+                        background: 'rgba(255, 255, 255, 0.06)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '8px', padding: '6px 12px',
+                        cursor: 'pointer', transition: 'all 0.2s ease',
+                        letterSpacing: '0.04em',
+                    }}>
+                        {locale === 'en' ? '🌐 ES' : '🌐 EN'}
+                    </button>
                     <button onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })} style={{
                         color: 'rgba(245, 240, 232, 0.6)', textDecoration: 'none',
                         fontSize: '0.9rem', fontWeight: 500, fontFamily: 'var(--font-body)',
