@@ -9,22 +9,40 @@ import { getFunctions, httpsCallable } from 'firebase/functions';
 import { getApp } from 'firebase/app';
 import {
     Sparkles, Shield, Bell, LogOut, ChevronRight, Loader2,
-    Download, Trash2, AlertTriangle, MessageSquare
+    Download, Trash2, AlertTriangle, MessageSquare, Compass, Play
 } from 'lucide-react';
 import { showToast } from '../components/Toast';
 import { CrisisResources } from '../components/CrisisResources';
 import { FeedbackModal } from '../components/FeedbackModal';
 import { sanctuary, typography } from '../shared/theme';
+import {
+    THERAPY_APPROACHES,
+    getSelectedApproach,
+    setSelectedApproach,
+} from '../data/therapyApproaches';
 
 export function Settings() {
     const { user, logout } = useAuth();
     const { enabled, loading, toggle } = useECMode();
 
     const [showPrivacy, setShowPrivacy] = useState(false);
+    const [showTherapy, setShowTherapy] = useState(false);
+    const [selectedTherapy, setSelectedTherapy] = useState(getSelectedApproach());
     const [exporting, setExporting] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState('');
     const [showFeedback, setShowFeedback] = useState(false);
+
+    const handleTherapySelect = (id: string) => {
+        setSelectedApproach(id);
+        setSelectedTherapy(id);
+        showToast(`Therapy approach updated to ${THERAPY_APPROACHES.find(a => a.id === id)?.shortName}`, 'success');
+    };
+
+    const handleReplayTour = () => {
+        localStorage.removeItem('giovanna_walkthrough_completed');
+        window.location.href = '/dashboard';
+    };
 
     const functions = getFunctions(getApp());
 
@@ -214,6 +232,155 @@ export function Settings() {
                         </div>
                     )}
                 </div>
+
+                {/* Therapy Approach Selector */}
+                <div className="sanctuary-enter sanctuary-enter-3" style={{
+                    background: sanctuary.bgCard,
+                    borderRadius: '20px',
+                    border: `1px solid ${showTherapy ? sanctuary.goldBorder : sanctuary.border}`,
+                    boxShadow: sanctuary.shadow,
+                    marginBottom: '16px',
+                    overflow: 'hidden',
+                    transition: 'border-color 0.3s ease',
+                }}>
+                    <button
+                        onClick={() => setShowTherapy(!showTherapy)}
+                        style={{
+                            width: '100%', display: 'flex', alignItems: 'center',
+                            justifyContent: 'space-between', padding: '16px 20px',
+                            background: 'none', border: 'none', cursor: 'pointer',
+                            textAlign: 'left',
+                        }}
+                    >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{
+                                width: '40px', height: '40px', borderRadius: '12px',
+                                background: sanctuary.goldBg, border: `1px solid ${sanctuary.goldBorder}`,
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                flexShrink: 0,
+                            }}>
+                                <Compass size={18} color={sanctuary.gold} />
+                            </div>
+                            <div>
+                                <h3 style={{
+                                    fontFamily: typography.heading, fontWeight: 700,
+                                    color: sanctuary.text, fontSize: '1rem', marginBottom: '2px',
+                                }}>Therapy Approach</h3>
+                                <p style={{
+                                    fontFamily: typography.body, fontSize: '0.82rem',
+                                    color: sanctuary.textMuted,
+                                }}>
+                                    {THERAPY_APPROACHES.find(a => a.id === selectedTherapy)?.icon}{' '}
+                                    {THERAPY_APPROACHES.find(a => a.id === selectedTherapy)?.shortName || 'Blended'}
+                                </p>
+                            </div>
+                        </div>
+                        <ChevronRight size={18} style={{
+                            color: sanctuary.textMuted,
+                            transition: 'transform 0.2s',
+                            transform: showTherapy ? 'rotate(90deg)' : 'none',
+                        }} />
+                    </button>
+
+                    {showTherapy && (
+                        <div style={{
+                            padding: '4px 20px 20px',
+                            borderTop: `1px solid ${sanctuary.border}`,
+                            display: 'flex', flexDirection: 'column', gap: '8px',
+                        }}>
+                            <p style={{
+                                fontFamily: typography.body, fontSize: '0.85rem',
+                                color: sanctuary.textSecondary, lineHeight: 1.6,
+                                margin: '12px 0 8px',
+                            }}>
+                                Choose the approach that resonates with your family. Giovanna adapts
+                                its strategies and language to match.
+                            </p>
+                            {THERAPY_APPROACHES.map(approach => {
+                                const isSelected = selectedTherapy === approach.id;
+                                return (
+                                    <button
+                                        key={approach.id}
+                                        onClick={() => handleTherapySelect(approach.id)}
+                                        style={{
+                                            width: '100%', padding: '14px 16px',
+                                            borderRadius: '14px', border: 'none',
+                                            background: isSelected
+                                                ? `linear-gradient(135deg, ${sanctuary.gold}12, ${sanctuary.goldLight}12)`
+                                                : sanctuary.bgAlt,
+                                            outline: isSelected ? `2px solid ${sanctuary.gold}50` : 'none',
+                                            cursor: 'pointer', textAlign: 'left',
+                                            transition: 'all 0.2s ease',
+                                        }}
+                                    >
+                                        <div style={{
+                                            display: 'flex', alignItems: 'center', gap: '10px',
+                                            marginBottom: '4px',
+                                        }}>
+                                            <span style={{ fontSize: '1.2rem' }}>{approach.icon}</span>
+                                            <span style={{
+                                                fontFamily: typography.heading, fontWeight: 700,
+                                                color: isSelected ? sanctuary.gold : sanctuary.text,
+                                                fontSize: '0.92rem',
+                                            }}>
+                                                {approach.shortName}
+                                            </span>
+                                            {isSelected && (
+                                                <span style={{
+                                                    marginLeft: 'auto', fontSize: '0.72rem',
+                                                    padding: '2px 8px', borderRadius: '100px',
+                                                    background: sanctuary.goldBg, color: sanctuary.gold,
+                                                    fontWeight: 700, fontFamily: typography.body,
+                                                }}>Active</span>
+                                            )}
+                                        </div>
+                                        <p style={{
+                                            fontFamily: typography.body, fontSize: '0.8rem',
+                                            color: sanctuary.textMuted, lineHeight: 1.5,
+                                            paddingLeft: '30px',
+                                        }}>
+                                            {approach.tagline}
+                                        </p>
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    )}
+                </div>
+
+                {/* Replay Tour */}
+                <button
+                    onClick={handleReplayTour}
+                    className="sanctuary-enter sanctuary-enter-3 sanctuary-card"
+                    style={{
+                        width: '100%', display: 'flex', alignItems: 'center',
+                        gap: '12px', padding: '16px 20px', marginBottom: '16px',
+                        background: sanctuary.bgCard, borderRadius: '16px',
+                        border: `1px solid ${sanctuary.border}`,
+                        boxShadow: sanctuary.shadow, cursor: 'pointer',
+                        fontFamily: typography.body,
+                    }}
+                >
+                    <div style={{
+                        width: '40px', height: '40px', borderRadius: '12px',
+                        background: sanctuary.sageBg, border: `1px solid ${sanctuary.sageBorder}`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0,
+                    }}>
+                        <Play size={18} color={sanctuary.sage} />
+                    </div>
+                    <div style={{ textAlign: 'left' }}>
+                        <p style={{
+                            fontFamily: typography.heading, fontWeight: 700,
+                            color: sanctuary.text, fontSize: '0.95rem',
+                        }}>Replay Guided Tour</p>
+                        <p style={{
+                            fontFamily: typography.body, fontSize: '0.8rem',
+                            color: sanctuary.textMuted,
+                        }}>Walk through how the app works</p>
+                    </div>
+                    <ChevronRight size={18} style={{ color: sanctuary.textMuted, marginLeft: 'auto' }} />
+                </button>
 
                 {/* Settings List */}
                 <div className="sanctuary-enter sanctuary-enter-3" style={{

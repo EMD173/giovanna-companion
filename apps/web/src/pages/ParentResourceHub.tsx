@@ -5,7 +5,7 @@
  * Premium design with glass morphism, soft shadows, and proper spacing.
  */
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
     Heart, Users, MessageSquare, ChevronLeft, Copy, Check,
@@ -13,6 +13,7 @@ import {
     Flame, Shield, Sparkles, ChevronRight
 } from 'lucide-react';
 import { PARENT_RESOURCES, RESOURCE_CATEGORIES, getResourceBySlug, type ParentResource, type ResourceCategory } from '../data/parentResourceHub';
+import { ASSESSMENT_DOMAINS, STORAGE_KEY as ASSESSMENT_STORAGE_KEY } from '../data/caregiverAssessmentData';
 import { showToast } from '../components/Toast';
 import { DisclaimerBanner } from '../components/DisclaimerBanner';
 
@@ -67,6 +68,43 @@ function ResourceList() {
     const filteredResources = activeCategory === 'all'
         ? PARENT_RESOURCES
         : PARENT_RESOURCES.filter(r => r.category === activeCategory);
+
+    // ──── AGENTIC LAYER: Read assessment results for personalization ────
+    const assessmentData = useMemo(() => {
+        try {
+            const stored = localStorage.getItem(ASSESSMENT_STORAGE_KEY);
+            if (!stored) return null;
+            return JSON.parse(stored);
+        } catch {
+            return null;
+        }
+    }, []);
+
+    // Get recommended resources based on assessment results
+    const recommendedResources = useMemo(() => {
+        if (!assessmentData?.results) return [];
+        const highModResults = assessmentData.results.filter(
+            (r: { level: string }) => r.level === 'high' || r.level === 'moderate'
+        );
+        const recommendedSlugs = new Set<string>();
+        highModResults.forEach((result: { domainId: string }) => {
+            const domain = ASSESSMENT_DOMAINS.find(d => d.id === result.domainId);
+            domain?.resourceSlugs.forEach(slug => recommendedSlugs.add(slug));
+        });
+        return PARENT_RESOURCES.filter(r => recommendedSlugs.has(r.slug));
+    }, [assessmentData]);
+
+    // Track viewed resources
+    const viewedSlugs = useMemo(() => {
+        try {
+            const stored = localStorage.getItem('GIOVANNA_VIEWED_RESOURCES');
+            return stored ? JSON.parse(stored) : [];
+        } catch {
+            return [];
+        }
+    }, []);
+
+    const hasAssessment = assessmentData?.results != null;
 
     return (
         <div style={{
@@ -123,6 +161,99 @@ function ResourceList() {
             </header>
 
             <DisclaimerBanner storageKey="resource_hub_disclaimer" />
+
+            {/* AGENTIC: Recommended For You Section */}
+            {hasAssessment && recommendedResources.length > 0 && (
+                <div style={{
+                    background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(122,158,126,0.08))',
+                    borderRadius: '18px',
+                    border: '1px solid rgba(212,175,55,0.2)',
+                    padding: '18px',
+                    marginBottom: '16px',
+                }}>
+                    <div style={{
+                        display: 'flex', alignItems: 'center', gap: '8px',
+                        marginBottom: '12px',
+                    }}>
+                        <span style={{ fontSize: '1.1rem' }}>🎯</span>
+                        <h3 style={{
+                            fontFamily: "'Playfair Display', Georgia, serif",
+                            fontSize: '1rem', fontWeight: 700, color: '#3D3832', margin: 0,
+                        }}>Recommended for You</h3>
+                        <span style={{
+                            marginLeft: 'auto', fontSize: '0.7rem', fontWeight: 700,
+                            padding: '2px 8px', borderRadius: '100px',
+                            background: 'rgba(212,175,55,0.15)', color: '#C09840',
+                            fontFamily: "'Nunito', sans-serif",
+                        }}>From your assessment</span>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {recommendedResources.slice(0, 3).map(resource => {
+                            const viewed = viewedSlugs.includes(resource.slug);
+                            return (
+                                <Link
+                                    key={resource.slug}
+                                    to={`/resources/${resource.slug}`}
+                                    style={{
+                                        display: 'flex', alignItems: 'center', gap: '12px',
+                                        padding: '10px 14px', borderRadius: '12px',
+                                        background: 'rgba(255,255,255,0.7)',
+                                        textDecoration: 'none',
+                                        transition: 'background 0.2s',
+                                    }}
+                                >
+                                    <span style={{ fontSize: '1.2rem' }}>
+                                        {RESOURCE_CATEGORIES.find(c => c.key === resource.category)?.emoji || '💛'}
+                                    </span>
+                                    <div style={{ flex: 1 }}>
+                                        <p style={{
+                                            fontFamily: "'Nunito', sans-serif", fontWeight: 700,
+                                            color: '#3D3832', fontSize: '0.88rem', margin: 0,
+                                        }}>{resource.title}</p>
+                                    </div>
+                                    {viewed && (
+                                        <span style={{
+                                            fontSize: '0.68rem', padding: '2px 6px',
+                                            borderRadius: '100px', background: 'rgba(122,158,126,0.15)',
+                                            color: '#7A9E7E', fontWeight: 700,
+                                            fontFamily: "'Nunito', sans-serif",
+                                        }}>Viewed</span>
+                                    )}
+                                    <ChevronRight size={14} color="#C09840" />
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+
+            {/* AGENTIC: Take Assessment CTA (only if no assessment yet) */}
+            {!hasAssessment && (
+                <Link
+                    to="/self-assessment"
+                    style={{
+                        display: 'flex', alignItems: 'center', gap: '12px',
+                        padding: '14px 18px', borderRadius: '16px',
+                        background: 'linear-gradient(135deg, rgba(212,175,55,0.1), rgba(107,76,154,0.08))',
+                        border: '1px solid rgba(212,175,55,0.2)',
+                        textDecoration: 'none', marginBottom: '16px',
+                        transition: 'transform 0.2s',
+                    }}
+                >
+                    <span style={{ fontSize: '1.3rem' }}>🧠</span>
+                    <div style={{ flex: 1 }}>
+                        <p style={{
+                            fontFamily: "'Nunito', sans-serif", fontWeight: 700,
+                            color: '#3D3832', fontSize: '0.9rem', margin: 0, marginBottom: '2px',
+                        }}>Take Your Self-Check</p>
+                        <p style={{
+                            fontFamily: "'Nunito', sans-serif", fontSize: '0.78rem',
+                            color: '#6B6560', margin: 0,
+                        }}>Get personalized resource recommendations</p>
+                    </div>
+                    <ChevronRight size={16} color="#C09840" />
+                </Link>
+            )}
 
             {/* Category Filter Pills */}
             <div style={{

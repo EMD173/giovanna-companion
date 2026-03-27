@@ -47,7 +47,7 @@ export default function ConceptGuide({ ambassadorName }: ConceptGuideProps) {
                     justifyContent: 'center',
                     transition: 'all 0.3s ease',
                 }}
-                title="EC Concept Guide"
+                title="App Guide"
             >
                 {isOpen ? '✕' : '📖'}
             </button>
@@ -110,7 +110,7 @@ export default function ConceptGuide({ ambassadorName }: ConceptGuideProps) {
                                 fontSize: '1.1rem',
                                 margin: 0,
                             }}>
-                                EC Concept Guide
+                                App Guide
                             </h3>
                             <span style={{
                                 background: sanctuary.goldBg,
@@ -280,7 +280,7 @@ export default function ConceptGuide({ ambassadorName }: ConceptGuideProps) {
                             fontSize: '0.7rem',
                             margin: 0,
                         }}>
-                            © 2026 Eli Davis — Epigenetic Consciousness Framework
+                            © 2026 Eli Davis — Giovanna Companion
                         </p>
                     </div>
                 </div>

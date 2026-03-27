@@ -48,6 +48,8 @@ const EducatorTrainingPage = lazy(() => import('./pages/EducatorTrainingPage').t
 const RespiteMarketplacePage = lazy(() => import('./pages/RespiteMarketplacePage').then(m => ({ default: m.RespiteMarketplacePage })));
 const DemoEntry = lazy(() => import('./pages/DemoEntry').then(m => ({ default: m.DemoEntry })));
 const AmbassadorEntry = lazy(() => import('./pages/AmbassadorEntry'));
+const CaregiverAssessment = lazy(() => import('./pages/CaregiverAssessment').then(m => ({ default: m.CaregiverAssessment })));
+const ProfessionalReferral = lazy(() => import('./pages/ProfessionalReferral').then(m => ({ default: m.ProfessionalReferral })));
 
 /** Scrolls to top on every route change */
 function ScrollToTop() {
@@ -75,6 +77,8 @@ function App() {
                     <Route path="/demo" element={<DemoEntry />} />
                     {/* Ambassador access — code entry for product ambassadors */}
                     <Route path="/ambassador" element={<AmbassadorEntry />} />
+                    {/* Professional referral page — shareable with social workers */}
+                    <Route path="/refer" element={<ProfessionalReferral />} />
 
                     {/* Public routes with Layout (Landing, Signup, Learn) */}
                     <Route path="/" element={<Layout />}>
@@ -117,6 +121,7 @@ function App() {
                         <Route path="admin" element={<ErrorBoundary><AdminDashboard /></ErrorBoundary>} />
                         <Route path="admin/settings" element={<ErrorBoundary><AdminSettings /></ErrorBoundary>} />
                         <Route path="settings" element={<ErrorBoundary><Settings /></ErrorBoundary>} />
+                        <Route path="self-assessment" element={<ErrorBoundary><CaregiverAssessment /></ErrorBoundary>} />
                       </Route>
                     </Route>
                   </Routes>
