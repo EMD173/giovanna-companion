@@ -177,7 +177,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
                 capacityMode: 'growth',
                 village: ['Grandmother / Big Mama', 'Auntie'],
                 spiritualImportance: 'medium',
-                familyValues: ['Faith / Spirituality', 'Joy & Laughter', 'Black Excellence'],
+                familyValues: ['Faith / Spirituality', 'Joy & Laughter', 'Excellence & Achievement'],
                 policeAnxiety: 'high',
                 historicalChallenges: ['Dismissed by pediatricians', 'School labeled behavior as bad'],
                 childStrengths: ['Music / Rhythm', 'Visual Thinking', 'Deep Focus']

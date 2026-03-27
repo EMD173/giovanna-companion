@@ -10,8 +10,8 @@ export interface IntakeProfileInterface {
     faithImportance: 'high' | 'medium' | 'low' | 'none';
     values: string[]; // e.g., "Interdependence", "Respect", "Joy", "Excellence", "Service"
 
-    // Safety & Bias (Real Talk)
-    // Research: Specific fear of police encounters and school bias ("conduct disorder" misdiagnosis)
+    // Safety & Bias context
+    // Research: Fear of encounters and systemic bias (misdiagnosis, over-discipline)
     policeAnxietyLevel: 'high' | 'medium' | 'low';
     experienceWithBias: string[]; // e.g., "Dismissed by doctor", "School discipline", "Public staring/comments"
 
@@ -67,7 +67,7 @@ export const VALUES_OPTIONS = [
     "Interdependence (We > Me)",
     "Respect for Elders",
     "Joy & Laughter",
-    "Black Excellence",
+    "Excellence & Achievement",
     "Faith / Spirituality",
     "Privacy / Protection",
     "Education",
@@ -78,7 +78,7 @@ export const BIAS_EXPERIENCES = [
     "Dismissed by pediatricians",
     "School labeled behavior as 'bad'",
     "Family denial ('He's fine')",
-    "Stared at in public",
+    "Judgment in public",
     "Police/Security called on child",
     "Feeling unsafe in therapy"
 ];
