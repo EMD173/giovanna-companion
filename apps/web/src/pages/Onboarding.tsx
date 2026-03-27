@@ -180,7 +180,7 @@ export function Onboarding() {
                     howTheyShow: '',
                     whatHelps: '',
                     dreams: '',
-                    updatedAt: serverTimestamp()
+                    updatedAt: new Date()
                 }
             };
 
