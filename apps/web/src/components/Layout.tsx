@@ -90,6 +90,7 @@ export function Layout() {
                                 alignItems: 'center',
                                 gap: '12px',
                                 textDecoration: 'none',
+                                flexShrink: 0,
                             }}>
                                 <div style={{
                                     width: '44px',
@@ -119,22 +120,25 @@ export function Layout() {
                                 <div style={{
                                     display: 'flex',
                                     alignItems: 'center',
-                                    gap: '4px',
-                                    position: 'absolute',
-                                    left: '50%',
-                                    transform: 'translateX(-50%)',
+                                    justifyContent: 'center',
+                                    gap: '2px', // Reduce gap for 9 items
+                                    flex: 1,
+                                    margin: '0 10px',
+                                    overflowX: 'auto', // Allow minor scroll if extremely tight instead of overlap
+                                    scrollbarWidth: 'none', // hide scrollbar Firefox
                                 }}>
                                     {navItems.map((item) => (
                                         <FeatureTooltip key={item.path} term={item.name}>
                                             <Link
                                                 to={item.path}
                                                 style={{
-                                                    padding: '8px 18px',
+                                                    padding: '6px 10px', // Compressed padding to fit 9 dense strings
                                                     borderRadius: '10px',
                                                     fontWeight: 600,
-                                                    fontSize: '0.9rem',
+                                                    fontSize: '0.85rem', // Slightly smaller text
                                                     fontFamily: typography.body,
                                                     textDecoration: 'none',
+                                                    whiteSpace: 'nowrap',
                                                     transition: 'all 0.2s ease',
                                                     background: isActive(item.path) ? sanctuary.goldBg : 'transparent',
                                                     color: isActive(item.path) ? sanctuary.gold : sanctuary.navText,
@@ -150,7 +154,7 @@ export function Layout() {
 
                             {/* Desktop Auth */}
                             {isDesktop && (
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
                                     <button onClick={() => setLocale(locale === 'en' ? 'es' : 'en')} style={{
                                         color: sanctuary.textMuted, fontSize: '0.82rem',
                                         fontWeight: 600, fontFamily: typography.body,
