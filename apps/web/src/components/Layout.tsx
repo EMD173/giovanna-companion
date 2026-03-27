@@ -17,6 +17,7 @@ import { useIsDesktop } from '../hooks/useMediaQuery';
 import { useI18n } from '../lib/i18n';
 import { sanctuary, typography } from '../shared/theme';
 import ConceptGuide from './ConceptGuide';
+import { FeatureTooltip } from './FeatureTooltip';
 import {
     SanctuaryIcon,
     VillageIcon,
@@ -123,24 +124,25 @@ export function Layout() {
                                     transform: 'translateX(-50%)',
                                 }}>
                                     {navItems.map((item) => (
-                                        <Link
-                                            key={item.path}
-                                            to={item.path}
-                                            style={{
-                                                padding: '8px 18px',
-                                                borderRadius: '10px',
-                                                fontWeight: 600,
-                                                fontSize: '0.9rem',
-                                                fontFamily: typography.body,
-                                                textDecoration: 'none',
-                                                transition: 'all 0.2s ease',
-                                                background: isActive(item.path) ? sanctuary.goldBg : 'transparent',
-                                                color: isActive(item.path) ? sanctuary.gold : sanctuary.navText,
-                                                border: isActive(item.path) ? `1px solid ${sanctuary.goldBorder}` : '1px solid transparent',
-                                            }}
-                                        >
-                                            {item.name}
-                                        </Link>
+                                        <FeatureTooltip key={item.path} term={item.name}>
+                                            <Link
+                                                to={item.path}
+                                                style={{
+                                                    padding: '8px 18px',
+                                                    borderRadius: '10px',
+                                                    fontWeight: 600,
+                                                    fontSize: '0.9rem',
+                                                    fontFamily: typography.body,
+                                                    textDecoration: 'none',
+                                                    transition: 'all 0.2s ease',
+                                                    background: isActive(item.path) ? sanctuary.goldBg : 'transparent',
+                                                    color: isActive(item.path) ? sanctuary.gold : sanctuary.navText,
+                                                    border: isActive(item.path) ? `1px solid ${sanctuary.goldBorder}` : '1px solid transparent',
+                                                }}
+                                            >
+                                                {item.name}
+                                            </Link>
+                                        </FeatureTooltip>
                                     ))}
                                 </div>
                             )}
