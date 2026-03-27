@@ -19,6 +19,7 @@ export function ProtectedRoute() {
 
     // Dev bypass or Demo mode: skip auth/family checks
     const isDemoOrBypass = localStorage.getItem('DEMO_MODE') === 'true'
+        || localStorage.getItem('AMBASSADOR_MODE') === 'true'
         || (!import.meta.env.PROD && localStorage.getItem('DEV_BYPASS') === 'true');
     if (isDemoOrBypass) {
         return <Outlet />;

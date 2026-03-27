@@ -226,11 +226,12 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
                         return null;
                     });
                 } else {
-                    // Create empty profile for new users
+                    // Create empty profile for new users — use merge to avoid
+                    // overwriting children that Onboarding may have written
                     const newFamily = createEmptyFamilyProfile(user.uid, user.uid);
-                    await setDoc(familyRef, newFamily);
-                    setFamily(newFamily);
-                    setActiveChildId(null);
+                    await setDoc(familyRef, newFamily, { merge: true });
+                    // Don't setFamily here — let the next onSnapshot deliver the
+                    // merged result so we never show stale (empty) state.
                 }
                 setError(null);
             } catch (err) {
