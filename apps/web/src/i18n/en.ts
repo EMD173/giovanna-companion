@@ -14,7 +14,7 @@ const en = {
     'nav.insight': 'Insight',
     'nav.practice': 'Practice',
     'nav.educator': 'Educator',
-    'nav.respite': 'Respite',
+    'nav.respite': 'Homeplace',
     'nav.learn': 'Learn',
     'nav.beginJourney': 'Begin Journey',
     'nav.signOut': 'Sign Out',
@@ -81,12 +81,12 @@ const en = {
     'landing.pillar2f2': 'PD credit tracking & certificates',
     'landing.pillar2f3': 'Best / Acceptable / Harmful response ratings',
     'landing.pillar2cta': 'Start Training Free',
-    'landing.pillar3Title': 'Respite Care Marketplace',
-    'landing.pillar3Text': "Find trusted, verified respite care providers near you — or across the country for vacation trips. Search by specialty, radius, credentials, and ratings. Because sustainable caregiving requires sustainable caregivers.",
-    'landing.pillar3f1': 'GPS-based radius search nationwide',
+    'landing.pillar3Title': 'Respite Care Homeplace',
+    'landing.pillar3Text': "A Homeplace is where your child is known, not just watched. Find trusted respite care providers you build real relationships with — people who become part of your village. Because sustainable caregiving starts with a place that feels like home.",
+    'landing.pillar3f1': 'AI-guided care matching for your child',
     'landing.pillar3f2': 'Specialty filters (Autism, ADHD, medical, etc.)',
-    'landing.pillar3f3': 'Super Provider ratings & community reviews',
-    'landing.pillar3cta': 'Find Providers Free',
+    'landing.pillar3f3': 'Homeplace Network providers & community reviews',
+    'landing.pillar3cta': 'Find Homeplace Care',
 
     // Landing Page — Toolkit
     'landing.toolkitTitle': 'Built-In Toolkit',
@@ -127,12 +127,12 @@ const en = {
 
     // Landing Page — Final CTA
     'landing.finalTitle': 'Your Family Deserves This',
-    'landing.finalText': 'You are not fighting twice as hard because you are failing. You are fighting twice as hard because the system was not built for you. Your advocacy is ancestral power in action.',
+    'landing.finalText': 'She is not trapped in a perpetual loop. He can actually taste his own vibrancy. No more dumbing down — for what? For who? Exquisite views, intentional luxury. You are redefining shining.',
     'landing.beginFree': 'Begin Free',
     'landing.noCreditCard': 'No credit card required. Cancel anytime.',
 
     // Landing Page — Footer
-    'landing.footerTagline': 'A neuro-affirming AI companion. Built with love, research, and ancestral intention.',
+    'landing.footerTagline': 'Personal apps built specifically for your family by Eli Davis, PhD Candidate, University of South Carolina — with over 30 years working with neurodivergent families.',
     'landing.signIn': 'Sign In',
     'landing.pricing': 'Pricing',
 

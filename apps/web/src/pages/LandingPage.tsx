@@ -7,7 +7,7 @@
  * Overhauled to showcase the three pillars:
  *   1. Parent as Practitioner — Learn the science behind your child's behavior
  *   2. Educator & Paraprofessional Training — Scenario-based PD with credits
- *   3. Respite Care Marketplace — Find trusted providers near you
+ *   3. Respite Care Homeplace — Find trusted providers who become your village
  *
  * Plus: Pricing tiers, testimonial strip, and a narrative grounded in the
  * Epigenetic Consciousness framework.
@@ -234,7 +234,7 @@ export function LandingPage() {
                             </Link>
                         </div>
 
-                        {/* Pillar 3 — Respite Care Marketplace */}
+                        {/* Pillar 3 — Respite Care Homeplace */}
                         <div className="landing-glass-card" style={{ display: 'flex', flexDirection: 'column' }}>
                             <div className="landing-icon-wrap landing-icon-rose">
                                 <Heart size={26} color="#F5F0E8" />
@@ -396,7 +396,7 @@ export function LandingPage() {
                                 'ABC behavior logging',
                                 'EC Mode access',
                                 '2 Practice modules',
-                                'Respite Care search',
+                                'Homeplace Care search',
                             ]}
                             cta="Get Started Free"
                             ctaLink="/signup"

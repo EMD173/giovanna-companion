@@ -1,7 +1,7 @@
 /**
- * RespiteMarketplacePage — Pillar 3: Respite Care Marketplace
+ * RespiteMarketplacePage — Pillar 3: Respite Care Homeplace
  *
- * An Airbnb-style discovery platform for respite care providers.
+ * A relationship-centered discovery platform for respite care providers.
  * Three views:
  *   1. Search/Browse — Location-based search with filters
  *   2. Provider Detail — Full profile, reviews, contact info
@@ -10,7 +10,7 @@
  * MVP: Discovery only. Families find and contact providers directly.
  * No booking or payment processing.
  *
- * "Respite is not luxury — it is somatic necessity."
+ * "A Homeplace is where your child is known, not just watched."
  * — grounded in Menakem, DeGruy, and the EC Framework
  */
 
@@ -123,15 +123,15 @@ function MarketplaceSearch() {
                                 color: sanctuary.text, marginBottom: '8px', lineHeight: 1.15,
                                 letterSpacing: '-0.02em',
                             }}>
-                                Respite Care
+                                Respite Care Homeplace
                             </h1>
                             <p style={{
                                 color: sanctuary.textMuted, fontSize: '1rem',
                                 fontFamily: typography.body, fontWeight: 400, lineHeight: 1.6,
                                 maxWidth: '520px',
                             }}>
-                                Find trusted, experienced respite care providers near you.
-                                Because sustainable caregiving starts with sustainable caregivers.
+                                Build real relationships with trusted providers who become part of your village.
+                                Because sustainable caregiving starts with a place that feels like home.
                             </p>
                         </div>
                         <Link to="/respite/register" style={{
@@ -143,8 +143,31 @@ function MarketplaceSearch() {
                             transition: 'all 0.2s ease',
                         }}>
                             <Plus size={16} />
-                            List Your Services
+                            Join the Homeplace Network
                         </Link>
+                    </div>
+
+                    {/* What is a Homeplace? */}
+                    <div style={{
+                        marginTop: '20px', padding: '20px 24px', borderRadius: '16px',
+                        background: sanctuary.goldBg, border: `1px solid ${sanctuary.goldBorder}`,
+                    }}>
+                        <p style={{
+                            fontFamily: typography.heading, fontSize: '0.95rem', fontWeight: 700,
+                            color: sanctuary.text, marginBottom: '6px',
+                        }}>
+                            🏡 What is a Homeplace?
+                        </p>
+                        <p style={{
+                            fontFamily: typography.body, fontSize: '0.88rem',
+                            color: sanctuary.textSecondary, lineHeight: 1.7,
+                        }}>
+                            A Homeplace is a place that feels like home — caring, loving, safe. It's where your
+                            child is known by name, where their sensory needs are anticipated, where the adults
+                            speak their language. Whether it's a family down the street, a trained provider, or a
+                            facility that has earned your trust — Homeplace care means your child gets what YOU
+                            would give them. These are relationships, not transactions.
+                        </p>
                     </div>
                 </header>
 
@@ -379,14 +402,14 @@ function MarketplaceSearch() {
                             fontFamily: typography.heading, fontSize: '1.5rem', fontWeight: 700,
                             color: sanctuary.text, marginBottom: '12px',
                         }}>
-                            Find Respite Care Near You
+                            Find Homeplace Care Near You
                         </h2>
                         <p style={{
                             color: sanctuary.textSecondary, fontFamily: typography.body,
                             fontSize: '0.95rem', lineHeight: 1.7, maxWidth: '480px', margin: '0 auto 28px',
                         }}>
-                            Use your location or select a state to discover trusted respite care
-                            providers who specialize in supporting neurodivergent individuals.
+                            Discover providers who become part of your village — people
+                            who know your child and build real relationships with your family.
                         </p>
                         <button onClick={handleNearMe} style={{
                             display: 'inline-flex', alignItems: 'center', gap: '10px',
@@ -408,7 +431,7 @@ function MarketplaceSearch() {
                             cursor: 'pointer',
                         }}>
                             <Heart size={18} />
-                            Browse Sample Providers
+                            Browse Homeplace Providers
                         </button>
                     </div>
                 )}

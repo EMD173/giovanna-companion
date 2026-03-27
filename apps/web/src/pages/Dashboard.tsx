@@ -41,6 +41,19 @@ const BehaviorCharts = lazy(() =>
 );
 
 // ============================================
+// JILL SCOTT WISDOM QUOTES — "Ode to Nikki"
+// ============================================
+
+const WISDOM_QUOTES = [
+    'She is not trapped in a perpetual loop. She is a living, alive celestine prophecy.',
+    'He can actually taste his own vibrancy. Self-motivating, self-satisfactioning.',
+    'No more dumbing down \u2014 for what? For who? Exquisite views, intentional luxury.',
+    'Wonder-filled curiosity, exciting, cages crumbled. Much pride, much humble.',
+    'Redefining shining, vibrating sonically. Beautiful beings touched by the sun.',
+    'They remember themselves, the costumes are hilarious. We are lifting.',
+] as const;
+
+// ============================================
 // TIME-AWARE GREETING
 // ============================================
 
@@ -362,7 +375,7 @@ export function Dashboard() {
                         }}>
                             <QuickPill to="/practice" icon={<GraduationCap size={15} />} label="Practice" />
                             <QuickPill to="/educator-training" icon={<Presentation size={15} />} label="Educator PD" />
-                            <QuickPill to="/respite" icon={<HandHeart size={15} />} label="Respite Care" />
+                            <QuickPill to="/respite" icon={<HandHeart size={15} />} label="Homeplace Care" />
                             <QuickPill to="/learn" icon={<BookOpen size={15} />} label="Learn" />
                             <QuickPill to="/profile" icon={<Heart size={15} />} label="Child Profile" />
                             <QuickPill to="/strategies" icon={<Sparkles size={15} />} label="Strategies" />
@@ -415,11 +428,16 @@ export function Dashboard() {
                                     </h3>
                                     <p style={{
                                         color: sanctuary.textSecondary, lineHeight: 1.75,
-                                        fontSize: '0.95rem', fontFamily: typography.body, marginBottom: '18px',
+                                        fontSize: '0.95rem', fontFamily: typography.body, marginBottom: '6px',
+                                        fontStyle: 'italic',
                                     }}>
-                                        "You are not fighting twice as hard because you are failing. You are fighting
-                                        twice as hard because the system was not built for you. Your advocacy is
-                                        ancestral power in action."
+                                        {WISDOM_QUOTES[Math.floor(new Date().setHours(0,0,0,0) / 86400000) % WISDOM_QUOTES.length]}
+                                    </p>
+                                    <p style={{
+                                        color: sanctuary.textMuted, fontSize: '0.78rem',
+                                        fontFamily: typography.body, marginBottom: '18px',
+                                    }}>
+                                        — Jill Scott, "Ode to Nikki"
                                     </p>
                                     <Link to="/log" style={{
                                         color: sanctuary.purple, fontWeight: 600, fontSize: '0.88rem',

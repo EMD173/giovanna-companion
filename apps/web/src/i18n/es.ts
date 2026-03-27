@@ -14,7 +14,7 @@ const es: Record<string, string> = {
     'nav.insight': 'Mirada',
     'nav.practice': 'Práctica',
     'nav.educator': 'Educador',
-    'nav.respite': 'Respiro',
+    'nav.respite': 'Lugar de Hogar',
     'nav.learn': 'Aprender',
     'nav.beginJourney': 'Comenzar',
     'nav.signOut': 'Cerrar Sesión',
