@@ -34,7 +34,7 @@ export function useUsageTracking() {
                 [field]: increment(1),
                 lastUpdated: new Date()
             });
-        } catch (error) {
+        } catch {
             // If doc doesn't exist, create it
             const currentMonth = new Date();
             currentMonth.setDate(1);

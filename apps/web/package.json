@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "typecheck": "tsc --noEmit",
+    "predeploy": "npm run typecheck && npm run build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test:logic": "tsc -p tsconfig.tests.json && node --test .test-dist/tests/**/*.test.js",

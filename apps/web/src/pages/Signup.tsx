@@ -63,7 +63,7 @@ export function Signup() {
             setLoading(true);
             await signInWithGoogle();
             // Navigation happens in the useEffect above once `user` is set
-        } catch (err) {
+        } catch {
             setError(t('auth.failedSignIn'));
             setLoading(false);
         }

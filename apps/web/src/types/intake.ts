@@ -25,8 +25,8 @@ export interface IntakeProfileInterface {
     caregiverCapacity: 'survival' | 'growth';
 
     // Metadata
-    completedAt?: any; // Firestore timestamp
-    lastUpdated?: any;
+    completedAt?: Date | { seconds: number; nanoseconds: number }; // Firestore timestamp
+    lastUpdated?: Date | { seconds: number; nanoseconds: number };
 }
 
 // Runtime export to prevent "does not provide an export" errors

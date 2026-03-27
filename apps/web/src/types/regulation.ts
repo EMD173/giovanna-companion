@@ -1,6 +1,6 @@
 export interface ParentCheckIn {
     id: string;
-    timestamp: any; // Firestore Timestamp
+    timestamp: Date | { seconds: number; nanoseconds: number }; // Firestore Timestamp
     mood: 'calm' | 'frustrated' | 'overwhelmed' | 'anxious' | 'neutral';
     physicalSensation: string; // e.g., "tight chest", "relaxed shoulders"
     actionTaken: string; // e.g., "deep breathing", "stepped away", "prayer"
@@ -9,7 +9,7 @@ export interface ParentCheckIn {
 export interface SensoryLog {
     id: string;
     childId: string;
-    timestamp: any;
+    timestamp: Date | { seconds: number; nanoseconds: number };
     trigger: string; // Context: "Transition to school", "Loud noise"
     sensoryInput: string; // e.g., "Deep Pressure", "Quiet Time", "Swinging", "Music"
     outcome: 'regulated' | 'no_change' | 'escalated';

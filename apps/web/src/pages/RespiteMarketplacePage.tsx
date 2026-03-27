@@ -14,7 +14,7 @@
  * — grounded in Menakem, DeGruy, and the EC Framework
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
     Search, MapPin, Star, Clock, Shield, Heart, ChevronRight,
@@ -103,12 +103,25 @@ function MarketplaceSearch() {
         await handleSearch();
     };
 
-    // Auto-search when location becomes available
+    // Auto-search when location becomes available (one-time trigger)
+    const didAutoSearch = useRef(false);
     useEffect(() => {
-        if (userLocation && !hasSearched) {
-            handleSearch();
+        if (userLocation && !didAutoSearch.current) {
+            didAutoSearch.current = true;
+            // Defer to avoid synchronous setState cascade
+            const params: MarketplaceSearchParams = {
+                lat: userLocation.lat,
+                lng: userLocation.lng,
+                radiusMiles,
+                state: stateFilter || undefined,
+                specialties: specialtyFilter.length > 0 ? specialtyFilter : undefined,
+                ageRanges: ageFilter.length > 0 ? ageFilter : undefined,
+                minRating: minRating > 0 ? minRating : undefined,
+                sortBy,
+            };
+            search(params).then(() => setHasSearched(true));
         }
-    }, [userLocation]);
+    }, [userLocation, radiusMiles, stateFilter, specialtyFilter, ageFilter, minRating, sortBy, search]);
 
     return (
         <div style={{ background: sanctuary.bg, minHeight: '100vh', paddingBottom: '140px' }}>
@@ -299,7 +312,7 @@ function MarketplaceSearch() {
                                 {/* Sort By */}
                                 <div>
                                     <label style={filterLabelStyle}>Sort By</label>
-                                    <select value={sortBy} onChange={e => setSortBy(e.target.value as any)} style={selectStyle}>
+                                    <select value={sortBy} onChange={e => setSortBy(e.target.value as MarketplaceSearchParams['sortBy'])} style={selectStyle}>
                                         <option value="distance">Nearest First</option>
                                         <option value="rating">Highest Rated</option>
                                         <option value="reviews">Most Reviews</option>
@@ -645,8 +658,9 @@ function ProviderDetail({ providerId }: { providerId: string }) {
             setReviewText('');
             setReviewRating(5);
             setShowReviewForm(false);
-        } catch (err: any) {
-            alert(err.message || 'Failed to submit review.');
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Failed to submit review.';
+            alert(message);
         } finally {
             setSubmittingReview(false);
         }
@@ -1086,8 +1100,9 @@ function ProviderRegistration() {
         try {
             await createProfile({ ...formData, isActive: true });
             navigate('/respite');
-        } catch (err: any) {
-            setError(err.message || 'Failed to create profile.');
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Failed to create profile.';
+            setError(message);
         }
     };
 

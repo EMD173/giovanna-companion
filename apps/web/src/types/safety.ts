@@ -7,7 +7,7 @@
 
 export interface SafetyProfile {
     id: string;
-    updatedAt: any; // Firestore timestamp or null
+    updatedAt: Date | { seconds: number; nanoseconds: number } | null; // Firestore timestamp or null
 
     // 1. Facts (Identity)
     diagnosis: string; // e.g., "Autistic, ADHD, Non-Speaking"

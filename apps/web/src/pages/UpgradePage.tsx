@@ -689,7 +689,7 @@ export function UpgradePage() {
                 setLoading(true);
                 const portalUrl = await openCustomerPortal(user.uid);
                 window.location.href = portalUrl;
-            } catch (err) {
+            } catch {
                 setError('Unable to open subscription management. Please try again.');
                 setLoading(false);
             }
@@ -727,7 +727,7 @@ export function UpgradePage() {
             setLoading(true);
             const portalUrl = await openCustomerPortal(user.uid);
             window.location.href = portalUrl;
-        } catch (err) {
+        } catch {
             setError('Unable to open subscription portal. Please try again.');
             setLoading(false);
         }
