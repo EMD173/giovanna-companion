@@ -33,7 +33,7 @@ export function AdminDashboard() {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [tierStats, setTierStats] = useState<Record<SubscriptionTier, number>>({
-        free: 0, companion: 0, pro: 0, enterprise: 0
+        free: 0, companion: 0, pro: 0, enterprise: 0, ambassador: 0
     });
 
     // For now, simple admin check - in production, use Firebase Admin claims
@@ -52,7 +52,7 @@ export function AdminDashboard() {
             const snapshot = await getDocs(q);
 
             const userData: UserRecord[] = [];
-            const stats: Record<SubscriptionTier, number> = { free: 0, companion: 0, pro: 0, enterprise: 0 };
+            const stats: Record<SubscriptionTier, number> = { free: 0, companion: 0, pro: 0, enterprise: 0, ambassador: 0 };
 
             snapshot.forEach(doc => {
                 const data = doc.data();
@@ -205,7 +205,8 @@ function TierDropdown({ currentTier, onChange }: {
         free: 'bg-slate-100 text-slate-700',
         companion: 'bg-teal-100 text-teal-700',
         pro: 'bg-amber-100 text-amber-700',
-        enterprise: 'bg-purple-100 text-purple-700'
+        enterprise: 'bg-purple-100 text-purple-700',
+        ambassador: 'bg-yellow-100 text-yellow-700'
     };
 
     return (

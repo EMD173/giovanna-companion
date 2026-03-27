@@ -719,9 +719,9 @@ export function getNextModule(currentSlug: string): PracticeModule | undefined {
 /**
  * Get modules available for a given subscription tier
  */
-export function getModulesForTier(tier: 'free' | 'companion' | 'pro' | 'enterprise'): PracticeModule[] {
-    const tierOrder = { free: 0, companion: 1, pro: 2, enterprise: 3 };
-    const userLevel = tierOrder[tier];
+export function getModulesForTier(tier: 'free' | 'companion' | 'pro' | 'enterprise' | 'ambassador'): PracticeModule[] {
+    const tierOrder: Record<string, number> = { free: 0, companion: 1, pro: 2, enterprise: 3, ambassador: 3 };
+    const userLevel = tierOrder[tier] ?? 0;
     return PRACTICE_MODULES.filter(m => tierOrder[m.tier] <= userLevel);
 }
 

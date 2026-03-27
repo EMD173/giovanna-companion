@@ -452,6 +452,14 @@ function getKeyFeatures(tier: SubscriptionTier): string[] {
                 'Multi-seat team accounts',
                 'HIPAA-ready infrastructure',
             ];
+        case 'ambassador':
+        default:
+            return [
+                'Full platform access',
+                'Unlimited AI conversations',
+                'All practice modules',
+                'Ambassador tools',
+            ];
     }
 }
 
