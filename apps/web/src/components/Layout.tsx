@@ -9,10 +9,14 @@ import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { List as Menu, X, SignOut as LogOut, GearSix as Settings } from '@phosphor-icons/react';
 import { useAuth } from '../contexts/AuthContext';
+import { useSubscription } from '../contexts/SubscriptionContext';
 import { ToastContainer } from './Toast';
 import { DemoBanner } from './DemoBanner';
+import { AccessibilityFab } from './AccessibilityFab';
 import { useIsDesktop } from '../hooks/useMediaQuery';
+import { useI18n } from '../lib/i18n';
 import { sanctuary, typography } from '../shared/theme';
+import ConceptGuide from './ConceptGuide';
 import {
     SanctuaryIcon,
     VillageIcon,
@@ -30,6 +34,8 @@ export function Layout() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const location = useLocation();
     const isDesktop = useIsDesktop();
+    const { t } = useI18n();
+    const { isAmbassador, ambassadorName } = useSubscription();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
@@ -38,15 +44,15 @@ export function Layout() {
     const isLanding = location.pathname === '/' || location.pathname === '/onboarding';
 
     const navItems = [
-        { name: 'Home', path: '/', Icon: SanctuaryIcon },
-        { name: 'Village', path: '/village', Icon: VillageIcon },
-        { name: 'Journey', path: '/dashboard', Icon: JourneyIcon },
-        { name: 'Capture', path: '/log', Icon: CaptureIcon },
-        { name: 'Insight', path: '/chat', Icon: OracleIcon },
-        { name: 'Practice', path: '/practice', Icon: PracticeIcon },
-        { name: 'Educator', path: '/educator-training', Icon: EducatorIcon },
-        { name: 'Respite', path: '/respite', Icon: RespiteIcon },
-        { name: 'Learn', path: '/learn', Icon: LearnIcon },
+        { name: t('nav.home'), path: '/', Icon: SanctuaryIcon },
+        { name: t('nav.village'), path: '/village', Icon: VillageIcon },
+        { name: t('nav.journey'), path: '/dashboard', Icon: JourneyIcon },
+        { name: t('nav.capture'), path: '/log', Icon: CaptureIcon },
+        { name: t('nav.insight'), path: '/chat', Icon: OracleIcon },
+        { name: t('nav.practice'), path: '/practice', Icon: PracticeIcon },
+        { name: t('nav.educator'), path: '/educator-training', Icon: EducatorIcon },
+        { name: t('nav.respite'), path: '/respite', Icon: RespiteIcon },
+        { name: t('nav.learn'), path: '/learn', Icon: LearnIcon },
     ];
 
     return (
@@ -182,7 +188,7 @@ export function Layout() {
                                             textDecoration: 'none',
                                             boxShadow: '0 2px 8px rgba(212, 175, 55, 0.3)',
                                         }}>
-                                            Begin Journey
+                                            {t('nav.beginJourney')}
                                         </Link>
                                     )}
                                 </div>
@@ -272,7 +278,7 @@ export function Layout() {
                                 }}
                             >
                                 <LogOut size={20} />
-                                Sign Out
+                                {t('nav.signOut')}
                             </button>
                         )}
                     </div>
@@ -280,7 +286,7 @@ export function Layout() {
             )}
 
             {/* Main Content */}
-            <main id="main-content" role="main" style={{ flex: 1 }}>
+            <main id="main-content" role="main" data-readable style={{ flex: 1 }}>
                 <Outlet />
             </main>
 
@@ -337,7 +343,13 @@ export function Layout() {
                 </nav>
             )}
 
+            {/* Accessibility FAB — language toggle + read aloud */}
+            <AccessibilityFab showTooltip={isLanding} />
+
             <ToastContainer />
+
+            {/* Ambassador Concept Guide — floating overlay for product ambassadors */}
+            {isAmbassador && <ConceptGuide ambassadorName={ambassadorName} />}
         </div>
     );
 }

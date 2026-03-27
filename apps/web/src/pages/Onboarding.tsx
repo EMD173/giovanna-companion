@@ -21,12 +21,10 @@ import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { useFamily } from '../contexts/FamilyContext';
 import { IntakeWizard } from '../components/onboarding/IntakeWizard';
-import { createEmptyChildProfile } from '../data/familyProfile';
 import type { IntakeProfile } from '../types/intake';
 import { hasCompletedFamilySetup } from '../lib/launchGuards';
-import {
-    Heart, ArrowRight, ArrowLeft, Calendar, User, Smile
-} from 'lucide-react';
+import { Heart, User, Smile, Calendar, ArrowRight, ArrowLeft } from 'lucide-react';
+import { useI18n } from '../lib/i18n';
 
 // ============================================
 // SHARED STYLE TOKENS (match IntakeWizard)
@@ -76,6 +74,7 @@ export function Onboarding() {
     const { user } = useAuth();
     const { family, loading: familyLoading } = useFamily();
     const navigate = useNavigate();
+    const { t } = useI18n();
 
     // Phase tracking
     const [phase, setPhase] = useState<'intake' | 'child'>('intake');
@@ -122,11 +121,11 @@ export function Onboarding() {
         // Validate child form
         const trimmedName = child.firstName.trim();
         if (!trimmedName) {
-            setChildError('Your child needs a name so we can build their profile.');
+            setChildError(t('onboarding.errorName'));
             return;
         }
         if (!child.pronouns) {
-            setChildError('Please select pronouns so the app can refer to your child respectfully.');
+            setChildError(t('onboarding.errorPronouns'));
             return;
         }
         if (!child.dateOfBirth) {
@@ -138,14 +137,51 @@ export function Onboarding() {
         setIsSubmitting(true);
 
         try {
-            // Build the ChildProfile from the form data + empty scaffold
+            // Build a clean ChildProfile — Firestore rejects `undefined` values,
+            // so we use empty strings/arrays instead. Only include fields we have data for.
             const childId = `child_${Date.now()}`;
-            const childProfile = {
-                ...createEmptyChildProfile(childId),
+            const trimmedPreferred = child.preferredName.trim();
+            const childProfile: Record<string, unknown> = {
+                id: childId,
                 firstName: trimmedName,
-                preferredName: child.preferredName.trim() || undefined,
+                ...(trimmedPreferred ? { preferredName: trimmedPreferred } : {}),
                 pronouns: child.pronouns,
                 dateOfBirth: new Date(child.dateOfBirth),
+                lastName: '',
+                interests: [],
+                strengths: [],
+                diagnoses: [],
+                currentGrade: '',
+                schoolHistory: [],
+                homeplaceSupports: {
+                    calmingPractices: [],
+                    sensoryTools: [],
+                    movement: [],
+                    routines: [],
+                    trustedPeople: [],
+                    communitySpaces: [],
+                    musicSounds: [],
+                    comfortFoods: [],
+                    textures: [],
+                    customSupports: []
+                },
+                therapyServices: [],
+                communicationStyle: {
+                    primaryMode: 'verbal',
+                    expressiveLevel: '',
+                    receptiveLevel: '',
+                    triggers: [],
+                    calmingStrategies: []
+                },
+                milestones: [],
+                narrative: {
+                    whoTheyAre: '',
+                    whatTheyLove: '',
+                    howTheyShow: '',
+                    whatHelps: '',
+                    dreams: '',
+                    updatedAt: serverTimestamp()
+                }
             };
 
             // Write user doc (intake profile + pledge)
@@ -181,7 +217,7 @@ export function Onboarding() {
             navigate('/dashboard', { replace: true });
         } catch (error) {
             console.error('Error completing onboarding:', error);
-            setChildError('Something went wrong saving your profile. Please try again.');
+            setChildError(t('onboarding.errorSave'));
             setIsSubmitting(false);
         }
     };
@@ -204,7 +240,7 @@ export function Onboarding() {
                     fontSize: '0.95rem',
                     fontFamily: "'Inter', sans-serif",
                 }}>
-                    Preparing your onboarding...
+                    {t('onboarding.preparing')}
                 </div>
             </div>
         );
@@ -252,6 +288,7 @@ interface MeetYourChildProps {
 }
 
 function MeetYourChild({ child, onChange, error, isSubmitting, onSubmit, onBack }: MeetYourChildProps) {
+    const { t } = useI18n();
 
     const updateField = (field: keyof ChildFormData, value: string) => {
         onChange({ ...child, [field]: value });
@@ -269,12 +306,12 @@ function MeetYourChild({ child, onChange, error, isSubmitting, onSubmit, onBack 
                         fontSize: '0.7rem', fontWeight: 500,
                         color: colors.gold, letterSpacing: '0.05em',
                         textTransform: 'uppercase',
-                    }}>Intake Complete</span>
+                    }}>{ t('onboarding.intakeComplete')}</span>
                     <span style={{
                         fontSize: '0.7rem', fontWeight: 700,
                         color: colors.gold, letterSpacing: '0.05em',
                         textTransform: 'uppercase',
-                    }}>Meet Your Child</span>
+                    }}>{t('onboarding.meetYourChild')}</span>
                 </div>
                 <div style={{
                     height: '3px',
@@ -324,14 +361,13 @@ function MeetYourChild({ child, onChange, error, isSubmitting, onSubmit, onBack 
                         fontSize: '1.6rem', fontWeight: 700,
                         color: colors.text, marginBottom: '8px',
                     }}>
-                        Now, Tell Us About Your Child
+                        {t('onboarding.childTitle')}
                     </h2>
                     <p style={{
                         color: colors.textMuted, fontSize: '0.95rem',
                         maxWidth: '400px', margin: '0 auto', lineHeight: 1.6,
                     }}>
-                        Everything here is yours. We need just enough to build
-                        their first profile — you can add more later.
+                        {t('onboarding.childSubtitle')}
                     </p>
                 </div>
 
@@ -342,13 +378,13 @@ function MeetYourChild({ child, onChange, error, isSubmitting, onSubmit, onBack 
                     <div>
                         <label style={labelStyle}>
                             <User size={16} style={{ color: colors.gold }} />
-                            Child's First Name <span style={{ color: colors.rose }}>*</span>
+                            {t('onboarding.firstName')} <span style={{ color: colors.rose }}>*</span>
                         </label>
                         <input
                             type="text"
                             value={child.firstName}
                             onChange={(e) => updateField('firstName', e.target.value)}
-                            placeholder="Their given name"
+                            placeholder={t('onboarding.firstNamePlaceholder')}
                             style={inputStyle}
                             autoFocus
                         />
@@ -358,13 +394,13 @@ function MeetYourChild({ child, onChange, error, isSubmitting, onSubmit, onBack 
                     <div>
                         <label style={labelStyle}>
                             <Smile size={16} style={{ color: colors.gold }} />
-                            Preferred Name <span style={{ color: colors.textDim, fontWeight: 400, fontSize: '0.8rem' }}>(optional)</span>
+                            {t('onboarding.preferredName')} <span style={{ color: colors.textDim, fontWeight: 400, fontSize: '0.8rem' }}>{t('onboarding.preferredNameOptional')}</span>
                         </label>
                         <input
                             type="text"
                             value={child.preferredName}
                             onChange={(e) => updateField('preferredName', e.target.value)}
-                            placeholder="What do you call them at home?"
+                            placeholder={t('onboarding.preferredNamePlaceholder')}
                             style={inputStyle}
                         />
                     </div>
@@ -372,7 +408,7 @@ function MeetYourChild({ child, onChange, error, isSubmitting, onSubmit, onBack 
                     {/* Pronouns */}
                     <div>
                         <label style={labelStyle}>
-                            Pronouns <span style={{ color: colors.rose }}>*</span>
+                            {t('onboarding.pronouns')} <span style={{ color: colors.rose }}>*</span>
                         </label>
                         <div style={{
                             display: 'flex', flexWrap: 'wrap', gap: '10px',

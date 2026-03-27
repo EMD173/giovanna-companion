@@ -5,7 +5,7 @@
  * Free tier is fully functional; paid tier adds premium features.
  */
 
-export type SubscriptionTier = 'free' | 'companion' | 'pro' | 'enterprise';
+export type SubscriptionTier = 'free' | 'companion' | 'pro' | 'enterprise' | 'ambassador';
 
 export interface TierLimits {
     aiQueriesPerMonth: number;
@@ -114,6 +114,22 @@ export const TIER_CONFIG: Record<SubscriptionTier, TierLimits> = {
         customReports: true,
         earlyFeatures: true,
         educatorTraining: true
+    },
+    ambassador: {
+        aiQueriesPerMonth: -1,  // Unlimited — full product access
+        sharePacketsPerMonth: -1,
+        childProfiles: -1,
+        strategyCards: -1,
+        mediaLibraryAccess: true,
+        prioritySupport: true,
+        apiAccess: false,
+        customBranding: false,
+        dataExport: true,
+        ecModeAccess: true,
+        homeplaceSupports: true,
+        customReports: true,
+        earlyFeatures: true,
+        educatorTraining: true
     }
 };
 
@@ -158,6 +174,14 @@ export const TIER_INFO: Record<SubscriptionTier, {
         description: 'For clinics, schools, and therapy practices.',
         badge: 'TEAMS',
         cta: 'Contact Sales'
+    },
+    ambassador: {
+        name: 'Ambassador',
+        monthlyPrice: 0,
+        yearlyPrice: 0,
+        description: 'Full access for authorized product ambassadors.',
+        badge: 'AMBASSADOR',
+        cta: 'Enter Code'
     }
 };
 

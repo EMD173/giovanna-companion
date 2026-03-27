@@ -514,21 +514,21 @@ export function BehaviorCharts({ logs, childName }: BehaviorChartsProps) {
                                     icon={<PieIcon size={18} />}
                                     insight={insights.function}
                                 >
-                                    <div style={{ width: '100%', height: 220 }}>
+                                    <div style={{ width: '100%', height: 280, overflow: 'visible' }}>
                                         <ResponsiveContainer>
-                                            <PieChart>
+                                            <PieChart margin={{ top: 10, right: 60, bottom: 10, left: 60 }}>
                                                 <Pie
                                                     data={functionData}
                                                     cx="50%"
                                                     cy="50%"
-                                                    innerRadius={50}
-                                                    outerRadius={80}
+                                                    innerRadius={35}
+                                                    outerRadius={55}
                                                     paddingAngle={3}
                                                     dataKey="value"
                                                     label={({ name, percent }: { name?: string; percent?: number }) =>
                                                         `${(name ?? '').split(' ')[0]} ${((percent ?? 0) * 100).toFixed(0)}%`
                                                     }
-                                                    labelLine={false}
+                                                    labelLine={true}
                                                 >
                                                     {functionData.map((entry, i) => (
                                                         <Cell key={i} fill={entry.color} />

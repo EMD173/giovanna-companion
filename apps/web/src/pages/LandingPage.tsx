@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
+import { useI18n } from '../lib/i18n';
 
 // ============================================
 // PARTICLES (unchanged from original)
@@ -63,6 +64,7 @@ function Particles({ count = 20 }: { count?: number }) {
 
 export function LandingPage() {
     const navigate = useNavigate();
+    const { t } = useI18n();
 
     const handleTryDemo = () => {
         localStorage.setItem('DEMO_MODE', 'true');
@@ -89,12 +91,12 @@ export function LandingPage() {
                         transition: 'color 0.2s ease', background: 'none', border: 'none',
                         cursor: 'pointer',
                     }}>
-                        Pricing
+                        {t('landing.pricing')}
                     </button>
                     <Link to="/signup" className="landing-cta-ghost" style={{
                         padding: '10px 28px', fontSize: '0.9rem',
                     }}>
-                        Sign In
+                        {t('landing.signIn')}
                     </Link>
                 </div>
             </nav>
@@ -106,21 +108,18 @@ export function LandingPage() {
                 {/* Reality Statement Badge */}
                 <div className="landing-badge landing-fade-up">
                     <Sparkles size={14} style={{ color: '#D4AF37' }} />
-                    A Reality Statement
+                    {t('landing.badge')}
                 </div>
 
                 {/* The Reality Statement — Headline */}
                 <h1 className="landing-headline landing-fade-up landing-fade-up-delay-1">
-                    Behavioral intelligence<br />
-                    <span className="landing-text-gold">is now in YOUR hands.</span>
+                    {t('landing.headline1')}<br />
+                    <span className="landing-text-gold">{t('landing.headline2')}</span>
                 </h1>
 
                 {/* Subheadline */}
                 <p className="landing-subheadline landing-fade-up landing-fade-up-delay-2">
-                    The analysis that used to cost $5,000 and require a clinician? Now it comes 
-                    from 10-second voice notes on your phone. Whether it's autism, trauma, 
-                    impulse control, or intellectual disability — you finally have data-driven 
-                    strategies individualized to YOUR child, in every setting.
+                    {t('landing.subheadline')}
                 </p>
 
                 {/* CTAs */}
@@ -128,7 +127,7 @@ export function LandingPage() {
                     display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: 'center',
                 }}>
                     <Link to="/signup" className="landing-cta-primary">
-                        Begin Your Journey
+                        {t('landing.beginJourney')}
                         <ArrowRight size={20} />
                     </Link>
                     <button onClick={handleTryDemo} className="landing-cta-ghost" style={{
@@ -138,7 +137,7 @@ export function LandingPage() {
                         color: '#E8C97A',
                     }}>
                         <Play size={16} fill="#E8C97A" />
-                        Try the Demo
+                        {t('landing.tryDemo')}
                     </button>
                 </div>
 
@@ -148,25 +147,25 @@ export function LandingPage() {
                     fontFamily: 'var(--font-body)', marginTop: '2.5rem',
                     letterSpacing: '0.04em',
                 }}>
-                    Free to start. No credit card required.
+                    {t('landing.freeToStart')}
                 </p>
             </section>
 
             {/* ======== PHILOSOPHY ======== */}
             <section className="landing-philosophy">
                 <blockquote>
-                    "Behavior is communication, not defiance.<br />
-                    Regulation over compliance.<br />
-                    The caregiver's nervous system <em>is</em> the child's environment."
+                    "{t('landing.philosophy1')}<br />
+                    {t('landing.philosophy2')}<br />
+                    {t('landing.philosophy3')} <em>{t('landing.philosophy3em')}</em> {t('landing.philosophy3end')}"
                 </blockquote>
             </section>
 
             {/* ======== THREE PILLARS ======== */}
             <section id="pillars" className="landing-features">
                 <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-                    <h2 className="landing-section-title">Three Pillars of Support</h2>
+                    <h2 className="landing-section-title">{t('landing.pillarsTitle')}</h2>
                     <p className="landing-section-sub">
-                        Not just an app — a complete ecosystem for families, educators, and providers.
+                        {t('landing.pillarsSub')}
                     </p>
 
                     <div style={{
@@ -189,21 +188,18 @@ export function LandingPage() {
                                 PILLAR 1
                             </div>
                             <h3 className="landing-card-title" style={{ fontSize: '1.4rem' }}>
-                                Parent as Practitioner
+                                {t('landing.pillar1Title')}
                             </h3>
                             <p className="landing-card-text" style={{ flex: 1 }}>
-                                Six research-backed modules that teach you to think like a practitioner.
-                                Functional Communication Training, Polyvagal Theory, Sensory Processing,
-                                Presumed Competence, Intergenerational Healing, and Epigenetic Consciousness —
-                                all translated into practice you can use tonight.
+                                {t('landing.pillar1Text')}
                             </p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '1.5rem' }}>
-                                <PillarFeature text="Learn → Observe → Practice → Reflect cycle" />
-                                <PillarFeature text="Journal prompts & hands-on activities" />
-                                <PillarFeature text="Progress tracking & completion badges" />
+                                <PillarFeature text={t('landing.pillar1f1')} />
+                                <PillarFeature text={t('landing.pillar1f2')} />
+                                <PillarFeature text={t('landing.pillar1f3')} />
                             </div>
                             <Link to="/signup" className="landing-card-link">
-                                Start Learning Free <ArrowRight size={16} />
+                                {t('landing.pillar1cta')} <ArrowRight size={16} />
                             </Link>
                         </div>
 
@@ -223,21 +219,18 @@ export function LandingPage() {
                                 PILLAR 2
                             </div>
                             <h3 className="landing-card-title" style={{ fontSize: '1.4rem' }}>
-                                Educator & Para Training
+                                {t('landing.pillar2Title')}
                             </h3>
                             <p className="landing-card-text" style={{ flex: 1 }}>
-                                Interactive scenario-based training for teachers and paraprofessionals
-                                working with neurodivergent students. Classroom situations. Real decisions.
-                                Grounded in Culturally Responsive Teaching, Polyvagal Theory, and
-                                Trauma-Informed Practice.
+                                {t('landing.pillar2Text')}
                             </p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '1.5rem' }}>
-                                <PillarFeature text="9 interactive classroom scenarios" />
-                                <PillarFeature text="PD credit tracking & certificates" />
-                                <PillarFeature text="Best / Acceptable / Harmful response ratings" />
+                                <PillarFeature text={t('landing.pillar2f1')} />
+                                <PillarFeature text={t('landing.pillar2f2')} />
+                                <PillarFeature text={t('landing.pillar2f3')} />
                             </div>
                             <Link to="/signup" className="landing-card-link">
-                                Start Training Free <ArrowRight size={16} />
+                                {t('landing.pillar2cta')} <ArrowRight size={16} />
                             </Link>
                         </div>
 
@@ -257,20 +250,18 @@ export function LandingPage() {
                                 PILLAR 3
                             </div>
                             <h3 className="landing-card-title" style={{ fontSize: '1.4rem' }}>
-                                Respite Care Marketplace
+                                {t('landing.pillar3Title')}
                             </h3>
                             <p className="landing-card-text" style={{ flex: 1 }}>
-                                Find trusted, verified respite care providers near you — or across the
-                                country for vacation trips. Search by specialty, radius, credentials,
-                                and ratings. Because sustainable caregiving requires sustainable caregivers.
+                                {t('landing.pillar3Text')}
                             </p>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '1.5rem' }}>
-                                <PillarFeature text="GPS-based radius search nationwide" />
-                                <PillarFeature text="Specialty filters (Autism, ADHD, medical, etc.)" />
-                                <PillarFeature text="Super Provider ratings & community reviews" />
+                                <PillarFeature text={t('landing.pillar3f1')} />
+                                <PillarFeature text={t('landing.pillar3f2')} />
+                                <PillarFeature text={t('landing.pillar3f3')} />
                             </div>
                             <Link to="/signup" className="landing-card-link">
-                                Find Providers Free <ArrowRight size={16} />
+                                {t('landing.pillar3cta')} <ArrowRight size={16} />
                             </Link>
                         </div>
                     </div>
@@ -283,10 +274,10 @@ export function LandingPage() {
             }}>
                 <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
                     <h2 className="landing-section-title" style={{ marginBottom: '1rem' }}>
-                        Built-In Toolkit
+                        {t('landing.toolkitTitle')}
                     </h2>
                     <p className="landing-section-sub">
-                        Every feature designed with neuro-affirming intention.
+                        {t('landing.toolkitSub')}
                     </p>
 
                     <div style={{
@@ -295,23 +286,23 @@ export function LandingPage() {
                         gap: '20px',
                     }}>
                         <ToolCard icon={<MessageCircle size={22} color="#D4AF37" />}
-                            title="Insight"
-                            text="AI that remembers your child's story. The more you share, the smarter it gets." />
+                            title={t('landing.tool.insight')}
+                            text={t('landing.tool.insightDesc')} />
                         <ToolCard icon={<BookOpen size={22} color="#8B6CB8" />}
-                            title="ABC Capture"
-                            text="Document behaviors with the ABC framework. Patterns emerge." />
+                            title={t('landing.tool.capture')}
+                            text={t('landing.tool.captureDesc')} />
                         <ToolCard icon={<Shield size={22} color="#7A9E7E" />}
-                            title="The Bridge"
-                            text="Generate professional share packets for schools and providers." />
+                            title={t('landing.tool.bridge')}
+                            text={t('landing.tool.bridgeDesc')} />
                         <ToolCard icon={<Users size={22} color="#D4837F" />}
-                            title="The Village"
-                            text="Calendar, care coordination, and team communication." />
+                            title={t('landing.tool.village')}
+                            text={t('landing.tool.villageDesc')} />
                         <ToolCard icon={<Star size={22} color="#E8C97A" />}
-                            title="EC Lens"
-                            text="See your child through the Epigenetic Consciousness framework." />
+                            title={t('landing.tool.ec')}
+                            text={t('landing.tool.ecDesc')} />
                         <ToolCard icon={<Heart size={22} color="#B85450" />}
-                            title="Homeplace"
-                            text="Sanctuary tools, safety profiles, and wellness tracking." />
+                            title={t('landing.tool.homeplace')}
+                            text={t('landing.tool.homeplaceDesc')} />
                     </div>
                 </div>
             </section>
@@ -333,36 +324,34 @@ export function LandingPage() {
                             fontFamily: 'var(--font-body)', fontWeight: 600,
                             letterSpacing: '0.08em', textTransform: 'uppercase',
                         }}>
-                            Research-Grounded
+                            {t('landing.researchBadge')}
                         </span>
                     </div>
                     <h2 className="landing-section-title" style={{ marginBottom: '1.5rem' }}>
-                        Not Just Another App
+                        {t('landing.notJust')}
                     </h2>
                     <p style={{
                         color: 'rgba(245, 240, 232, 0.5)', fontSize: '1.05rem',
                         fontFamily: 'var(--font-body)', lineHeight: 1.8,
                         marginBottom: '3rem',
                     }}>
-                        Every module, every response, every scenario is grounded in peer-reviewed
-                        research and the lived experience of families navigating systems that
-                        were not built for them.
+                        {t('landing.notJustSub')}
                     </p>
 
-                    {/* Scholar badges */}
+                    {/* Scholar badges — universal descriptions of what the research DOES */}
                     <div style={{
                         display: 'flex', gap: '10px', flexWrap: 'wrap', justifyContent: 'center',
                     }}>
                         {[
-                            'Carr & Durand (FCT)',
-                            'Porges (Polyvagal)',
-                            'Ladson-Billings (CRT)',
-                            'DeGruy (PTSS)',
-                            'Menakem (Somatic)',
-                            'Yehuda (Epigenetics)',
-                            'Donnellan (Competence)',
-                            'Kapp (Neurodiversity)',
-                            'Davis (EC Framework)',
+                            'Functional Communication',
+                            'Nervous System Science',
+                            'Responsive Teaching',
+                            'Intergenerational Healing',
+                            'Somatic Intelligence',
+                            'Behavioral Epigenetics',
+                            'Presumed Competence',
+                            'Neurodiversity-Affirming',
+                            'Whole-Child Consciousness',
                         ].map(scholar => (
                             <span key={scholar} style={{
                                 padding: '7px 16px', borderRadius: '100px',
@@ -385,9 +374,9 @@ export function LandingPage() {
                 background: 'linear-gradient(180deg, #0D0D0D 0%, #1A0A2E 50%, #0D0D0D 100%)',
             }}>
                 <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-                    <h2 className="landing-section-title">Simple, Honest Pricing</h2>
+                    <h2 className="landing-section-title">{t('landing.pricingTitle')}</h2>
                     <p className="landing-section-sub">
-                        Start free. Grow when you're ready.
+                        {t('landing.pricingSub')}
                     </p>
 
                     <div style={{
@@ -482,27 +471,25 @@ export function LandingPage() {
                         position: 'relative', zIndex: 1,
                     }} />
                     <h2 className="landing-section-title" style={{ marginBottom: '1rem' }}>
-                        Your Family Deserves This
+                        {t('landing.finalTitle')}
                     </h2>
                     <p style={{
                         color: 'rgba(245, 240, 232, 0.5)', fontSize: '1.1rem',
                         marginBottom: '2.5rem', lineHeight: '1.7', position: 'relative', zIndex: 1,
                         maxWidth: '580px', margin: '0 auto 2.5rem',
                     }}>
-                        You are not fighting twice as hard because you are failing.
-                        You are fighting twice as hard because the system was not built for you.
-                        Your advocacy is ancestral power in action.
+                        {t('landing.finalText')}
                     </p>
                     <Link to="/signup" className="landing-cta-primary" style={{
                         position: 'relative', zIndex: 1,
                     }}>
-                        Begin Free <ArrowRight size={20} />
+                        {t('landing.beginFree')} <ArrowRight size={20} />
                     </Link>
                     <p style={{
                         marginTop: '1.25rem', color: 'rgba(245, 240, 232, 0.35)',
                         fontSize: '0.85rem', position: 'relative', zIndex: 1,
                     }}>
-                        No credit card required. Cancel anytime.
+                        {t('landing.noCreditCard')}
                     </p>
                 </div>
             </section>
@@ -524,7 +511,7 @@ export function LandingPage() {
                     color: 'rgba(245, 240, 232, 0.3)', fontSize: '0.82rem',
                     fontFamily: 'var(--font-body)', lineHeight: 1.7,
                 }}>
-                    A neuro-affirming AI companion. Built with love, research, and ancestral intention.
+                    {t('landing.footerTagline')}
                 </p>
                 <p style={{
                     color: 'rgba(245, 240, 232, 0.2)', fontSize: '0.75rem',

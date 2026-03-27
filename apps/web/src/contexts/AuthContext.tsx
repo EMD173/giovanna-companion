@@ -3,6 +3,8 @@ import {
     type User,
     onAuthStateChanged,
     signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
     GoogleAuthProvider,
     signOut as firebaseSignOut
 } from 'firebase/auth';
@@ -16,6 +18,16 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+/**
+ * Detect mobile / in-app browsers where signInWithPopup is unreliable.
+ * Covers iOS Safari, Android Chrome, Instagram/Facebook in-app browsers, etc.
+ */
+function isMobileOrInAppBrowser(): boolean {
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent || '';
+    return /iPhone|iPad|iPod|Android|Mobile|FBAN|FBAV|Instagram|CriOS|FxiOS/i.test(ua);
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
@@ -46,6 +58,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false);
             return; // Skip Firebase listener in demo mode
         }
+
+        // Handle redirect result (for mobile sign-in flow)
+        getRedirectResult(auth).catch((err) => {
+            console.warn('[Giovanna] Redirect result check:', err);
+        });
 
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
@@ -88,9 +105,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const signInWithGoogle = async () => {
         const provider = new GoogleAuthProvider();
+
+        // On mobile / in-app browsers, use redirect (popups are blocked)
+        if (isMobileOrInAppBrowser()) {
+            await signInWithRedirect(auth, provider);
+            return; // Page will redirect — no further action
+        }
+
+        // Desktop: try popup first, fall back to redirect if blocked
         try {
             await signInWithPopup(auth, provider);
-        } catch (error) {
+        } catch (error: unknown) {
+            const code = (error as { code?: string })?.code;
+            if (code === 'auth/popup-blocked' || code === 'auth/popup-closed-by-user') {
+                console.warn('[Giovanna] Popup blocked, falling back to redirect');
+                await signInWithRedirect(auth, provider);
+                return;
+            }
             console.error("Error signing in with Google", error);
             throw error;
         }

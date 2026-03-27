@@ -3,6 +3,10 @@
  * 
  * Global state for user subscription tier and usage tracking.
  * Enables feature gating based on tier limits.
+ * 
+ * Ambassador Mode: When AMBASSADOR_MODE is set in localStorage,
+ * the tier overrides to 'ambassador' with full product access.
+ * © 2026 Eli Davis. All Rights Reserved.
  */
 
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
@@ -24,6 +28,8 @@ interface SubscriptionContextValue {
     subscription: UserSubscription | null;
     tier: SubscriptionTier;
     loading: boolean;
+    isAmbassador: boolean;
+    ambassadorName: string | null;
 
     // Feature checks
     hasFeature: (feature: keyof TierLimits) => boolean;
@@ -43,6 +49,8 @@ const SubscriptionContext = createContext<SubscriptionContextValue>({
     subscription: null,
     tier: 'free',
     loading: true,
+    isAmbassador: false,
+    ambassadorName: null,
     hasFeature: () => false,
     canUseAI: () => true,
     canCreateSharePacket: () => true,
@@ -56,6 +64,10 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
     const { user } = useAuth();
     const [subscription, setSubscription] = useState<UserSubscription | null>(null);
     const [loading, setLoading] = useState(true);
+
+    // Ambassador mode detection
+    const ambassadorMode = typeof window !== 'undefined' && localStorage.getItem('AMBASSADOR_MODE') === 'true';
+    const ambassadorName = typeof window !== 'undefined' ? localStorage.getItem('AMBASSADOR_NAME') : null;
 
     // Load/create subscription from Firestore
     useEffect(() => {
@@ -101,7 +113,8 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
         return () => unsubscribe();
     }, [user]);
 
-    const tier = subscription?.tier || 'free';
+    // Ambassador override: full access regardless of Firestore tier
+    const tier: SubscriptionTier = ambassadorMode ? 'ambassador' : (subscription?.tier || 'free');
     const limits = TIER_CONFIG[tier];
 
     const hasFeature = (feature: keyof TierLimits): boolean => {
@@ -112,16 +125,19 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
     };
 
     const canUseAI = (): boolean => {
+        if (ambassadorMode) return true; // Ambassadors have unlimited access
         if (!subscription) return true;  // Allow before loaded
         return isWithinLimit(tier, 'aiQueriesPerMonth', subscription.usage.aiQueriesUsed);
     };
 
     const canCreateSharePacket = (): boolean => {
+        if (ambassadorMode) return true;
         if (!subscription) return true;
         return isWithinLimit(tier, 'sharePacketsPerMonth', subscription.usage.sharePacketsUsed);
     };
 
     const incrementAIUsage = async () => {
+        if (ambassadorMode) return; // Don't track ambassador usage
         if (!user || !subscription) return;
         const subRef = doc(db, 'subscriptions', user.uid);
         await setDoc(subRef, {
@@ -132,6 +148,7 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
     };
 
     const incrementShareUsage = async () => {
+        if (ambassadorMode) return;
         if (!user || !subscription) return;
         const subRef = doc(db, 'subscriptions', user.uid);
         await setDoc(subRef, {
@@ -142,11 +159,13 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
     };
 
     const getRemainingAIQueries = (): number | 'unlimited' => {
+        if (ambassadorMode) return 'unlimited';
         if (!subscription) return 50;
         return getRemainingUsage(tier, 'aiQueriesPerMonth', subscription.usage.aiQueriesUsed);
     };
 
     const shouldShowUpgrade = (): boolean => {
+        if (ambassadorMode) return false; // Never show upgrade to ambassadors
         if (tier !== 'free') return false;
         if (!subscription) return false;
 
@@ -163,6 +182,8 @@ export function SubscriptionProvider({ children }: { children: ReactNode }) {
             subscription,
             tier,
             loading,
+            isAmbassador: ambassadorMode,
+            ambassadorName,
             hasFeature,
             canUseAI,
             canCreateSharePacket,

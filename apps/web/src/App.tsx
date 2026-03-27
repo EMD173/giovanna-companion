@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ECModeProvider } from './contexts/ECModeContext';
 import { SubscriptionProvider } from './contexts/SubscriptionContext';
 import { FamilyProvider } from './contexts/FamilyContext';
+import { I18nProvider } from './lib/i18n';
 import { Layout } from './components/Layout';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { ErrorBoundary, PageLoadingFallback } from './components/ErrorBoundary';
@@ -46,6 +47,7 @@ const PracticeModulesPage = lazy(() => import('./pages/PracticeModulesPage').the
 const EducatorTrainingPage = lazy(() => import('./pages/EducatorTrainingPage').then(m => ({ default: m.EducatorTrainingPage })));
 const RespiteMarketplacePage = lazy(() => import('./pages/RespiteMarketplacePage').then(m => ({ default: m.RespiteMarketplacePage })));
 const DemoEntry = lazy(() => import('./pages/DemoEntry').then(m => ({ default: m.DemoEntry })));
+const AmbassadorEntry = lazy(() => import('./pages/AmbassadorEntry'));
 
 /** Scrolls to top on every route change */
 function ScrollToTop() {
@@ -56,6 +58,7 @@ function ScrollToTop() {
 
 function App() {
   return (
+    <I18nProvider>
     <AuthProvider>
       <SubscriptionProvider>
         <FamilyProvider>
@@ -70,6 +73,8 @@ function App() {
                     <Route path="/share" element={<PublicShareView />} />
                     {/* Direct demo link — shareable URL */}
                     <Route path="/demo" element={<DemoEntry />} />
+                    {/* Ambassador access — code entry for product ambassadors */}
+                    <Route path="/ambassador" element={<AmbassadorEntry />} />
 
                     {/* Public routes with Layout (Landing, Signup, Learn) */}
                     <Route path="/" element={<Layout />}>
@@ -123,6 +128,7 @@ function App() {
         </FamilyProvider>
       </SubscriptionProvider>
     </AuthProvider>
+    </I18nProvider>
   );
 }
 
