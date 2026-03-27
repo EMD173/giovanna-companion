@@ -63,6 +63,7 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         // DEV BYPASS or DEMO MODE: seed mock data without touching Firestore
         const isDemoOrBypass = localStorage.getItem('DEMO_MODE') === 'true'
+            || localStorage.getItem('AMBASSADOR_MODE') === 'true'
             || (!import.meta.env.PROD && localStorage.getItem('DEV_BYPASS') === 'true');
         if (isDemoOrBypass) {
             const mockChild = {
@@ -226,12 +227,18 @@ export function FamilyProvider({ children }: { children: ReactNode }) {
                         return null;
                     });
                 } else {
-                    // Create empty profile for new users — use merge to avoid
-                    // overwriting children that Onboarding may have written
-                    const newFamily = createEmptyFamilyProfile(user.uid, user.uid);
-                    await setDoc(familyRef, newFamily, { merge: true });
-                    // Don't setFamily here — let the next onSnapshot deliver the
-                    // merged result so we never show stale (empty) state.
+                    // Create the family doc scaffolding for new users.
+                    // CRITICAL: Do NOT include `children` here — Firestore merge
+                    // replaces arrays entirely, so writing `children: []` would
+                    // overwrite any children that Onboarding saved moments ago.
+                    await setDoc(familyRef, {
+                        id: user.uid,
+                        adminId: user.uid,
+                        userId: user.uid,
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                    }, { merge: true });
+                    // Let the next onSnapshot deliver the merged result.
                 }
                 setError(null);
             } catch (err) {

@@ -126,7 +126,8 @@ export function Dashboard() {
     // Without this, family-dependent features (ABC logs, child profiles, share
     // packets) will error because they assume at least one child exists.
     useEffect(() => {
-        if (!familyLoading && family && !hasCompletedFamilySetup(family)) {
+        const isAmbassador = localStorage.getItem('AMBASSADOR_MODE') === 'true';
+        if (!isAmbassador && !familyLoading && family && !hasCompletedFamilySetup(family)) {
             navigate('/onboarding', { replace: true });
         }
     }, [familyLoading, family, navigate]);
