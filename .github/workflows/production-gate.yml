@@ -1,0 +1,66 @@
+name: Sovereign Production Gate
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  validate-and-test:
+    name: Typecheck, Lint, and Security Audit
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+
+    # Dependencies
+    - name: Clean Install Root
+      run: npm ci
+      
+    - name: Clean Install Apps/Web
+      working-directory: ./apps/web
+      run: npm ci
+
+    - name: Clean Install Functions
+      working-directory: ./functions
+      run: npm ci
+
+    # Vulnerability Scanning
+    - name: Production Security Audit
+      run: |
+        npm audit --audit-level=high
+
+    # Web App Validation
+    - name: Typecheck Web App
+      working-directory: ./apps/web
+      run: npm run typecheck
+
+    - name: ESLint Web App
+      working-directory: ./apps/web
+      run: npm run lint
+
+    # Functions Validation
+    - name: Typecheck Firebase Functions
+      working-directory: ./functions
+      run: npx tsc --noEmit
+
+    - name: ESLint Firebase Functions
+      working-directory: ./functions
+      run: npm run lint
+
+    # Successful End of Pipeline marker
+    - name: Verification Complete
+      run: echo "Codebase meets Elite Sovereign Architecture stability thresholds."

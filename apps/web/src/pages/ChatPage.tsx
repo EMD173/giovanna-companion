@@ -16,6 +16,7 @@ import { useABCLogs, type ABCEntry } from '../hooks/useABCLogs';
 import { useConversations, type ChatMessage } from '../hooks/useConversations';
 import { sendMessage } from '../services/aiService';
 import { sanctuary, typography } from '../shared/theme';
+import { useI18n } from '../lib/i18n';
 
 // ============================================
 // PATTERN DETECTION ENGINE
@@ -301,6 +302,7 @@ function getAdaptiveQuestions(patterns: DetectedPattern[], child: any): string[]
 // ============================================
 
 export function ChatPage() {
+    const { locale } = useI18n();
     const { activeChild } = useFamily();
     const { canUseAI, getRemainingAIQueries, shouldShowUpgrade } = useSubscription();
     const { logs } = useABCLogs();
@@ -470,7 +472,7 @@ export function ChatPage() {
         }
 
         // Persist user message
-        try { await addMessage(userMessage); } catch (e) { console.error('Failed to persist message:', e); }
+        try { await addMessage(userMessage); } catch (_) { console.error('Failed to persist message:', _); }
 
         if (crisis) {
             const crisisMsg: ChatMessage = {
@@ -479,7 +481,7 @@ export function ChatPage() {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, crisisMsg]);
-            try { await addMessage(crisisMsg); } catch (e) { /* non-blocking */ }
+            try { await addMessage(crisisMsg); } catch (_) { /* non-blocking */ }
             setIsLoading(false);
             return;
         }
@@ -492,7 +494,7 @@ export function ChatPage() {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, limitMsg]);
-            try { await addMessage(limitMsg); } catch (e) { /* non-blocking */ }
+            try { await addMessage(limitMsg); } catch (_) { /* non-blocking */ }
             setIsLoading(false);
             return;
         }
@@ -508,7 +510,9 @@ export function ChatPage() {
             .map(m => `${m.role === 'user' ? 'Parent' : 'Giovanna'}: ${m.content}`)
             .join('\n\n');
 
-        const fullMessage = `${contextBlock}${recentHistory ? `[CONVERSATION HISTORY:\n${recentHistory}]\n\n` : ''}Parent: ${userMsg}`;
+        const languageDirective = `[SYSTEM DIRECTIVE: The user's interface is in ${locale}. ALL responses MUST be written entirely in ${locale.toUpperCase()}.]\n\n`;
+
+        const fullMessage = `${languageDirective}${contextBlock}${recentHistory ? `[CONVERSATION HISTORY:\n${recentHistory}]\n\n` : ''}Parent: ${userMsg}`;
 
         try {
             const result = await sendMessage(fullMessage);
@@ -524,7 +528,7 @@ export function ChatPage() {
             if (result.error) setAiError(result.error);
 
             setMessages(prev => [...prev, responseMsg]);
-            try { await addMessage(responseMsg); } catch (e) { /* non-blocking */ }
+            try { await addMessage(responseMsg); } catch (_) { /* non-blocking */ }
 
         } catch (error) {
             console.error('Oracle AI error:', error);
@@ -534,7 +538,7 @@ export function ChatPage() {
                 timestamp: new Date()
             };
             setMessages(prev => [...prev, errorMsg]);
-            try { await addMessage(errorMsg); } catch (e) { /* non-blocking */ }
+            try { await addMessage(errorMsg); } catch (_) { /* non-blocking */ }
         } finally {
             setIsLoading(false);
         }

@@ -57,10 +57,26 @@ service cloud.firestore {
       allow create: if isFamilyOwner(request.resource.data.familyId);
     }
 
-    // ABC Entries
+    // ABC Entries (Immutable Audit Trail Paradigm)
+    // We deny hard deletes to comply with standard clinical/institutional retention policies.
     match /abcEntries/{entryId} {
-      allow read, update, delete: if isFamilyOwner(resource.data.familyId);
-      allow create: if isFamilyOwner(request.resource.data.familyId);
+      allow read: if isFamilyOwner(resource.data.familyId);
+      allow create: if isFamilyOwner(request.resource.data.familyId) 
+                    && request.resource.data.createdAt == request.time; // Enforce server timestamp
+      allow update: if isFamilyOwner(resource.data.familyId)
+                    && request.resource.data.createdAt == resource.data.createdAt; // Prevent spoofing creation time
+      allow delete: if false; // Only soft-deletes (archiving updates) allowed
+    }
+
+    // ============================================
+    // MLOPS & COMPLIANCE
+    // ============================================
+
+    // Audit Ledgers (Strict Append-Only Immutable Records)
+    match /audit_ledgers/{auditId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if false; // Only Cloud Functions (Admin SDK) can write compliance audits
+      allow update, delete: if false; // NEVER modify or delete an audit log
     }
 
     // Strategy Cards

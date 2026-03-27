@@ -30,8 +30,8 @@ export default function ConceptGuide({ ambassadorName }: ConceptGuideProps) {
                 onClick={() => setIsOpen(!isOpen)}
                 style={{
                     position: 'fixed',
-                    bottom: '90px',
-                    right: '20px',
+                    bottom: '20px',
+                    left: '20px',
                     width: '52px',
                     height: '52px',
                     borderRadius: '50%',
@@ -56,8 +56,8 @@ export default function ConceptGuide({ ambassadorName }: ConceptGuideProps) {
             {!isOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '48px',
-                    right: '12px',
+                    bottom: '76px',
+                    left: '12px',
                     background: sanctuary.goldBg,
                     border: `1px solid ${sanctuary.goldBorder}`,
                     borderRadius: '100px',
@@ -79,8 +79,8 @@ export default function ConceptGuide({ ambassadorName }: ConceptGuideProps) {
             {isOpen && (
                 <div style={{
                     position: 'fixed',
-                    bottom: '90px',
-                    right: '20px',
+                    bottom: '80px',
+                    left: '20px',
                     width: '380px',
                     maxWidth: 'calc(100vw - 40px)',
                     maxHeight: '70vh',

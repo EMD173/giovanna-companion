@@ -317,6 +317,28 @@ exports.giovannaChat = functions.https.onCall(async (data, context) => {
             temperature: 0.7,
         });
         const text = completion.choices[0]?.message?.content || '';
+        // EMANCIPATORY MLOPS: Asynchronous Bias Audit (Fire and Forget)
+        // Checks output for deficit-based language to maintain institutional compliance.
+        // We write the pledge score immutably to audit_ledgers.
+        const auditPromise = (async () => {
+            const auditRef = db.collection('audit_ledgers').doc();
+            const lowerText = text.toLowerCase();
+            const deficitTerms = ['non-compliant', 'low-functioning', 'high-functioning', 'suffering from', 'normal children', 'cure', 'mental age'];
+            const detectedBias = deficitTerms.filter(term => lowerText.includes(term));
+            const isAffirming = detectedBias.length === 0;
+            await auditRef.set({
+                timestamp: admin.firestore.FieldValue.serverTimestamp(),
+                userId: userId,
+                endpoint: 'giovannaChat',
+                promptPreview: message.substring(0, 100) + '...',
+                isAffirming: isAffirming,
+                flaggedTerms: detectedBias,
+                // In an elite production setting, this would trigger an SNS/PubSub event
+                // to flag the response for human review if `isAffirming` is false.
+                status: isAffirming ? 'PASSED_AUTO_AUDIT' : 'FLAGGED_FOR_REVIEW'
+            });
+        })().catch(err => console.error("MLOps Audit Failed:", err));
+        // Let the audit promise run in background; do not block response.
         return { response: text, error: null };
     }
     catch (error) {

@@ -9,6 +9,7 @@ import {
     BIAS_EXPERIENCES, STRENGTH_OPTIONS
 } from '../../types/intake';
 import type { IntakeProfile } from '../../types/intake';
+import { useI18n, type Locale } from '../../lib/i18n';
 
 interface IntakeWizardProps {
     onComplete: (profile: IntakeProfile) => Promise<void>;
@@ -31,6 +32,7 @@ const colors = {
 };
 
 export function IntakeWizard({ onComplete, isSubmitting }: IntakeWizardProps) {
+    const { t, locale, setLocale } = useI18n();
     const [step, setStep] = useState(0);
     const [profile, setProfile] = useState<IntakeProfile>(DEFAULT_INTAKE_PROFILE);
 
@@ -52,21 +54,30 @@ export function IntakeWizard({ onComplete, isSubmitting }: IntakeWizardProps) {
         setProfile(prev => ({ ...prev, [field]: value }));
     };
 
-    const isLastStep = step === 5;
+    const isLastStep = step === 6;
     const handleSubmit = () => onComplete(profile);
-    const progress = (step / 5) * 100;
+    const progress = (step / 6) * 100;
 
-    const stepTitles = ['Pledge', 'Capacity', 'Village', 'Spirit', 'Real Talk', 'Strengths'];
+    const stepTitles = [
+        t('intake.step.language'),
+        t('intake.step.pledge'),
+        t('intake.step.capacity'),
+        t('intake.step.village'),
+        t('intake.step.spirit'),
+        t('intake.step.realTalk'),
+        t('intake.step.strengths')
+    ];
 
     const renderStep = () => {
         switch (step) {
-            case 0: return <DignityPledge onNext={nextStep} />;
-            case 1: return <CapacityCheckStep profile={profile} onUpdate={updateField} />;
-            case 2: return <TheVillageStep profile={profile} onToggle={(val) => toggleArrayItem('kinshipNetwork', val)} />;
-            case 3: return <HeartAndSpiritStep profile={profile} onToggle={(val) => toggleArrayItem('values', val)} onUpdate={updateField} />;
-            case 4: return <RealTalkStep profile={profile} onToggle={(val) => toggleArrayItem('experienceWithBias', val)} onUpdate={updateField} />;
-            case 5: return <StrengthsStep profile={profile} onToggle={(val) => toggleArrayItem('strengths', val)} />;
-            default: return <DignityPledge onNext={nextStep} />;
+            case 0: return <LanguageSelectionStep onNext={nextStep} locale={locale} setLocale={setLocale} />;
+            case 1: return <DignityPledge onNext={nextStep} />;
+            case 2: return <CapacityCheckStep profile={profile} onUpdate={updateField} />;
+            case 3: return <TheVillageStep profile={profile} onToggle={(val) => toggleArrayItem('kinshipNetwork', val)} />;
+            case 4: return <HeartAndSpiritStep profile={profile} onToggle={(val) => toggleArrayItem('values', val)} onUpdate={updateField} />;
+            case 5: return <RealTalkStep profile={profile} onToggle={(val) => toggleArrayItem('experienceWithBias', val)} onUpdate={updateField} />;
+            case 6: return <StrengthsStep profile={profile} onToggle={(val) => toggleArrayItem('strengths', val)} />;
+            default: return <LanguageSelectionStep onNext={nextStep} locale={locale} setLocale={setLocale} />;
         }
     };
 
@@ -138,7 +149,7 @@ export function IntakeWizard({ onComplete, isSubmitting }: IntakeWizardProps) {
                                 gap: '6px',
                             }}
                         >
-                            <ArrowLeft size={18} /> Back
+                            <ArrowLeft size={18} /> {t('common.back')}
                         </button>
 
                         <button
@@ -148,9 +159,9 @@ export function IntakeWizard({ onComplete, isSubmitting }: IntakeWizardProps) {
                             style={{ padding: '12px 32px', fontSize: '0.95rem' }}
                         >
                             {isLastStep ? (
-                                isSubmitting ? 'Creating Profile...' : 'Complete Profile'
+                                isSubmitting ? t('common.loading') : t('intake.completeProfile')
                             ) : (
-                                <>Next <ArrowRight size={18} /></>
+                                <>{t('common.next')} <ArrowRight size={18} /></>
                             )}
                         </button>
                     </div>
@@ -162,7 +173,51 @@ export function IntakeWizard({ onComplete, isSubmitting }: IntakeWizardProps) {
 
 // --- Step Components ---
 
+function LanguageSelectionStep({ onNext, locale, setLocale }: { onNext: () => void; locale: Locale; setLocale: (l: Locale) => void }) {
+    const { t } = useI18n();
+    return (
+        <div>
+            <div style={{
+                background: `linear-gradient(135deg, ${colors.purpleDark} 0%, #0D0D0D 100%)`,
+                padding: '48px 32px', textAlign: 'center', position: 'relative', overflow: 'hidden',
+            }}>
+                <div style={{
+                    position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
+                    background: `linear-gradient(90deg, transparent, ${colors.gold}, ${colors.purple}, ${colors.gold}, transparent)`,
+                }} />
+                <h1 style={{
+                    fontFamily: 'var(--font-heading)', fontSize: '2rem', fontWeight: 700,
+                    color: colors.gold, marginBottom: '12px',
+                }}>{t('intake.languageTitle')}</h1>
+                <p style={{ color: colors.textMuted, fontSize: '1rem', maxWidth: '420px', margin: '0 auto', lineHeight: 1.6 }}>
+                    {t('intake.languageSub')}
+                </p>
+            </div>
+            <div style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <OptionButton
+                    label="🇺🇸 English"
+                    selected={locale === 'en'}
+                    onClick={() => setLocale('en')}
+                />
+                <OptionButton
+                    label="🇪🇸 Español"
+                    selected={locale === 'es'}
+                    onClick={() => setLocale('es')}
+                />
+                <button
+                    onClick={onNext}
+                    className="landing-cta-primary"
+                    style={{ width: '100%', marginTop: '16px', padding: '16px', fontSize: '1.05rem', justifyContent: 'center' }}
+                >
+                    {t('intake.continue')}
+                </button>
+            </div>
+        </div>
+    );
+}
+
 function DignityPledge({ onNext }: { onNext: () => void }) {
+    const { t } = useI18n();
     return (
         <div>
             {/* Header */}
@@ -198,17 +253,18 @@ function DignityPledge({ onNext }: { onNext: () => void }) {
                     color: colors.gold,
                     marginBottom: '12px',
                     position: 'relative',
-                }}>The Dignity Pledge</h1>
-                <p style={{
-                    color: colors.textMuted,
-                    fontSize: '1rem',
-                    maxWidth: '420px',
-                    margin: '0 auto',
-                    lineHeight: 1.6,
-                    position: 'relative',
-                }}>
-                    Before we begin, let's align on our purpose.<br />This space is protected.
-                </p>
+                }}>{t('intake.pledgeTitle')}</h1>
+                <p
+                    dangerouslySetInnerHTML={{ __html: t('intake.pledgeSub') }}
+                    style={{
+                        color: colors.textMuted,
+                        fontSize: '1rem',
+                        maxWidth: '420px',
+                        margin: '0 auto',
+                        lineHeight: 1.6,
+                        position: 'relative',
+                    }}
+                />
             </div>
 
             {/* Pledge Items */}
@@ -217,22 +273,22 @@ function DignityPledge({ onNext }: { onNext: () => void }) {
                     icon={<Heart size={22} />}
                     iconColor="#B85450"
                     iconBg="rgba(184,84,80,0.15)"
-                    title="Understanding, Not Compliance"
-                    text="We seek to understand the 'why' behind behaviors, not to enforce compliance or extinguish harmless traits."
+                    title={t('intake.pledge1Title')}
+                    text={t('intake.pledge1Desc')}
                 />
                 <PledgeItem
                     icon={<Lock size={22} />}
                     iconColor="#6B4C9A"
                     iconBg="rgba(107,76,154,0.15)"
-                    title="Privacy & Ownership"
-                    text="This is YOUR family's data. We are anti-surveillance. You own your story."
+                    title={t('intake.pledge2Title')}
+                    text={t('intake.pledge2Desc')}
                 />
                 <PledgeItem
                     icon={<Hand size={22} />}
                     iconColor="#D4AF37"
                     iconBg="rgba(212,175,55,0.15)"
-                    title="Cultural Safety"
-                    text="We honor your village, your values, and your reality. You don't have to code-switch here."
+                    title={t('intake.pledge3Title')}
+                    text={t('intake.pledge3Desc')}
                 />
 
                 <button
@@ -246,7 +302,7 @@ function DignityPledge({ onNext }: { onNext: () => void }) {
                         justifyContent: 'center',
                     }}
                 >
-                    I Agree & Commit
+                    {t('intake.agreeCommit')}
                 </button>
             </div>
         </div>
@@ -291,18 +347,19 @@ function PledgeItem({ icon, iconColor, iconBg, title, text }: {
 
 /* ===== Capacity Check ===== */
 function CapacityCheckStep({ profile, onUpdate }: { profile: IntakeProfile; onUpdate: (field: keyof IntakeProfile, value: any) => void }) {
+    const { t } = useI18n();
     return (
         <div style={{ padding: '32px' }}>
-            <StepHeader icon={<Battery size={24} />} iconColor={colors.gold} title="Capacity Check" />
+            <StepHeader icon={<Battery size={24} />} iconColor={colors.gold} title={t('intake.capacityTitle')} />
             <p style={{ color: colors.textMuted, marginBottom: '24px', lineHeight: 1.7 }}>
-                How are you feeling today? Your honest answer helps us meet you where you are — no judgment.
+                {t('intake.capacitySub')}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {([
-                    { value: 'growth', label: '🌱 Growth Mode — I have capacity to explore and learn' },
-                    { value: 'survival', label: '🕯️ Survival Mode — Keep things gentle and essential' },
-                ] as const).map(option => (
+                {[
+                    { value: 'growth', label: t('intake.optGrowth') },
+                    { value: 'survival', label: t('intake.optSurvival') },
+                ].map(option => (
                     <OptionButton
                         key={option.value}
                         label={option.label}
@@ -317,16 +374,17 @@ function CapacityCheckStep({ profile, onUpdate }: { profile: IntakeProfile; onUp
 
 /* ===== The Village ===== */
 function TheVillageStep({ profile, onToggle }: { profile: IntakeProfile; onToggle: (val: string) => void }) {
+    const { t } = useI18n();
     return (
         <div style={{ padding: '32px' }}>
-            <StepHeader icon={<Users size={24} />} iconColor={colors.gold} title="The Village" />
+            <StepHeader icon={<Users size={24} />} iconColor={colors.gold} title={t('intake.villageTitle')} />
             <p style={{ color: colors.textMuted, marginBottom: '24px', lineHeight: 1.7 }}>
-                Who stands with you? Caregiving is often communal. Identify your circle of strength.
+                {t('intake.villageSub')}
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                 {KINSHIP_OPTIONS.map(kin => (
-                    <SelectionCard key={kin} label={kin} selected={profile.kinshipNetwork.includes(kin)} onClick={() => onToggle(kin)} />
+                    <SelectionCard key={kin} label={t(kin)} selected={profile.kinshipNetwork.includes(kin)} onClick={() => onToggle(kin)} />
                 ))}
             </div>
         </div>
@@ -335,23 +393,24 @@ function TheVillageStep({ profile, onToggle }: { profile: IntakeProfile; onToggl
 
 /* ===== Heart & Spirit ===== */
 function HeartAndSpiritStep({ profile, onToggle, onUpdate }: { profile: IntakeProfile; onToggle: (val: string) => void; onUpdate: any }) {
+    const { t } = useI18n();
     return (
         <div style={{ padding: '32px' }}>
-            <StepHeader icon={<Sparkles size={24} />} iconColor="#6B4C9A" title="Heart & Spirit" />
+            <StepHeader icon={<Sparkles size={24} />} iconColor="#6B4C9A" title={t('intake.spiritTitle')} />
             <p style={{ color: colors.textMuted, marginBottom: '24px', lineHeight: 1.7 }}>
-                What guides your family? Understanding your values helps us provide support that feels like home.
+                {t('intake.spiritSub')}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: colors.text, marginBottom: '12px' }}>
-                        How important is Faith or Spirituality in your coping?
+                        {t('intake.spiritQ1')}
                     </label>
                     <div style={{ display: 'flex', gap: '8px' }}>
                         {['high', 'medium', 'low', 'none'].map(level => (
                             <OptionPill
                                 key={level}
-                                label={level}
+                                label={t(level)}
                                 selected={profile.faithImportance === level}
                                 onClick={() => onUpdate('faithImportance', level)}
                             />
@@ -361,11 +420,11 @@ function HeartAndSpiritStep({ profile, onToggle, onUpdate }: { profile: IntakePr
 
                 <div>
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: colors.text, marginBottom: '12px' }}>
-                        Family Values (Select all that apply)
+                        {t('intake.spiritQ2')}
                     </label>
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                         {VALUES_OPTIONS.map(val => (
-                            <SelectionCard key={val} label={val} selected={profile.values.includes(val)} onClick={() => onToggle(val)} />
+                            <SelectionCard key={val} label={t(val)} selected={profile.values.includes(val)} onClick={() => onToggle(val)} />
                         ))}
                     </div>
                 </div>
@@ -376,11 +435,12 @@ function HeartAndSpiritStep({ profile, onToggle, onUpdate }: { profile: IntakePr
 
 /* ===== Real Talk ===== */
 function RealTalkStep({ profile, onToggle, onUpdate }: { profile: IntakeProfile; onToggle: (val: string) => void; onUpdate: any }) {
+    const { t } = useI18n();
     return (
         <div style={{ padding: '32px' }}>
-            <StepHeader icon={<Shield size={24} />} iconColor={colors.rose} title="Real Talk" />
+            <StepHeader icon={<Shield size={24} />} iconColor={colors.rose} title={t('intake.realTalkTitle')} />
             <p style={{ color: colors.textMuted, marginBottom: '24px', lineHeight: 1.7 }}>
-                We know the world isn't always safe for our children. Sharing helps us tailor our safety and advocacy tools.
+                {t('intake.realTalkSub')}
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -391,13 +451,13 @@ function RealTalkStep({ profile, onToggle, onUpdate }: { profile: IntakeProfile;
                     border: '1px solid rgba(184,84,80,0.15)',
                 }}>
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: colors.text, marginBottom: '12px' }}>
-                        Anxiety about Police/Security Encounters
+                        {t('intake.rtQ1')}
                     </label>
                     <div style={{ display: 'flex', gap: '8px' }}>
                         {['high', 'medium', 'low'].map(level => (
                             <OptionPill
                                 key={level}
-                                label={level}
+                                label={t(level)}
                                 selected={profile.policeAnxietyLevel === level}
                                 onClick={() => onUpdate('policeAnxietyLevel', level)}
                                 accentColor={colors.rose}
@@ -408,11 +468,11 @@ function RealTalkStep({ profile, onToggle, onUpdate }: { profile: IntakeProfile;
 
                 <div>
                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: 700, color: colors.text, marginBottom: '12px' }}>
-                        Have you experienced any of the following?
+                        {t('intake.rtQ2')}
                     </label>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                         {BIAS_EXPERIENCES.map(exp => (
-                            <SelectionCard key={exp} label={exp} selected={profile.experienceWithBias.includes(exp)} onClick={() => onToggle(exp)} />
+                            <SelectionCard key={exp} label={t(exp)} selected={profile.experienceWithBias.includes(exp)} onClick={() => onToggle(exp)} />
                         ))}
                     </div>
                 </div>
@@ -423,16 +483,17 @@ function RealTalkStep({ profile, onToggle, onUpdate }: { profile: IntakeProfile;
 
 /* ===== Strengths ===== */
 function StrengthsStep({ profile, onToggle }: { profile: IntakeProfile; onToggle: (val: string) => void }) {
+    const { t } = useI18n();
     return (
         <div style={{ padding: '32px' }}>
-            <StepHeader icon={<Sparkles size={24} />} iconColor={colors.gold} title="Our Strengths" />
+            <StepHeader icon={<Sparkles size={24} />} iconColor={colors.gold} title={t('intake.strengthTitle')} />
             <p style={{ color: colors.textMuted, marginBottom: '24px', lineHeight: 1.7 }}>
-                Finally, let's celebrate joy. What lights up your child? We build on strengths, not deficits.
+                {t('intake.strengthSub')}
             </p>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
                 {STRENGTH_OPTIONS.map(strength => (
-                    <SelectionCard key={strength} label={strength} selected={profile.strengths.includes(strength)} onClick={() => onToggle(strength)} />
+                    <SelectionCard key={strength} label={t(strength)} selected={profile.strengths.includes(strength)} onClick={() => onToggle(strength)} />
                 ))}
             </div>
         </div>

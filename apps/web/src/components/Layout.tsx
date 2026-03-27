@@ -36,7 +36,7 @@ export function Layout() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const location = useLocation();
     const isDesktop = useIsDesktop();
-    const { t } = useI18n();
+    const { t, locale, setLocale } = useI18n();
     const { isAmbassador, ambassadorName } = useSubscription();
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -151,6 +151,16 @@ export function Layout() {
                             {/* Desktop Auth */}
                             {isDesktop && (
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <button onClick={() => setLocale(locale === 'en' ? 'es' : 'en')} style={{
+                                        color: sanctuary.textMuted, fontSize: '0.82rem',
+                                        fontWeight: 600, fontFamily: typography.body,
+                                        background: sanctuary.bgCard, border: `1px solid ${sanctuary.border}`,
+                                        borderRadius: '8px', padding: '6px 12px',
+                                        cursor: 'pointer', transition: 'all 0.2s ease',
+                                        letterSpacing: '0.04em', marginRight: '8px'
+                                    }}>
+                                        {locale === 'en' ? '🌐 ES' : '🌐 EN'}
+                                    </button>
                                     {user ? (
                                         <>
                                             <Link to="/settings" title="Settings" style={{
@@ -263,6 +273,27 @@ export function Layout() {
                                 </Link>
                             );
                         })}
+                        
+                        <button
+                            onClick={() => { setLocale(locale === 'en' ? 'es' : 'en'); closeMenu(); }}
+                            style={{
+                                padding: '16px',
+                                borderRadius: '14px',
+                                fontWeight: 600,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '14px',
+                                background: sanctuary.bgCard,
+                                color: sanctuary.text,
+                                border: `1px solid ${sanctuary.border}`,
+                                marginTop: '12px',
+                                cursor: 'pointer',
+                            }}
+                        >
+                            <span style={{ fontSize: '1.2rem' }}>🌐</span>
+                            {locale === 'en' ? 'Cambiar a Español' : 'Switch to English'}
+                        </button>
+
                         {user && (
                             <button
                                 onClick={() => { logout(); closeMenu(); }}

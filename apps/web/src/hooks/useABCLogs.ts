@@ -11,6 +11,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
+import { encryptField, decryptField } from '../lib/crypto';
 
 export type FunctionHypothesis = 'escape' | 'attention' | 'tangible' | 'sensory';
 export type TimeOfDay = 'morning' | 'afternoon' | 'evening' | 'night';
@@ -152,12 +153,22 @@ export function useABCLogs() {
             orderBy('timestamp', 'desc')
         );
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const entries = snapshot.docs.map(doc => ({
+        const unsubscribe = onSnapshot(q, async (snapshot) => {
+            const rawEntries = snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
-            })) as ABCEntry[];
-            setLogs(entries);
+            })) as Record<string, unknown>[];
+
+            // ZKP: Decrypt all sensitive strings before passing to UI
+            const entries = await Promise.all(rawEntries.map(async (doc) => ({
+                ...doc,
+                behavior: await decryptField((doc.behavior as string) || ''),
+                antecedent: await decryptField((doc.antecedent as string) || ''),
+                consequence: await decryptField((doc.consequence as string) || ''),
+                notes: await decryptField((doc.notes as string) || '')
+            })));
+
+            setLogs(entries as ABCEntry[]);
             setLoading(false);
         }, (err) => {
             console.error("Error fetching logs", err);
@@ -170,8 +181,18 @@ export function useABCLogs() {
     const addLog = async (entry: Omit<ABCEntry, 'id' | 'familyId' | 'createdAt' | 'timestamp' | 'timeOfDay'> & { timestamp: Date }) => {
         if (!user) throw new Error("Must be logged in");
 
+        // ZKP: Encrypt all sensitive strings before they leave the device
+        const encBehavior = await encryptField(entry.behavior);
+        const encAntecedent = await encryptField(entry.antecedent);
+        const encConsequence = await encryptField(entry.consequence);
+        const encNotes = await encryptField(entry.notes || '');
+
         await addDoc(collection(db, 'abcEntries'), {
             ...entry,
+            behavior: encBehavior,
+            antecedent: encAntecedent,
+            consequence: encConsequence,
+            notes: encNotes,
             familyId: user.uid,
             timestamp: Timestamp.fromDate(entry.timestamp),
             timeOfDay: getTimeOfDay(entry.timestamp),
