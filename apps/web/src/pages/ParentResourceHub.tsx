@@ -12,7 +12,7 @@ import {
     ExternalLink, AlertCircle, Lightbulb, XCircle, FileText,
     Flame, Shield, Sparkles, ChevronRight
 } from 'lucide-react';
-import { PARENT_RESOURCES, getResourceBySlug, type ParentResource } from '../data/parentResourceHub';
+import { PARENT_RESOURCES, RESOURCE_CATEGORIES, getResourceBySlug, type ParentResource, type ResourceCategory } from '../data/parentResourceHub';
 import { showToast } from '../components/Toast';
 import { DisclaimerBanner } from '../components/DisclaimerBanner';
 
@@ -62,6 +62,12 @@ export function ParentResourceHub() {
 }
 
 function ResourceList() {
+    const [activeCategory, setActiveCategory] = useState<ResourceCategory | 'all'>('all');
+
+    const filteredResources = activeCategory === 'all'
+        ? PARENT_RESOURCES
+        : PARENT_RESOURCES.filter(r => r.category === activeCategory);
+
     return (
         <div style={{
             padding: '24px 20px 120px 20px',
@@ -112,22 +118,94 @@ function ResourceList() {
                     margin: 0,
                     lineHeight: 1.6
                 }}>
-                    Resources for the emotional load of caregiving.
+                    Resources for your family, your advocacy, and yourself.
                 </p>
             </header>
 
             <DisclaimerBanner storageKey="resource_hub_disclaimer" />
 
+            {/* Category Filter Pills */}
+            <div style={{
+                display: 'flex',
+                gap: '8px',
+                overflowX: 'auto',
+                padding: '4px 0 16px 0',
+                WebkitOverflowScrolling: 'touch',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+            }}>
+                {/* All button */}
+                <button
+                    onClick={() => setActiveCategory('all')}
+                    style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '8px 16px',
+                        borderRadius: '100px',
+                        border: 'none',
+                        fontFamily: "'Nunito', sans-serif",
+                        fontSize: '0.85rem',
+                        fontWeight: activeCategory === 'all' ? 700 : 600,
+                        cursor: 'pointer',
+                        whiteSpace: 'nowrap',
+                        transition: 'all 0.25s ease',
+                        background: activeCategory === 'all'
+                            ? 'linear-gradient(135deg, #D4A853 0%, #C09840 100%)'
+                            : 'rgba(255, 255, 255, 0.8)',
+                        color: activeCategory === 'all' ? 'white' : '#6B6560',
+                        boxShadow: activeCategory === 'all'
+                            ? '0 4px 12px rgba(212, 168, 83, 0.3)'
+                            : '0 1px 4px rgba(61, 56, 50, 0.06)',
+                    }}
+                >
+                    ✨ All ({PARENT_RESOURCES.length})
+                </button>
+                {RESOURCE_CATEGORIES.map(cat => {
+                    const count = PARENT_RESOURCES.filter(r => r.category === cat.key).length;
+                    const isActive = activeCategory === cat.key;
+                    return (
+                        <button
+                            key={cat.key}
+                            onClick={() => setActiveCategory(cat.key)}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                padding: '8px 16px',
+                                borderRadius: '100px',
+                                border: 'none',
+                                fontFamily: "'Nunito', sans-serif",
+                                fontSize: '0.85rem',
+                                fontWeight: isActive ? 700 : 600,
+                                cursor: 'pointer',
+                                whiteSpace: 'nowrap',
+                                transition: 'all 0.25s ease',
+                                background: isActive
+                                    ? 'linear-gradient(135deg, #D4A853 0%, #C09840 100%)'
+                                    : 'rgba(255, 255, 255, 0.8)',
+                                color: isActive ? 'white' : '#6B6560',
+                                boxShadow: isActive
+                                    ? '0 4px 12px rgba(212, 168, 83, 0.3)'
+                                    : '0 1px 4px rgba(61, 56, 50, 0.06)',
+                            }}
+                        >
+                            {cat.emoji} {cat.label} ({count})
+                        </button>
+                    );
+                })}
+            </div>
+
             {/* Divider */}
             <div style={{
                 height: '2px',
                 background: 'linear-gradient(90deg, transparent, #D4A853, transparent)',
-                margin: '24px 0'
+                margin: '0 0 16px 0'
             }} />
 
             {/* Resource Cards - Warm Glass Style */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {PARENT_RESOURCES.map((resource) => {
+                {filteredResources.map((resource) => {
                     const IconComponent = ICONS[resource.icon] || Heart;
                     const iconGradient = ICON_GRADIENTS[resource.color] || ICON_GRADIENTS.rose;
                     const iconColor = ICON_COLORS[resource.color] || ICON_COLORS.rose;
